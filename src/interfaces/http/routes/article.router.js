@@ -11,7 +11,55 @@ export default class ArticleRouter {
   }
 
   setupRoutes() {
+    /**
+     * @GET /api/articles/
+     */
     this.router.get("/", this.controller.getAll.bind(this.controller));
+    /**
+     * @GET /api/articles/:id
+     */
+    this.router.get("/:id", this.controller.getPostById.bind(this.controller));
+    /**
+     * @GET /api/articles/search
+     */
+    this.router.get(
+      "/search",
+      this.controller.searchPost.bind(this.controller)
+    );
+    /**
+     * @POST /api/articles/
+     */
+    this.router.post("/", this.controller.createPost.bind(this.controller));
+    /**
+     * @PATCH /api/articles/:id
+     */
+    this.router.patch("/:id", this.controller.updatePost.bind(this.controller));
+    /**
+     * @DELETE /api/articles/:id
+     */
+    this.router.delete(
+      "/:id",
+      this.controller.deletePost.bind(this.controller)
+    );
+
+    /**
+     * @PATCH /api/articles/:id/publish
+     */
+    this.router.patch(
+      "/:id/publish",
+      this.controller.publishPost.bind(this.controller)
+    );
+    /**
+     * @PATCH /api/articles/:id/unpublish
+     */
+    this.router.patch(
+      "/:id/unpublish",
+      this.controller.unpublishPost.bind(this.controller)
+    );
+    /**
+     * @POST /api/articles/:id/star
+     */
+    this.router.post("/:id/star", this.controller.starPost.bind(this.controller));
   }
 
   getRouter() {
