@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import path from "path";
+import errorMiddleware from "../interfaces/http/middlewares/error.middleware.js";
 
 const server = express();
 
@@ -22,5 +23,7 @@ server.get("/", (req, res) => {
 server.use("/ping", (req, res) => {
   res.status(200).send("Ok");
 });
+
+server.use(errorMiddleware);
 
 export default server;
