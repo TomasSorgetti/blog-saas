@@ -1,12 +1,24 @@
 import successResponse from "../utils/success-response.js";
 
 export default class AuthController {
-  constructor() {}
+  constructor({ loginUseCase, registerUseCase }) {
+    if (!loginUseCase || !registerUseCase) {
+      throw new Error("dependency required");
+    }
+    this.loginUseCase = loginUseCase;
+    this.registerUseCase = registerUseCase;
+  }
 
   async login(req, res, next) {
     try {
-      const data = {};
-      return successResponse(res, data, "Auth retrieved successfully", 200);
+      const { email, password, rememberme } = req.body;
+
+      const response = await this.loginUseCase.execute({
+        email,
+        password,
+        rememberme,
+      });
+      return successResponse(res, response, "Auth retrieved successfully", 200);
     } catch (error) {
       next(error);
     }
@@ -14,8 +26,8 @@ export default class AuthController {
 
   async register(req, res, next) {
     try {
-      const data = {};
-      return successResponse(res, data, "Auth retrieved successfully", 200);
+      const response = await this.registerUseCase.execute();
+      return successResponse(res, response, "Auth retrieved successfully", 200);
     } catch (error) {
       next(error);
     }

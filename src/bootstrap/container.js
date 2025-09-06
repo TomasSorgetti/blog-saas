@@ -1,6 +1,12 @@
 // Repositories imports
+import UserRepository from "../infrastructure/database/repositories/user.repository.js";
+import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
+import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
+import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
 
-// Services imports
+// UseCases imports
+import LoginUseCase from "../application/use-cases/auth/login.usecase.js";
+import RegisterUseCase from "../application/use-cases/auth/register.usecase.js";
 
 // Controllers imports
 import AuthController from "../interfaces/http/controllers/auth.controller.js";
@@ -13,15 +19,30 @@ export default class Container {
     this.config = config;
     this.repositories = {};
     this.controllers = {};
+    this.usecases = {};
     this.initializeDependencies();
   }
 
   initializeDependencies() {
     // Repositories instances
-    // this.repositories.userRepository = new UserRepository(this.config);
+    this.repositories.userRepository = new UserRepository(this.config);
+    this.repositories.articleRepository = new ArticleRepository(this.config);
+    this.repositories.categoryRepository = new CategoryRepository(this.config);
+    this.repositories.commentRepository = new CommentRepository(this.config);
+
     // UserCases instances
+    this.usecases.loginUseCase = new LoginUseCase({
+      userRepository: this.repositories.userRepository,
+    });
+    this.usecases.registerUseCase = new RegisterUseCase({
+      userRepository: this.repositories.userRepository,
+    });
+
     // Controllers instances
-    this.controllers.authController = new AuthController();
+    this.controllers.authController = new AuthController({
+      loginUseCase: this.usecases.loginUseCase,
+      registerUseCase: this.usecases.registerUseCase,
+    });
     this.controllers.userController = new UserController();
     this.controllers.articleController = new ArticleController();
     this.controllers.categoryController = new CategoryController();
