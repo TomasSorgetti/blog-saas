@@ -26,7 +26,13 @@ export default class AuthController {
 
   async register(req, res, next) {
     try {
-      const response = await this.registerUseCase.execute();
+      const { name, email, password } = req.body;
+
+      const response = await this.registerUseCase.execute({
+        name,
+        email,
+        password,
+      });
       return successResponse(res, response, "Auth retrieved successfully", 200);
     } catch (error) {
       next(error);

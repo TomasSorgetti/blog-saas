@@ -1,3 +1,5 @@
+import User from "../../../domain/entities/user.entity.js";
+
 export default class RegisterUseCase {
   constructor({ userRepository }) {
     if (!userRepository) {
@@ -6,11 +8,15 @@ export default class RegisterUseCase {
     this.userRepository = userRepository;
   }
 
-  async execute() {
-    return {
-      id: 1,
-      email: "tomassorg@gmail.com",
-      role: "user",
-    };
+  async execute({ name, email, password }) {
+    const hashedPassword = password;
+
+    const newUser = new User({
+      name,
+      email,
+      hashedPassword,
+    });
+
+    return newUser;
   }
 }
