@@ -7,34 +7,57 @@ import errorMiddleware from "../interfaces/http/middlewares/error.middleware.js"
 import Container from "./container.js";
 import MainRouter from "../interfaces/http/routes/main.router.js";
 
-export default function CreateServer(config) {
-  const server = express();
+class Server {
+  #app;
+  #config;
+  #container;
+  #routes;
 
-  server.use(express.json());
-  server.use(morgan("dev"));
-  server.use(cors());
+  constructor(config) {
+    this.#config = config;
+    this.#app = express();
+    this.#container = new Container(config);
+    this.#initialize();
+  }
 
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
+  #initialize() {
+    this.#app.use(express.json());
+    this.#app.use(morgan("dev"));
+    this.#app.use(cors());
 
-  server.use(express.static(path.join(__dirname, "../../public")));
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    this.#app.use(express.static(path.join(__dirname, "../../public")));
 
-  server.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../public", "index.html"));
-  });
+    this.#app.get("/", (req, res) => {
+      res.sendFile(path.join(__dirname, "../../public", "index.html"));
+    });
 
-  const container = new Container(config);
-  const dependencies = container.getDependencies();
+    const dependencies = this.#container.getDependencies();
+    this.#routes = new MainRouter(dependencies);
+    this.#app.use("/api", this.#routes.getRouter());
 
-  const Routes = new MainRouter(dependencies);
+    this.#app.use("/ping", (req, res) => {
+      res.status(200).json({ message: "pong" });
+    });
 
-  server.use("/api", Routes.getRouter());
+    this.#app.use(errorMiddleware);
+  }
 
-  server.use("/ping", (req, res) => {
-    res.status(200).json({ message: "pong" });
-  });
+  getApp() {
+    return this.#app;
+  }
 
-  server.use(errorMiddleware);
+  start() {
+    const port = this.#config.env.PORT;
+    const api_url = this.#config.env.API_URL;
 
-  return server;
+    this.#app.listen(port, () => {
+      console.log("- - - - - - - - - - - - - - - - -");
+      console.log(`Server running on ${api_url}`);
+      console.log("- - - - - - - - - - - - - - - - -");
+    });
+  }
 }
+
+export default Server;

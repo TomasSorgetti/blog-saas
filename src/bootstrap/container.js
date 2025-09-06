@@ -15,43 +15,62 @@ import ArticleController from "../interfaces/http/controllers/article.controller
 import CategoryController from "../interfaces/http/controllers/category.controller.js";
 
 export default class Container {
+  #config;
+  #repositories = {};
+  #usecases = {};
+  #controllers = {};
+
   constructor(config = {}) {
-    this.config = config;
-    this.repositories = {};
-    this.controllers = {};
-    this.usecases = {};
-    this.initializeDependencies();
+    if (!config || typeof config !== "object") {
+      throw new Error("Invalid configuration provided");
+    }
+    this.#config = config;
+    this.#initializeDependencies();
   }
 
-  initializeDependencies() {
-    // Repositories instances
-    this.repositories.userRepository = new UserRepository(this.config);
-    this.repositories.articleRepository = new ArticleRepository(this.config);
-    this.repositories.categoryRepository = new CategoryRepository(this.config);
-    this.repositories.commentRepository = new CommentRepository(this.config);
+  #initializeRepositories() {
+    this.#repositories.userRepository = new UserRepository(this.#config);
+    this.#repositories.articleRepository = new ArticleRepository(this.#config);
+    this.#repositories.categoryRepository = new CategoryRepository(
+      this.#config
+    );
+    this.#repositories.commentRepository = new CommentRepository(this.#config);
+  }
 
-    // UserCases instances
-    this.usecases.loginUseCase = new LoginUseCase({
-      userRepository: this.repositories.userRepository,
+  #initializeUseCases() {
+    this.#usecases.loginUseCase = new LoginUseCase({
+      userRepository: this.#repositories.userRepository,
     });
-    this.usecases.registerUseCase = new RegisterUseCase({
-      userRepository: this.repositories.userRepository,
+    this.#usecases.registerUseCase = new RegisterUseCase({
+      userRepository: this.#repositories.userRepository,
     });
+  }
 
-    // Controllers instances
-    this.controllers.authController = new AuthController({
-      loginUseCase: this.usecases.loginUseCase,
-      registerUseCase: this.usecases.registerUseCase,
+  #initializeControllers() {
+    this.#controllers.authController = new AuthController({
+      loginUseCase: this.#usecases.loginUseCase,
+      registerUseCase: this.#usecases.registerUseCase,
     });
-    this.controllers.userController = new UserController();
-    this.controllers.articleController = new ArticleController();
-    this.controllers.categoryController = new CategoryController();
+    this.#controllers.userController = new UserController({});
+    this.#controllers.articleController = new ArticleController({});
+    this.#controllers.categoryController = new CategoryController({});
+  }
+
+  #initializeDependencies() {
+    try {
+      this.#initializeRepositories();
+      this.#initializeUseCases();
+      this.#initializeControllers();
+    } catch (error) {
+      throw new Error(`Failed to initialize dependencies: ${error.message}`);
+    }
   }
 
   getDependencies() {
     return {
-      repositories: this.repositories,
-      controllers: this.controllers,
+      repositories: this.#repositories,
+      usecases: this.#usecases,
+      controllers: this.#controllers,
     };
   }
 }
