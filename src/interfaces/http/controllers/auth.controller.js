@@ -3,9 +3,63 @@ import successResponse from "../utils/success-response.js";
 export default class AuthController {
   constructor() {}
 
-  async getAll(req, res, next) {
+  async login(req, res, next) {
     try {
-      const data = "data";
+      const data = {};
+      return successResponse(res, data, "Auth retrieved successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async register(req, res, next) {
+    try {
+      const data = {};
+      return successResponse(res, data, "Auth retrieved successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async checkEmail(req, res, next) {
+    try {
+      const data = {};
+      return successResponse(res, data, "Auth retrieved successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async verifyEmail(req, res, next) {
+    try {
+      const data = {};
+      return successResponse(res, data, "Auth retrieved successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resendVerificationCode(req, res, next) {
+    try {
+      const data = {};
+      return successResponse(res, data, "Auth retrieved successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async refreshToken(req, res, next) {
+    try {
+      const data = {};
+      return successResponse(res, data, "Auth retrieved successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req, res, next) {
+    try {
+      const data = {};
       return successResponse(res, data, "Auth retrieved successfully", 200);
     } catch (error) {
       next(error);
