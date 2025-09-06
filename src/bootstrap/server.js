@@ -31,7 +31,7 @@ export default function CreateServer(config) {
   server.use("/api", Routes.getRouter());
 
   server.use("/ping", (req, res) => {
-    res.status(200).send("Ok");
+    res.status(200).json({ message: "pong" });
   });
 
   server.use(errorMiddleware);
