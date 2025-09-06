@@ -4,26 +4,37 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import path from "path";
 import errorMiddleware from "../interfaces/http/middlewares/error.middleware.js";
+import Container from "./container.js";
+import MainRouter from "../interfaces/http/routes/main.router.js";
 
-const server = express();
+export default function CreateServer(config) {
+  const server = express();
 
-server.use(express.json());
-server.use(morgan("dev"));
-server.use(cors());
+  server.use(express.json());
+  server.use(morgan("dev"));
+  server.use(cors());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
 
-server.use(express.static(path.join(__dirname, "../../public")));
+  server.use(express.static(path.join(__dirname, "../../public")));
 
-server.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../public", "index.html"));
-});
+  server.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../public", "index.html"));
+  });
 
-server.use("/ping", (req, res) => {
-  res.status(200).send("Ok");
-});
+  const container = new Container(config);
+  const dependencies = container.getDependencies();
 
-server.use(errorMiddleware);
+  const Routes = new MainRouter(dependencies);
 
-export default server;
+  server.use("/api", Routes.getRouter());
+
+  server.use("/ping", (req, res) => {
+    res.status(200).send("Ok");
+  });
+
+  server.use(errorMiddleware);
+
+  return server;
+}

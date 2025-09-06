@@ -1,8 +1,10 @@
 import { initializeConfig } from "./src/config/index.js";
-import server from "./src/bootstrap/server.js";
+import CreateServer from "./src/bootstrap/server.js";
 
 initializeConfig()
   .then((config) => {
+    const server = CreateServer(config);
+
     const port = config.env.PORT;
     const api_url = config.env.API_URL;
 

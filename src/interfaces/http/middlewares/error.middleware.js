@@ -1,4 +1,4 @@
-import { CustomError } from "../errors/index.js";
+import { CustomError } from "../../../domain/errors/index.js";
 
 export default function errorMiddleware(err, req, res, next) {
   if (err instanceof CustomError) {
