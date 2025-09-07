@@ -1,19 +1,22 @@
 import successResponse from "../utils/success-response.js";
 
 export default class AuthController {
+  #loginUseCase;
+  #registerUseCase;
+
   constructor({ loginUseCase, registerUseCase }) {
     if (!loginUseCase || !registerUseCase) {
       throw new Error("dependency required");
     }
-    this.loginUseCase = loginUseCase;
-    this.registerUseCase = registerUseCase;
+    this.#loginUseCase = loginUseCase;
+    this.#registerUseCase = registerUseCase;
   }
 
   async login(req, res, next) {
     try {
       const { email, password, rememberme } = req.body;
 
-      const response = await this.loginUseCase.execute({
+      const response = await this.#loginUseCase.execute({
         email,
         password,
         rememberme,
@@ -28,7 +31,7 @@ export default class AuthController {
     try {
       const { name, email, password } = req.body;
 
-      const response = await this.registerUseCase.execute({
+      const response = await this.#registerUseCase.execute({
         name,
         email,
         password,

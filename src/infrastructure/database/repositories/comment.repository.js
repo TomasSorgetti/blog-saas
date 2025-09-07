@@ -1,6 +1,8 @@
 class CommentRepository {
+  #model;
+
   constructor(config = {}) {
-    this.db = config.db || null;
+    this.#model = config.db?.models.Comment;
   }
 
   async findById(id) {

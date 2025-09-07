@@ -1,6 +1,8 @@
 class ArticleRepository {
+  #model;
+
   constructor(config = {}) {
-    this.db = config.db || null;
+    this.#model = config.db?.models.Article;
   }
 
   async findById(id) {

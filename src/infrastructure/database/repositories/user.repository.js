@@ -1,12 +1,13 @@
 class UserRepository {
+  #model;
   constructor(config = {}) {
-    this.model = config.db?.models.User;
-    if (!this.model) throw new Error("User model not provided");
+    this.#model = config.db?.models.User;
+    if (!this.#model) throw new Error("User model not provided");
   }
 
   async findById(id) {
     try {
-      const user = await this.model.findById(id).lean();
+      const user = await this.#model.findById(id).lean();
       if (!user) throw new Error("User not found");
       return user;
     } catch (error) {
@@ -16,7 +17,7 @@ class UserRepository {
 
   async findAll() {
     try {
-      return await this.model.find().lean();
+      return await this.#model.find().lean();
     } catch (error) {
       throw new Error(`Error fetching users: ${error.message}`);
     }
@@ -24,7 +25,7 @@ class UserRepository {
 
   async create(data) {
     try {
-      const user = new this.model(data);
+      const user = new this.#model(data);
       return await user.save();
     } catch (error) {
       throw new Error(`Error creating user: ${error.message}`);
@@ -33,7 +34,7 @@ class UserRepository {
 
   async update(id, data) {
     try {
-      const user = await this.model
+      const user = await this.#model
         .findByIdAndUpdate(id, data, {
           new: true,
           runValidators: true,
@@ -48,7 +49,7 @@ class UserRepository {
 
   async delete(id) {
     try {
-      const user = await this.model.findByIdAndDelete(id).lean();
+      const user = await this.#model.findByIdAndDelete(id).lean();
       if (!user) throw new Error("User not found");
       return { id };
     } catch (error) {

@@ -1,6 +1,8 @@
 class CategoryRepository {
+  #model;
+
   constructor(config = {}) {
-    this.db = config.db || null;
+    this.#model = config.db?.models.Category;
   }
 
   async findById(id) {
