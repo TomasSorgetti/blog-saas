@@ -6,12 +6,14 @@ import ArticleRouter from "./article.router.js";
 import CategoryRouter from "./category.router.js";
 
 class MainRouter {
+  #router;
+
   constructor(dependencies = {}) {
-    this.router = express.Router();
-    this.setupRoutes(dependencies);
+    this.#router = express.Router();
+    this.#setupRoutes(dependencies);
   }
 
-  setupRoutes(dependencies) {
+  #setupRoutes(dependencies) {
     const authRouter = new AuthRouter({
       authController: dependencies.controllers.authController,
     });
@@ -25,14 +27,14 @@ class MainRouter {
       categoryController: dependencies.controllers.categoryController,
     });
 
-    this.router.use("/auth", authRouter.getRouter());
-    this.router.use("/users", userRouter.getRouter());
-    this.router.use("/articles", articleRouter.getRouter());
-    this.router.use("/categories", categoryRouter.getRouter());
+    this.#router.use("/auth", authRouter.getRouter());
+    this.#router.use("/users", userRouter.getRouter());
+    this.#router.use("/articles", articleRouter.getRouter());
+    this.#router.use("/categories", categoryRouter.getRouter());
   }
 
   getRouter() {
-    return this.router;
+    return this.#router;
   }
 }
 
