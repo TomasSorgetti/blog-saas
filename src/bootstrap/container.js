@@ -1,3 +1,8 @@
+// Services imports
+import RedisService from "../infrastructure/redis/service.js";
+import ElasticsearchService from "../infrastructure/elasticsearch/service.js";
+import RabbitService from "../infrastructure/queue/service.js";
+
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
@@ -16,6 +21,7 @@ import CategoryController from "../interfaces/http/controllers/category.controll
 
 export default class Container {
   #config;
+  #services = {};
   #repositories = {};
   #usecases = {};
   #controllers = {};
@@ -26,6 +32,16 @@ export default class Container {
     }
     this.#config = config;
     this.#initializeDependencies();
+  }
+
+  #initializeServices() {
+    this.#services.redisService = new RedisService(this.#config.redis);
+    this.#services.elasticsearchService = new ElasticsearchService(
+      this.#config.elastic
+    );
+    this.#services.rabbitService = new RabbitService(
+      this.#config.rabbitChannel
+    );
   }
 
   #initializeRepositories() {
@@ -58,6 +74,7 @@ export default class Container {
 
   #initializeDependencies() {
     try {
+      this.#initializeServices();
       this.#initializeRepositories();
       this.#initializeUseCases();
       this.#initializeControllers();
@@ -68,6 +85,7 @@ export default class Container {
 
   getDependencies() {
     return {
+      services: this.#services,
       repositories: this.#repositories,
       usecases: this.#usecases,
       controllers: this.#controllers,

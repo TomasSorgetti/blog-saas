@@ -15,12 +15,15 @@ services:
       - MONGO_DB_NAME=${MONGO_DB_NAME}
       - REDIS_URL=${REDIS_URL}
       - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
+      - RABBIT_URL=${RABBIT_URL}
     depends_on:
       mongo:
         condition: service_healthy
       redis:
         condition: service_healthy
       elasticsearch:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     networks:
       - blog-network
@@ -90,6 +93,24 @@ services:
       retries: 5
     networks:
       - blog-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - blog-network
+    logging:
+      driver: "none"
 
 volumes:
   mongo-data:
