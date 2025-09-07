@@ -99,41 +99,40 @@ Test endpoints at
 
 ```sh
 /
-├── public/                     # Api docs
+├── public/
 │ └── favicon.svg
 ├── src
-│ ├── database                  # mongodb
-│ │ ├── repositories/
-│ │ ├── schemas/
-│ │ └── database.js
+│ ├── application
+│ │ └── usecases
 │ │
-│ ├── infrastructure            #services
+│ ├── config
+│ │ ├── index.js
+│ │ └── env.config
+│ │
+│ ├── infrastructure
+│ │ ├── database
+│ │ │ ├── repositories/
+│ │ │ ├── schemas/
+│ │ │ └── database.js
 │ │ ├── elasticsearch/
 │ │ ├── redis/
 │ │ ├── rabbitmq/
 │ │ └── email/
 │ │
-│ ├── di                       #dependency injection
+│ ├── bootstrap
+│ │ ├── server.js
 │ │ └── container.js
 │ │
-│ ├── domain                   #class module
-│ │ ├── article
-│ │ │ ├── validations/
-│ │ │ ├── dtos/
-│ │ │ ├── article.controler
-│ │ │ ├── article.routes
-│ │ │ └── article.service
-│ │ ├── auth
-│ │ ├── category
-│ │ ├── comment
-│ │ └── user
+│ ├── domain
+│ │ ├── entities
+│ │ └── error
 │ │
-│ ├── shared                  #shared utils
-│ │ ├── config/
-│ │ ├── errors/
-│ │ ├── utils/
-│ │ │ └── jwt
-│ │ └── middlewares/
+│ ├── interfaces
+│ │ └── http
+│ │     ├── controllers
+│ │     ├── middlewares
+│ │     ├── routes
+│ │     └── utils
 │ │
 │ └── server.js
 └── package.json
