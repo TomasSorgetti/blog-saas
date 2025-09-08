@@ -3,9 +3,9 @@ import morgan from "morgan";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import path from "path";
-import errorMiddleware from "../interfaces/http/middlewares/error.middleware.js";
+import errorMiddleware from "../infrastructure/http/middlewares/error.middleware.js";
 import Container from "./container.js";
-import MainRouter from "../interfaces/http/routes/main.router.js";
+import MainRouter from "../infrastructure/http/routes/main.router.js";
 
 class Server {
   #app;

@@ -1,4 +1,4 @@
-import { initializeConfig } from "./src/config/index.js";
+import { initializeConfig } from "./src/infrastructure/config/index.js";
 import Server from "./src/bootstrap/server.js";
 
 initializeConfig()

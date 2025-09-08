@@ -1,8 +1,8 @@
 import envConfig from "./env.config.js";
-import { connectDB } from "../infrastructure/database/database.js";
-import { connectRedis } from "../infrastructure/redis/client.js";
-import { connectElastic } from "../infrastructure/elasticsearch/client.js";
-import { connectRabbit } from "../infrastructure/queue/client.js";
+import { connectDB } from "../database/database.js";
+import { connectRedis } from "../adapters/cache/client.js";
+import { connectElastic } from "../adapters/elasticsearch/client.js";
+import { connectRabbit } from "../adapters/queue/client.js";
 
 export const initializeConfig = async () => {
   const db_url = `${envConfig.MONGO_URL}/${envConfig.MONGO_DB_NAME}`;

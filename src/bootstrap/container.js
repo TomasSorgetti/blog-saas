@@ -1,7 +1,7 @@
 // Services imports
-import RedisService from "../infrastructure/redis/service.js";
-import ElasticsearchService from "../infrastructure/elasticsearch/service.js";
-import RabbitService from "../infrastructure/queue/service.js";
+import RedisService from "../infrastructure/adapters/cache/service.js";
+import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
+import RabbitService from "../infrastructure/adapters/queue/service.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
@@ -10,14 +10,14 @@ import CategoryRepository from "../infrastructure/database/repositories/category
 import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
 
 // UseCases imports
-import LoginUseCase from "../application/use-cases/auth/login.usecase.js";
-import RegisterUseCase from "../application/use-cases/auth/register.usecase.js";
+import LoginUseCase from "../application/auth/login.usecase.js";
+import RegisterUseCase from "../application/auth/register.usecase.js";
 
 // Controllers imports
-import AuthController from "../interfaces/http/controllers/auth.controller.js";
-import UserController from "../interfaces/http/controllers/user.controller.js";
-import ArticleController from "../interfaces/http/controllers/article.controller.js";
-import CategoryController from "../interfaces/http/controllers/category.controller.js";
+import AuthController from "../infrastructure/http/controllers/auth.controller.js";
+import UserController from "../infrastructure/http/controllers/user.controller.js";
+import ArticleController from "../infrastructure/http/controllers/article.controller.js";
+import CategoryController from "../infrastructure/http/controllers/category.controller.js";
 
 export default class Container {
   #config;
