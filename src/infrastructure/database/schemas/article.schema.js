@@ -56,7 +56,8 @@ const articleSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    // todo => Add categories
+    // todo => Add categories relation
+    // todo => Add user relation
   },
   { timestamps: true }
 );

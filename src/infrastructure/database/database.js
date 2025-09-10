@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import User from "./schemas/user.schema.js";
+import Session from "./schemas/session.schema.js";
+import Subscription from "./schemas/subscription.schema.js";
 import Article from "./schemas/article.schema.js";
 
 export const connectDB = async (dbUrl) => {
@@ -22,6 +24,8 @@ export const connectDB = async (dbUrl) => {
       mongoose,
       models: {
         User,
+        Session,
+        Subscription,
         Article,
       },
     };
