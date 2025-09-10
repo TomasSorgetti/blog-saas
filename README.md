@@ -9,6 +9,11 @@ Los usuarios pueden registrarse, crear y gestionar artículos, interactuar media
 - Crear, editar, listar y eliminar artículos (CRUD).
 - Filtros dinámicos por autor, fecha, tags o popularidad (basado en stars).
 
+### Creación de categorías
+
+- Categorías globales, creadas por el admin
+- Categorías personales del usuario
+
 ### Searchbar
 
 - Búsqueda full-text de artículos por título, contenido o tags usando Elasticsearch.

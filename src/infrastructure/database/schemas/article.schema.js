@@ -53,11 +53,15 @@ const articleSchema = new mongoose.Schema(
       default: false,
     },
     author: {
-      type: String,
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    // todo => Add categories relation
-    // todo => Add user relation
+    // author: {
+    //   type: String,
+    //   trim: true,
+    // },
+    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   },
   { timestamps: true }
 );

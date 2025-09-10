@@ -3,6 +3,7 @@ import User from "./schemas/user.schema.js";
 import Session from "./schemas/session.schema.js";
 import Subscription from "./schemas/subscription.schema.js";
 import Article from "./schemas/article.schema.js";
+import Category from "./schemas/category.schema.js";
 
 export const connectDB = async (dbUrl) => {
   if (!dbUrl) {
@@ -27,6 +28,7 @@ export const connectDB = async (dbUrl) => {
         Session,
         Subscription,
         Article,
+        Category,
       },
     };
   } catch (err) {
