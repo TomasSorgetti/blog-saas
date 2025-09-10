@@ -13,145 +13,114 @@ class ArticleRepository {
   }
 
   async findById(id) {
-    try {
-      if (!mongoose.isValidObjectId(id)) {
-        throw new Error("Invalid article ID");
-      }
-      const article = await this.#model.findById(id).lean();
-      if (!article) {
-        throw new Error(`Article with ID ${id} not found`);
-      }
-      return article;
-    } catch (error) {
-      throw new RepositoryError(`Failed to find article`, error.message);
+    if (!mongoose.isValidObjectId(id)) {
+      throw new RepositoryError("Invalid article ID");
     }
+
+    const article = await this.#model.findById(id).lean().exec();
+    if (!article) {
+      throw new RepositoryError(`Article with ID ${id} not found`);
+    }
+
+    return article;
   }
 
   async findBySlug(slug) {
-    try {
-      if (!slug || typeof slug !== "string") {
-        throw new Error("Invalid or missing slug");
-      }
-      const article = await this.#model.findOne({ slug }).lean();
-      if (!article) {
-        throw new Error(`Article with slug ${slug} not found`);
-      }
-      return article;
-    } catch (error) {
-      throw new RepositoryError(
-        `Failed to find article by slug`,
-        error.message
-      );
+    if (!slug || typeof slug !== "string") {
+      throw new RepositoryError("Invalid or missing slug");
     }
+
+    const article = await this.#model.findOne({ slug }).lean().exec();
+    if (!article) {
+      throw new RepositoryError(`Article with slug ${slug} not found`);
+    }
+
+    return article;
   }
 
-  async findAll(filters = {}) {
-    try {
-      const query = {};
+  async findAll(filters = {}, { skip = 0, limit = 10 } = {}) {
+    const query = {};
 
-      if (filters.status) {
-        query.status = filters.status;
-      }
-      if (filters.tags) {
-        query.tags = { $regex: filters.tags, $options: "i" };
-      }
-      if (filters.isFeatured !== undefined) {
-        query.isFeatured = filters.isFeatured;
-      }
-
-      return await this.#model.find(query).sort({ createdAt: -1 }).lean();
-    } catch (error) {
-      throw new RepositoryError(`Failed to fetch articles`, error.message);
+    if (filters.status) {
+      query.status = filters.status;
     }
+    if (filters.tags) {
+      query.tags = { $regex: filters.tags, $options: "i" };
+    }
+    if (typeof filters.isFeatured === "boolean") {
+      query.isFeatured = filters.isFeatured;
+    }
+
+    const [items, total] = await Promise.all([
+      this.#model
+        .find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean()
+        .exec(),
+      this.#model.countDocuments(query),
+    ]);
+
+    return { items, total };
   }
 
   async create(data) {
-    try {
-      const article = new this.#model(data);
-      const savedArticle = await article.save();
-      return savedArticle.toObject();
-    } catch (error) {
-      throw new RepositoryError(`Failed to create article`, error.message);
-    }
+    const article = new this.#model(data);
+    const savedArticle = await article.save();
+    return savedArticle.toObject();
   }
 
   async update(slug, data) {
-    try {
-      if (!slug || typeof slug !== "string") {
-        throw new InvalidInputError("Invalid or missing slug", {
-          field: "slug",
-        });
-      }
-
-      const article = await this.#model
-        .findOneAndUpdate(
-          { slug },
-          { $set: data },
-          { new: true, runValidators: true }
-        )
-        .lean();
-
-      if (!article) {
-        throw new NotFoundError(`Article with slug ${slug} not found`, {
-          slug,
-        });
-      }
-
-      return article;
-    } catch (error) {
-      if (error instanceof CustomError) {
-        throw error;
-      }
-      throw new DatabaseError(`Failed to update article: ${error.message}`, {
-        slug,
-        originalError: error.message,
-      });
+    if (!slug || typeof slug !== "string") {
+      throw new InvalidInputError("Invalid or missing slug", { field: "slug" });
     }
+
+    const article = await this.#model
+      .findOneAndUpdate(
+        { slug },
+        { $set: data },
+        { new: true, runValidators: true }
+      )
+      .lean()
+      .exec();
+
+    if (!article) {
+      throw new NotFoundError(`Article with slug ${slug} not found`, { slug });
+    }
+
+    return article;
   }
 
   async delete(slug) {
-    try {
-      if (!slug || typeof slug !== "string") {
-        throw new InvalidInputError("Invalid or missing slug", {
-          field: "slug",
-        });
-      }
-
-      const article = await this.#model.findOneAndDelete({ slug }).lean();
-
-      if (!article) {
-        throw new NotFoundError(`Article with slug ${slug} not found`, {
-          slug,
-        });
-      }
-
-      return { slug: article.slug };
-    } catch (error) {
-      if (error instanceof CustomError) {
-        throw error;
-      }
-      throw new DatabaseError(`Failed to delete article: ${error.message}`, {
-        slug,
-        originalError: error.message,
-      });
+    if (!slug || typeof slug !== "string") {
+      throw new InvalidInputError("Invalid or missing slug", { field: "slug" });
     }
+
+    const article = await this.#model.findOneAndDelete({ slug }).lean().exec();
+
+    if (!article) {
+      throw new NotFoundError(`Article with slug ${slug} not found`, { slug });
+    }
+
+    return { slug: article.slug };
   }
 
   async incrementViews(id) {
-    try {
-      if (!mongoose.isValidObjectId(id)) {
-        throw new Error("Invalid article ID");
-      }
-      const article = await this.#model
-        .findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true })
-        .lean();
-      if (!article) {
-        throw new Error(`Article with ID ${id} not found`);
-      }
-      return article;
-    } catch (error) {
-      throw new RepositoryError(`Failed to increment views`, error.message);
+    if (!mongoose.isValidObjectId(id)) {
+      throw new RepositoryError("Invalid article ID");
     }
+
+    const article = await this.#model
+      .findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true })
+      .lean()
+      .exec();
+
+    if (!article) {
+      throw new RepositoryError(`Article with ID ${id} not found`);
+    }
+
+    return article;
   }
 }
 

@@ -8,26 +8,23 @@ class CommentRepository {
   }
 
   async findById(id) {
-    return { id, title: `Article ${id}`, content: "Sample content" };
+    return "NOT_IMPLEMENTED";
   }
 
   async findAll() {
-    return [
-      { id: 1, title: "Article 1", content: "Sample content 1" },
-      { id: 2, title: "Article 2", content: "Sample content 2" },
-    ];
+    return "NOT_IMPLEMENTED";
   }
 
   async create(data) {
-    return { id: Date.now(), ...data };
+    return "NOT_IMPLEMENTED";
   }
 
   async update(id, data) {
-    return { id, ...data };
+    return "NOT_IMPLEMENTED";
   }
 
   async delete(id) {
-    return { id };
+    return "NOT_IMPLEMENTED";
   }
 }
 
