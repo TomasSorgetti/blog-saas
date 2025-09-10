@@ -71,18 +71,23 @@ export default class Container {
     //article
     this.#usecases.getArticlesUseCase = new GetArticlesUseCase({
       articleRepository: this.#repositories.articleRepository,
+      redisService: this.#services.redisService,
     });
     this.#usecases.getArticleUseCase = new GetArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      redisService: this.#services.redisService,
     });
     this.#usecases.createArticleUseCase = new CreateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      redisService: this.#services.redisService,
     });
     this.#usecases.updateArticleUseCase = new UpdateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      redisService: this.#services.redisService,
     });
     this.#usecases.deleteArticleUseCase = new DeleteArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      redisService: this.#services.redisService,
     });
   }
 

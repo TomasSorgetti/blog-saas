@@ -2,12 +2,14 @@ import Article from "../../domain/entities/article.entity.js";
 
 export default class UpdateArticleUseCase {
   #articleRepository;
+  #redisService;
 
-  constructor({ articleRepository }) {
+  constructor({ articleRepository, redisService }) {
     if (!articleRepository) {
       throw new Error("articleRepository is required");
     }
     this.#articleRepository = articleRepository;
+    this.#redisService = redisService;
   }
 
   async execute({
@@ -33,7 +35,12 @@ export default class UpdateArticleUseCase {
       isFeatured,
     }).toJSON();
 
-    //   todo => handle errors
-    return await this.#articleRepository.update(slug, article);
+    const updatedArticle = await this.#articleRepository.update(slug, article);
+
+    await this.#redisService.del(`article:${slug}`);
+
+    await this.#redisService.del(`articles:*`);
+
+    return updatedArticle;
   }
 }
