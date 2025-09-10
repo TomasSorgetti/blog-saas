@@ -13,6 +13,8 @@ export default class GetArticleUseCase {
     const article = await this.#articleRepository.findBySlug(slug);
 
     if (!isAdmin) {
+      console.log("is not admin");
+
       return await this.#articleRepository.incrementViews(article._id);
     }
 

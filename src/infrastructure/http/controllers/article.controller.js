@@ -3,13 +3,12 @@ import successResponse from "../utils/success-response.js";
 export default class ArticleController {
   #getArticlesUseCase;
   #getArticleUseCase;
+  #createArticleUseCase;
 
-  constructor({ getArticlesUseCase, getArticleUseCase }) {
-    if (!getArticlesUseCase || !getArticleUseCase) {
-      throw new Error("dependency required");
-    }
+  constructor({ getArticlesUseCase, getArticleUseCase, createArticleUseCase }) {
     this.#getArticlesUseCase = getArticlesUseCase;
     this.#getArticleUseCase = getArticleUseCase;
+    this.#createArticleUseCase = createArticleUseCase;
   }
 
   async getAll(req, res, next) {
@@ -55,8 +54,35 @@ export default class ArticleController {
 
   async createPost(req, res, next) {
     try {
-      const data = "data";
-      return successResponse(res, data, "Article retrieved successfully", 200);
+      const {
+        title,
+        slug,
+        content,
+        summary,
+        author,
+        tags,
+        status,
+        image,
+        isFeatured,
+      } = req.body;
+
+      const article = await this.#createArticleUseCase.execute({
+        title,
+        slug,
+        content,
+        summary,
+        author,
+        tags,
+        status,
+        image,
+        isFeatured,
+      });
+      return successResponse(
+        res,
+        article,
+        "Article retrieved successfully",
+        200
+      );
     } catch (error) {
       next(error);
     }
