@@ -10,8 +10,11 @@ import CategoryRepository from "../infrastructure/database/repositories/category
 import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
 
 // UseCases imports
+//auth usecases
 import LoginUseCase from "../application/auth/login.usecase.js";
 import RegisterUseCase from "../application/auth/register.usecase.js";
+//article usecases
+import GetArticlesUseCase from "../application/article/getArticles.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -54,11 +57,16 @@ export default class Container {
   }
 
   #initializeUseCases() {
+    //auth
     this.#usecases.loginUseCase = new LoginUseCase({
       userRepository: this.#repositories.userRepository,
     });
     this.#usecases.registerUseCase = new RegisterUseCase({
       userRepository: this.#repositories.userRepository,
+    });
+    //article
+    this.#usecases.getArticlesUseCase = new GetArticlesUseCase({
+      articleRepository: this.#repositories.articleRepository,
     });
   }
 
@@ -68,7 +76,9 @@ export default class Container {
       registerUseCase: this.#usecases.registerUseCase,
     });
     this.#controllers.userController = new UserController({});
-    this.#controllers.articleController = new ArticleController({});
+    this.#controllers.articleController = new ArticleController({
+      getArticlesUseCase: this.#usecases.getArticlesUseCase,
+    });
     this.#controllers.categoryController = new CategoryController({});
   }
 

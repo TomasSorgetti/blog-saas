@@ -1,12 +1,30 @@
 import successResponse from "../utils/success-response.js";
 
 export default class ArticleController {
-  constructor() {}
+  #getArticlesUseCase;
+
+  constructor({ getArticlesUseCase }) {
+    if (!getArticlesUseCase) {
+      throw new Error("dependency required");
+    }
+    this.#getArticlesUseCase = getArticlesUseCase;
+  }
 
   async getAll(req, res, next) {
+    const { status, tags, isFeatured } = req.query;
+
     try {
-      const data = "data";
-      return successResponse(res, data, "Article retrieved successfully", 200);
+      const articles = await this.#getArticlesUseCase.execute({
+        status,
+        tags,
+        isFeatured,
+      });
+      return successResponse(
+        res,
+        articles,
+        "Article retrieved successfully",
+        200
+      );
     } catch (error) {
       next(error);
     }

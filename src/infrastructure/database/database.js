@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User from "./schemas/user.schema.js";
+import Article from "./schemas/article.schema.js";
 
 export const connectDB = async (dbUrl) => {
   if (!dbUrl) {
@@ -21,6 +22,7 @@ export const connectDB = async (dbUrl) => {
       mongoose,
       models: {
         User,
+        Article,
       },
     };
   } catch (err) {

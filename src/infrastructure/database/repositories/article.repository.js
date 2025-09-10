@@ -1,31 +1,108 @@
+import mongoose from "mongoose";
+
 class ArticleRepository {
   #model;
 
   constructor(config = {}) {
-    this.#model = config.db?.models.Article;
+    this.#model = config.db.models.Article;
   }
 
   async findById(id) {
-    return { id, title: `Article ${id}`, content: "Sample content" };
+    try {
+      if (!mongoose.isValidObjectId(id)) {
+        throw new RepositoryError("Invalid article ID");
+      }
+      const article = await this.#model.findById(id).lean();
+      if (!article) {
+        throw new RepositoryError(`Article with ID ${id} not found`);
+      }
+      return article;
+    } catch (error) {
+      throw new RepositoryError(`Failed to find article: ${error.message}`);
+    }
   }
 
-  async findAll() {
-    return [
-      { id: 1, title: "Article 1", content: "Sample content 1" },
-      { id: 2, title: "Article 2", content: "Sample content 2" },
-    ];
+  async findAll(filters = {}) {
+    try {
+      const query = {};
+
+      if (filters.status) {
+        query.status = filters.status;
+      }
+      if (filters.tags) {
+        query.tags = { $regex: filters.tags, $options: "i" };
+      }
+      if (filters.isFeatured !== undefined) {
+        query.isFeatured = filters.isFeatured;
+      }
+
+      return await this.#model.find(query).sort({ createdAt: -1 }).lean();
+    } catch (error) {
+      throw new RepositoryError(`Failed to fetch articles: ${error.message}`);
+    }
   }
 
   async create(data) {
-    return { id: Date.now(), ...data };
+    try {
+      const article = new this.#model(data);
+      const savedArticle = await article.save();
+      return savedArticle.toObject();
+    } catch (error) {
+      throw new RepositoryError(`Failed to create article: ${error.message}`);
+    }
   }
 
   async update(id, data) {
-    return { id, ...data };
+    try {
+      if (!mongoose.isValidObjectId(id)) {
+        throw new RepositoryError("Invalid article ID");
+      }
+      const article = await this.#model
+        .findByIdAndUpdate(
+          id,
+          { $set: data },
+          { new: true, runValidators: true }
+        )
+        .lean();
+      if (!article) {
+        throw new RepositoryError(`Article with ID ${id} not found`);
+      }
+      return article;
+    } catch (error) {
+      throw new RepositoryError(`Failed to update article: ${error.message}`);
+    }
   }
 
   async delete(id) {
-    return { id };
+    try {
+      if (!mongoose.isValidObjectId(id)) {
+        throw new RepositoryError("Invalid article ID");
+      }
+      const article = await this.#model.findByIdAndDelete(id).lean();
+      if (!article) {
+        throw new RepositoryError(`Article with ID ${id} not found`);
+      }
+      return { id: article._id };
+    } catch (error) {
+      throw new RepositoryError(`Failed to delete article: ${error.message}`);
+    }
+  }
+
+  async incrementViews(id) {
+    try {
+      if (!mongoose.isValidObjectId(id)) {
+        throw new RepositoryError("Invalid article ID");
+      }
+      const article = await this.#model
+        .findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true })
+        .lean();
+      if (!article) {
+        throw new RepositoryError(`Article with ID ${id} not found`);
+      }
+      return article;
+    } catch (error) {
+      throw new RepositoryError(`Failed to increment views: ${error.message}`);
+    }
   }
 }
 

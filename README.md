@@ -1,4 +1,4 @@
-# Blog de programación
+# Blog
 
 Los usuarios pueden registrarse, crear y gestionar artículos, interactuar mediante comentarios y stars (similar a GitHub), y buscar contenido con una searchbar avanzada. La aplicación incluye planes de suscripción (Free, Pro, Premium) que limitan funcionalidades, y un componente de inteligencia artificial para generar borradores de artículos y recomendaciones. También la posibilidad de consumir sus articulos mediante una consulta (con una api key) para los que quieran mostrar sus artículos.
 
@@ -114,10 +114,16 @@ Test endpoints at
 │ │ │ ├── repositories/
 │ │ │ ├── schemas/
 │ │ │ └── database.js
-│ │ ├── elasticsearch/
-│ │ ├── redis/
-│ │ ├── rabbitmq/
-│ │ └── email/
+│ │ ├── http
+│ │ │   ├── controllers
+│ │ │   ├── middlewares
+│ │ │   ├── routes
+│ │ │   └── utils
+│ │ └── adapters/
+│ │     ├── elasticsearch/
+│ │     ├── redis/
+│ │     ├── rabbitmq/
+│ │     └── email/
 │ │
 │ ├── bootstrap
 │ │ ├── server.js
@@ -127,12 +133,6 @@ Test endpoints at
 │ │ ├── entities
 │ │ └── error
 │ │
-│ ├── interfaces
-│ │ └── http
-│ │     ├── controllers
-│ │     ├── middlewares
-│ │     ├── routes
-│ │     └── utils
 │ │
 │ └── server.js
 └── package.json
