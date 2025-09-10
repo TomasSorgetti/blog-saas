@@ -3,13 +3,29 @@ import Article from "../../domain/entities/article.entity.js";
 export default class CreateArticleUseCase {
   #articleRepository;
   #redisService;
+  #rabbitService;
 
-  constructor({ articleRepository, redisService }) {
-    if (!articleRepository) {
-      throw new Error("articleRepository is required");
-    }
+  constructor({ articleRepository, redisService, rabbitService }) {
     this.#articleRepository = articleRepository;
     this.#redisService = redisService;
+    this.#rabbitService = rabbitService;
+
+    this.#rabbitService.consume("article-creation", async (message, msg) => {
+      const { article } = message;
+      try {
+        await this.#articleRepository.create(article);
+
+        const keys = await this.#redisService.client.smembers(
+          "articles:cache-keys"
+        );
+        if (keys.length > 0) {
+          await this.#redisService.client.del(keys);
+          await this.#redisService.client.del("articles:cache-keys");
+        }
+      } catch (error) {
+        console.error("Failed to process article creation:", error);
+      }
+    });
   }
 
   async execute({
@@ -35,13 +51,8 @@ export default class CreateArticleUseCase {
       isFeatured,
     }).toJSON();
 
-    const createdArticle = await this.#articleRepository.create(article);
+    await this.#rabbitService.publish("article-creation", { article });
 
-    const keys = await this.#redisService.client.keys(`articles:*`);
-    if (keys.length > 0) {
-      await this.#redisService.client.del(keys);
-    }
-
-    return createdArticle;
+    return { slug };
   }
 }

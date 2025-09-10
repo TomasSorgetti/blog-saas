@@ -80,6 +80,7 @@ export default class Container {
     this.#usecases.createArticleUseCase = new CreateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
+      rabbitService: this.#services.rabbitService,
     });
     this.#usecases.updateArticleUseCase = new UpdateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
