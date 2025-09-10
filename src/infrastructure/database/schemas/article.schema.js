@@ -56,6 +56,7 @@ const articleSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    // todo => Add categories
   },
   { timestamps: true }
 );

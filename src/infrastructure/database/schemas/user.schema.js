@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    // email
+    // password
+    // role 
+    // isVerified
+    // verificationToken
+    // verificationTokenExpires
+    // resetToken
+    // resetTokenExpires
+    // lastLogin
+    // isActive
+    // deletedAt
+    // loginMethod
+    // sessions => table
   },
   { timestamps: true }
 );
