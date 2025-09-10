@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
-import { RepositoryError } from "../../../domain/errors/index.js";
+import {
+  DatabaseError,
+  NotFoundError,
+  RepositoryError,
+} from "../../../domain/errors/index.js";
 
 class ArticleRepository {
   #model;
@@ -71,24 +75,37 @@ class ArticleRepository {
     }
   }
 
-  async update(id, data) {
+  async update(slug, data) {
     try {
-      if (!mongoose.isValidObjectId(id)) {
-        throw new Error("Invalid article ID");
+      if (!slug || typeof slug !== "string") {
+        throw new InvalidInputError("Invalid or missing slug", {
+          field: "slug",
+        });
       }
+
       const article = await this.#model
-        .findByIdAndUpdate(
-          id,
+        .findOneAndUpdate(
+          { slug },
           { $set: data },
           { new: true, runValidators: true }
         )
         .lean();
+
       if (!article) {
-        throw new Error(`Article with ID ${id} not found`);
+        throw new NotFoundError(`Article with slug ${slug} not found`, {
+          slug,
+        });
       }
+
       return article;
     } catch (error) {
-      throw new RepositoryError(`Failed to update article`, error.message);
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw new DatabaseError(`Failed to update article: ${error.message}`, {
+        slug,
+        originalError: error.message,
+      });
     }
   }
 

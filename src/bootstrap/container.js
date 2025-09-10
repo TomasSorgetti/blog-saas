@@ -17,6 +17,7 @@ import RegisterUseCase from "../application/auth/register.usecase.js";
 import GetArticlesUseCase from "../application/article/getArticles.usecase.js";
 import GetArticleUseCase from "../application/article/getArticle.usecase.js";
 import CreateArticleUseCase from "../application/article/createArticle.usecase.js";
+import UpdateArticleUseCase from "../application/article/updateArticle.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -76,6 +77,9 @@ export default class Container {
     this.#usecases.createArticleUseCase = new CreateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
     });
+    this.#usecases.updateArticleUseCase = new UpdateArticleUseCase({
+      articleRepository: this.#repositories.articleRepository,
+    });
   }
 
   #initializeControllers() {
@@ -88,6 +92,7 @@ export default class Container {
       getArticlesUseCase: this.#usecases.getArticlesUseCase,
       getArticleUseCase: this.#usecases.getArticleUseCase,
       createArticleUseCase: this.#usecases.createArticleUseCase,
+      updateArticleUseCase: this.#usecases.updateArticleUseCase,
     });
     this.#controllers.categoryController = new CategoryController({});
   }

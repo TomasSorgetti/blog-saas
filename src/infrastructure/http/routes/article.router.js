@@ -40,14 +40,14 @@ export default class ArticleRouter {
      * @PATCH /api/articles/:id
      */
     this.#router.patch(
-      "/:id",
+      "/:slug",
       this.#controller.updatePost.bind(this.#controller)
     );
     /**
      * @DELETE /api/articles/:id
      */
     this.#router.delete(
-      "/:id",
+      "/:slug",
       this.#controller.deletePost.bind(this.#controller)
     );
 
@@ -55,21 +55,21 @@ export default class ArticleRouter {
      * @PATCH /api/articles/:id/publish
      */
     this.#router.patch(
-      "/:id/publish",
+      "/:slug/publish",
       this.#controller.publishPost.bind(this.#controller)
     );
     /**
      * @PATCH /api/articles/:id/unpublish
      */
     this.#router.patch(
-      "/:id/unpublish",
+      "/:slug/unpublish",
       this.#controller.unpublishPost.bind(this.#controller)
     );
     /**
      * @POST /api/articles/:id/star
      */
     this.#router.post(
-      "/:id/star",
+      "/:slug/star",
       this.#controller.starPost.bind(this.#controller)
     );
   }

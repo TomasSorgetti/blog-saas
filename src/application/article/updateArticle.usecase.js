@@ -1,6 +1,6 @@
 import Article from "../../domain/entities/article.entity.js";
 
-export default class CreateArticleUseCase {
+export default class UpdateArticleUseCase {
   #articleRepository;
 
   constructor({ articleRepository }) {
@@ -34,6 +34,6 @@ export default class CreateArticleUseCase {
     }).toJSON();
 
     //   todo => handle errors
-    return await this.#articleRepository.create(article);
+    return await this.#articleRepository.update(slug, article);
   }
 }

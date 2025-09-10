@@ -4,11 +4,18 @@ export default class ArticleController {
   #getArticlesUseCase;
   #getArticleUseCase;
   #createArticleUseCase;
+  #updateArticleUseCase;
 
-  constructor({ getArticlesUseCase, getArticleUseCase, createArticleUseCase }) {
+  constructor({
+    getArticlesUseCase,
+    getArticleUseCase,
+    createArticleUseCase,
+    updateArticleUseCase,
+  }) {
     this.#getArticlesUseCase = getArticlesUseCase;
     this.#getArticleUseCase = getArticleUseCase;
     this.#createArticleUseCase = createArticleUseCase;
+    this.#updateArticleUseCase = updateArticleUseCase;
   }
 
   async getAll(req, res, next) {
@@ -90,7 +97,29 @@ export default class ArticleController {
 
   async updatePost(req, res, next) {
     try {
-      const data = "data";
+      const { slug } = req.params;
+      const {
+        title,
+        content,
+        summary,
+        author,
+        tags,
+        status,
+        image,
+        isFeatured,
+      } = req.body;
+
+      const data = await this.#updateArticleUseCase.execute({
+        title,
+        slug,
+        content,
+        summary,
+        author,
+        tags,
+        status,
+        image,
+        isFeatured,
+      });
       return successResponse(res, data, "Article retrieved successfully", 200);
     } catch (error) {
       next(error);
