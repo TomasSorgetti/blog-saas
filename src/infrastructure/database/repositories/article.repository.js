@@ -109,18 +109,31 @@ class ArticleRepository {
     }
   }
 
-  async delete(id) {
+  async delete(slug) {
     try {
-      if (!mongoose.isValidObjectId(id)) {
-        throw new Error("Invalid article ID");
+      if (!slug || typeof slug !== "string") {
+        throw new InvalidInputError("Invalid or missing slug", {
+          field: "slug",
+        });
       }
-      const article = await this.#model.findByIdAndDelete(id).lean();
+
+      const article = await this.#model.findOneAndDelete({ slug }).lean();
+
       if (!article) {
-        throw new Error(`Article with ID ${id} not found`);
+        throw new NotFoundError(`Article with slug ${slug} not found`, {
+          slug,
+        });
       }
-      return { id: article._id };
+
+      return { slug: article.slug };
     } catch (error) {
-      throw new RepositoryError(`Failed to delete article`, error.message);
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw new DatabaseError(`Failed to delete article: ${error.message}`, {
+        slug,
+        originalError: error.message,
+      });
     }
   }
 

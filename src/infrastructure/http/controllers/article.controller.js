@@ -5,17 +5,20 @@ export default class ArticleController {
   #getArticleUseCase;
   #createArticleUseCase;
   #updateArticleUseCase;
+  #deleteArticleUseCase;
 
   constructor({
     getArticlesUseCase,
     getArticleUseCase,
     createArticleUseCase,
     updateArticleUseCase,
+    deleteArticleUseCase,
   }) {
     this.#getArticlesUseCase = getArticlesUseCase;
     this.#getArticleUseCase = getArticleUseCase;
     this.#createArticleUseCase = createArticleUseCase;
     this.#updateArticleUseCase = updateArticleUseCase;
+    this.#deleteArticleUseCase = deleteArticleUseCase;
   }
 
   async getAll(req, res, next) {
@@ -128,7 +131,9 @@ export default class ArticleController {
 
   async deletePost(req, res, next) {
     try {
-      const data = "data";
+      const { slug } = req.params;
+
+      const data = await this.#deleteArticleUseCase.execute(slug);
       return successResponse(res, data, "Article retrieved successfully", 200);
     } catch (error) {
       next(error);
