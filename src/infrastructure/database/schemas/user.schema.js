@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema(
       {
         provider: {
           type: String,
-          enum: ["email", "google", "github", "facebook"],
+          enum: ["email", "google", "github"],
           required: true,
         },
         providerId: {
@@ -81,17 +81,17 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    // preferences: {
-    //   language: { type: String, default: "en" },
-    //   notifications: {
-    //     email: {
-    //       marketing: { type: Boolean, default: false },
-    //       productUpdates: { type: Boolean, default: true },
-    //       activity: { type: Boolean, default: true },
-    //     },
-    //     push: { type: Boolean, default: false },
-    //   },
-    // },
+    preferences: {
+      language: { type: String, default: "en" },
+      notifications: {
+        email: {
+          marketing: { type: Boolean, default: false },
+          productUpdates: { type: Boolean, default: true },
+          activity: { type: Boolean, default: true },
+        },
+        push: { type: Boolean, default: false },
+      },
+    },
     subscription: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",

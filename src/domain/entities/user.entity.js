@@ -1,11 +1,76 @@
 import { InvalidInputError } from "../errors/index.js";
 
-export default class User {
-  constructor({ name, email, hashedPassword }) {
+export default class UserEntity {
+  constructor({
+    id = null,
+    username,
+    email,
+    password = null,
+    role = "user",
+    avatar = null,
+    isVerified = false,
+    verificationToken = null,
+    verificationTokenExpires = null,
+    resetToken = null,
+    resetTokenExpires = null,
+    lastLogin = null,
+    isActive = true,
+    deletedAt = null,
+    loginMethods = [],
+    twoFactorEnabled = false,
+    twoFactorSecret = null,
+    createdAt = new Date(),
+    preferences = {},
+    subscription = null,
+    sessions = [],
+  }) {
     if (!email) throw new InvalidInputError("Email is required");
-    this.name = name;
-    this.email = email;
-    this.password = hashedPassword;
-    this.createdAt = new Date();
+    if (!username) throw new InvalidInputError("Username is required");
+
+    this.id = id;
+    this.username = username;
+    this.email = email.toLowerCase();
+    this.password = password;
+    this.role = role;
+    this.avatar = avatar;
+    this.isVerified = isVerified;
+    this.verificationToken = verificationToken;
+    this.verificationTokenExpires = verificationTokenExpires;
+    this.resetToken = resetToken;
+    this.resetTokenExpires = resetTokenExpires;
+    this.lastLogin = lastLogin;
+    this.isActive = isActive;
+    this.deletedAt = deletedAt;
+    this.loginMethods = loginMethods;
+    this.twoFactorEnabled = twoFactorEnabled;
+    this.twoFactorSecret = twoFactorSecret;
+    this.createdAt = createdAt;
+    this.preferences = {
+      language: preferences.language || "en",
+      notifications: {
+        email: {
+          marketing: preferences.notifications?.email?.marketing ?? false,
+          productUpdates:
+            preferences.notifications?.email?.productUpdates ?? true,
+          activity: preferences.notifications?.email?.activity ?? true,
+        },
+        push: preferences.notifications?.push ?? false,
+      },
+    };
+    this.subscription = subscription;
+    this.sessions = sessions;
+  }
+
+  addLoginMethod(provider, providerId) {
+    if (!provider) throw new InvalidInputError("Provider is required");
+    this.loginMethods.push({
+      provider,
+      providerId,
+      addedAt: new Date(),
+    });
+  }
+
+  hasLoginMethod(provider) {
+    return this.loginMethods.some((lm) => lm.provider === provider);
   }
 }
