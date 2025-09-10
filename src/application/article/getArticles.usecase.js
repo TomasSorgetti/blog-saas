@@ -3,9 +3,6 @@ export default class GetArticlesUseCase {
   #redisService;
 
   constructor({ articleRepository, redisService }) {
-    if (!articleRepository) {
-      throw new Error("articleRepository is required");
-    }
     this.#articleRepository = articleRepository;
     this.#redisService = redisService;
   }
@@ -13,14 +10,16 @@ export default class GetArticlesUseCase {
   async execute(filters) {
     const cacheKey = `articles:${JSON.stringify(filters)}`;
 
-    const cachedArticles = await this.#redisService.get(cacheKey);
-    if (cachedArticles) {
-      return cachedArticles;
+    const cached = await this.#redisService.get(cacheKey);
+    if (cached) {
+      return cached;
     }
 
     const articles = await this.#articleRepository.findAll(filters);
 
     await this.#redisService.set(cacheKey, articles, 3600);
+
+    await this.#redisService.sadd("articles:cache-keys", cacheKey);
 
     return articles;
   }

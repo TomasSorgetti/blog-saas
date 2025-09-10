@@ -13,17 +13,18 @@ export default class CreateArticleUseCase {
     this.#rabbitService.consume("article-creation", async (message, msg) => {
       const { article } = message;
       try {
-        await this.#articleRepository.create(article);
+        const createdArticle = await this.#articleRepository.create(article);
+        console.log(`Article created: ${article.slug}`);
 
-        const keys = await this.#redisService.client.smembers(
-          "articles:cache-keys"
-        );
-        if (keys.length > 0) {
-          await this.#redisService.client.del(keys);
-          await this.#redisService.client.del("articles:cache-keys");
-        }
+        await this.#redisService.invalidateArticlesCache(this.#redisService);
+
+        return createdArticle;
       } catch (error) {
-        console.error("Failed to process article creation:", error);
+        console.error(
+          `Failed to process article creation for slug ${article.slug}:`,
+          error
+        );
+        throw error;
       }
     });
   }

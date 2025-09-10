@@ -15,12 +15,7 @@ export default class DeleteArticleUseCase {
   async execute(slug) {
     const result = await this.#articleRepository.delete(slug);
 
-    await this.#redisService.del(`article:${slug}`);
-
-    const keys = await this.#redisService.client.keys(`articles:*`);
-    if (keys.length > 0) {
-      await this.#redisService.client.del(keys);
-    }
+    await this.#redisService.invalidateArticlesCache(this.#redisService, slug);
 
     return result;
   }

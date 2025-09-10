@@ -12,34 +12,17 @@ export default class UpdateArticleUseCase {
     this.#redisService = redisService;
   }
 
-  async execute({
-    title,
-    slug,
-    content,
-    summary,
-    author,
-    tags,
-    status,
-    image,
-    isFeatured,
-  }) {
-    const article = new Article({
-      title,
-      slug,
-      content,
-      summary,
-      author,
-      tags,
-      status,
-      image,
-      isFeatured,
-    }).toJSON();
+  async execute(articleData) {
+    const article = new Article(articleData).toJSON();
+    const updatedArticle = await this.#articleRepository.update(
+      article.slug,
+      article
+    );
 
-    const updatedArticle = await this.#articleRepository.update(slug, article);
-
-    await this.#redisService.del(`article:${slug}`);
-
-    await this.#redisService.del(`articles:*`);
+    await this.#redisService.invalidateArticlesCache(
+      this.#redisService,
+      article.slug
+    );
 
     return updatedArticle;
   }

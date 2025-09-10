@@ -14,10 +14,16 @@ export default class GetArticleUseCase {
     const cacheKey = `article:${slug}`;
 
     const cachedArticle = await this.#redisService.get(cacheKey);
+
     if (cachedArticle) {
       if (!isAdmin) {
-        console.log("is not admin");
-        return await this.#articleRepository.incrementViews(cachedArticle._id);
+        const updatedArticle = await this.#articleRepository.incrementViews(
+          cachedArticle._id
+        );
+
+        await this.#redisService.set(cacheKey, updatedArticle, 3600);
+
+        return updatedArticle;
       }
       return cachedArticle;
     }
@@ -27,7 +33,13 @@ export default class GetArticleUseCase {
     await this.#redisService.set(cacheKey, article, 3600);
 
     if (!isAdmin) {
-      return await this.#articleRepository.incrementViews(article._id);
+      const updatedArticle = await this.#articleRepository.incrementViews(
+        article._id
+      );
+
+      await this.#redisService.set(cacheKey, updatedArticle, 3600);
+
+      return updatedArticle;
     }
 
     return article;
