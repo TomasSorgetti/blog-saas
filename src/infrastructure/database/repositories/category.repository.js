@@ -1,3 +1,5 @@
+import { RepositoryError } from "../../../domain/errors/index.js";
+
 class CategoryRepository {
   #model;
 

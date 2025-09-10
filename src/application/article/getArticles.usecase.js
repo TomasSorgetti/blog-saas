@@ -10,6 +10,7 @@ export default class GetArticlesUseCase {
 
   async execute(filters) {
     // todo => pagination
+    // todo => caché response
     const articles = await this.#articleRepository.findAll(filters);
 
     return articles;

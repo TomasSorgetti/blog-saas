@@ -21,7 +21,10 @@ export default class ArticleRouter {
     /**
      * @GET /api/articles/:id
      */
-    this.#router.get("/:id", this.#controller.getPostById.bind(this.#controller));
+    this.#router.get(
+      "/:slug",
+      this.#controller.getPostBySlug.bind(this.#controller)
+    );
     /**
      * @GET /api/articles/search
      */
@@ -36,7 +39,10 @@ export default class ArticleRouter {
     /**
      * @PATCH /api/articles/:id
      */
-    this.#router.patch("/:id", this.#controller.updatePost.bind(this.#controller));
+    this.#router.patch(
+      "/:id",
+      this.#controller.updatePost.bind(this.#controller)
+    );
     /**
      * @DELETE /api/articles/:id
      */

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { RepositoryError } from "../../../domain/errors/index.js";
 
 class ArticleRepository {
   #model;
@@ -10,15 +11,33 @@ class ArticleRepository {
   async findById(id) {
     try {
       if (!mongoose.isValidObjectId(id)) {
-        throw new RepositoryError("Invalid article ID");
+        throw new Error("Invalid article ID");
       }
       const article = await this.#model.findById(id).lean();
       if (!article) {
-        throw new RepositoryError(`Article with ID ${id} not found`);
+        throw new Error(`Article with ID ${id} not found`);
       }
       return article;
     } catch (error) {
-      throw new RepositoryError(`Failed to find article: ${error.message}`);
+      throw new RepositoryError(`Failed to find article`, error.message);
+    }
+  }
+
+  async findBySlug(slug) {
+    try {
+      if (!slug || typeof slug !== "string") {
+        throw new Error("Invalid or missing slug");
+      }
+      const article = await this.#model.findOne({ slug }).lean();
+      if (!article) {
+        throw new Error(`Article with slug ${slug} not found`);
+      }
+      return article;
+    } catch (error) {
+      throw new RepositoryError(
+        `Failed to find article by slug`,
+        error.message
+      );
     }
   }
 
@@ -38,7 +57,7 @@ class ArticleRepository {
 
       return await this.#model.find(query).sort({ createdAt: -1 }).lean();
     } catch (error) {
-      throw new RepositoryError(`Failed to fetch articles: ${error.message}`);
+      throw new RepositoryError(`Failed to fetch articles`, error.message);
     }
   }
 
@@ -48,14 +67,14 @@ class ArticleRepository {
       const savedArticle = await article.save();
       return savedArticle.toObject();
     } catch (error) {
-      throw new RepositoryError(`Failed to create article: ${error.message}`);
+      throw new RepositoryError(`Failed to create article`, error.message);
     }
   }
 
   async update(id, data) {
     try {
       if (!mongoose.isValidObjectId(id)) {
-        throw new RepositoryError("Invalid article ID");
+        throw new Error("Invalid article ID");
       }
       const article = await this.#model
         .findByIdAndUpdate(
@@ -65,43 +84,43 @@ class ArticleRepository {
         )
         .lean();
       if (!article) {
-        throw new RepositoryError(`Article with ID ${id} not found`);
+        throw new Error(`Article with ID ${id} not found`);
       }
       return article;
     } catch (error) {
-      throw new RepositoryError(`Failed to update article: ${error.message}`);
+      throw new RepositoryError(`Failed to update article`, error.message);
     }
   }
 
   async delete(id) {
     try {
       if (!mongoose.isValidObjectId(id)) {
-        throw new RepositoryError("Invalid article ID");
+        throw new Error("Invalid article ID");
       }
       const article = await this.#model.findByIdAndDelete(id).lean();
       if (!article) {
-        throw new RepositoryError(`Article with ID ${id} not found`);
+        throw new Error(`Article with ID ${id} not found`);
       }
       return { id: article._id };
     } catch (error) {
-      throw new RepositoryError(`Failed to delete article: ${error.message}`);
+      throw new RepositoryError(`Failed to delete article`, error.message);
     }
   }
 
   async incrementViews(id) {
     try {
       if (!mongoose.isValidObjectId(id)) {
-        throw new RepositoryError("Invalid article ID");
+        throw new Error("Invalid article ID");
       }
       const article = await this.#model
         .findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true })
         .lean();
       if (!article) {
-        throw new RepositoryError(`Article with ID ${id} not found`);
+        throw new Error(`Article with ID ${id} not found`);
       }
       return article;
     } catch (error) {
-      throw new RepositoryError(`Failed to increment views: ${error.message}`);
+      throw new RepositoryError(`Failed to increment views`, error.message);
     }
   }
 }

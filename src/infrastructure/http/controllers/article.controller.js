@@ -2,12 +2,14 @@ import successResponse from "../utils/success-response.js";
 
 export default class ArticleController {
   #getArticlesUseCase;
+  #getArticleUseCase;
 
-  constructor({ getArticlesUseCase }) {
-    if (!getArticlesUseCase) {
+  constructor({ getArticlesUseCase, getArticleUseCase }) {
+    if (!getArticlesUseCase || !getArticleUseCase) {
       throw new Error("dependency required");
     }
     this.#getArticlesUseCase = getArticlesUseCase;
+    this.#getArticleUseCase = getArticleUseCase;
   }
 
   async getAll(req, res, next) {
@@ -30,9 +32,12 @@ export default class ArticleController {
     }
   }
 
-  async getPostById(req, res, next) {
+  async getPostBySlug(req, res, next) {
     try {
-      const data = "data";
+      const { slug } = req.params;
+      const isAdmin = true; // todo=> cambiar
+
+      const data = await this.#getArticleUseCase.execute({ slug, isAdmin });
       return successResponse(res, data, "Article retrieved successfully", 200);
     } catch (error) {
       next(error);

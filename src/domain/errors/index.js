@@ -46,6 +46,12 @@ class DatabaseError extends CustomError {
   }
 }
 
+class RepositoryError extends CustomError {
+  constructor(message = "Repository operation failed", details = {}) {
+    super(message, ERROR_CODES.REPOSITORY.GENERIC, 500, details);
+  }
+}
+
 class MissingDependencyError extends CustomError {
   constructor(message = "Required dependency not provided", details = {}) {
     super(message, ERROR_CODES.VALIDATION.MISSING_DEPENDENCY, 500, details);
@@ -74,6 +80,7 @@ export {
   AlreadyExistsError,
   InternalServerError,
   DatabaseError,
+  RepositoryError,
   MissingDependencyError,
   InvalidInputError,
   MissingFieldError,

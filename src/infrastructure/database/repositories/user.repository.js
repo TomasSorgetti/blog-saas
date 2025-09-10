@@ -1,3 +1,5 @@
+import { RepositoryError } from "../../../domain/errors/index.js";
+
 class UserRepository {
   #model;
   constructor(config = {}) {
@@ -11,7 +13,7 @@ class UserRepository {
       if (!user) throw new Error("User not found");
       return user;
     } catch (error) {
-      throw new Error(`Error finding user: ${error.message}`);
+      throw new RepositoryError(`Failed to find user: ${error.message}`);
     }
   }
 
@@ -19,7 +21,7 @@ class UserRepository {
     try {
       return await this.#model.find().lean();
     } catch (error) {
-      throw new Error(`Error fetching users: ${error.message}`);
+      throw new RepositoryError(`Failed to find users: ${error.message}`);
     }
   }
 
@@ -28,7 +30,7 @@ class UserRepository {
       const user = new this.#model(data);
       return await user.save();
     } catch (error) {
-      throw new Error(`Error creating user: ${error.message}`);
+      throw new RepositoryError(`Failed to create user: ${error.message}`);
     }
   }
 
@@ -43,7 +45,7 @@ class UserRepository {
       if (!user) throw new Error("User not found");
       return user;
     } catch (error) {
-      throw new Error(`Error updating user: ${error.message}`);
+      throw new RepositoryError(`Failed to update user: ${error.message}`);
     }
   }
 
@@ -53,7 +55,7 @@ class UserRepository {
       if (!user) throw new Error("User not found");
       return { id };
     } catch (error) {
-      throw new Error(`Error deleting user: ${error.message}`);
+      throw new RepositoryError(`Failed to delete user: ${error.message}`);
     }
   }
 }
