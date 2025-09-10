@@ -7,20 +7,30 @@ export default class GetArticlesUseCase {
     this.#redisService = redisService;
   }
 
-  async execute(filters) {
-    const cacheKey = `articles:${JSON.stringify(filters)}`;
+  async execute(filters = {}, { page = 1, limit = 10 } = {}) {
+    const cacheKey = `articles:${JSON.stringify({ filters, page, limit })}`;
 
     const cached = await this.#redisService.get(cacheKey);
     if (cached) {
       return cached;
     }
 
-    const articles = await this.#articleRepository.findAll(filters);
+    const skip = (page - 1) * limit;
+    const { items, total } = await this.#articleRepository.findAll(filters, {
+      skip,
+      limit,
+    });
 
-    await this.#redisService.set(cacheKey, articles, 3600);
+    const result = {
+      items,
+      total,
+      page,
+      pages: Math.ceil(total / limit),
+    };
 
+    await this.#redisService.set(cacheKey, result, 3600);
     await this.#redisService.sadd("articles:cache-keys", cacheKey);
 
-    return articles;
+    return result;
   }
 }
