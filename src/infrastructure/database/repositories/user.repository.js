@@ -29,7 +29,6 @@ class UserRepository {
         .select("+password")
         .lean()
         .exec();
-      if (!user) throw new NotFoundError("User not found");
       return user;
     } catch (err) {
       throw new RepositoryError(err.message);

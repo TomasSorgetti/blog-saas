@@ -42,14 +42,24 @@ export default class JWTService {
     return jwt.sign(payload, this.refreshSecret, { expiresIn });
   }
 
+  signCode(userId) {
+    const expiresIn = "1h";
+    const payload = { userId };
+    return jwt.sign(payload, this.accessSecret, { expiresIn });
+  }
+
   verifyAccess(token) {
     return this.verifyToken(token, this.accessSecret);
   }
-
+  
   verifyRefresh(token) {
     return this.verifyToken(token, this.refreshSecret);
   }
-
+  
+  verifyCode (token) {
+    return this.verifyToken(token, this.accessSecret);
+  }
+  
   verifyToken(token, secret) {
     try {
       const decoded = jwt.verify(token, secret);

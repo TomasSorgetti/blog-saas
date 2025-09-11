@@ -21,9 +21,9 @@ export default class LoginUseCase {
   async execute({ email, password, rememberme }) {
     const userFound = await this.#userRepository.findByEmail(email);
 
-    const user = new UserEntity(userFound);
+    if (!userFound) throw new NotFoundError("User not found");
 
-    console.log(user);
+    const user = new UserEntity(userFound);
 
     // method to verify acc not implemented
     // if (userFound.isVerified) {

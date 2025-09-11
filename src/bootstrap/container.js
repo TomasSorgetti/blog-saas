@@ -84,6 +84,7 @@ export default class Container {
       userRepository: this.#repositories.userRepository,
       subscriptionRepository: this.#repositories.subscriptionRepository,
       hashService: this.#services.hashService,
+      jwtService: this.#services.jwtService,
     });
     //article
     this.#usecases.getArticlesUseCase = new GetArticlesUseCase({
