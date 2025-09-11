@@ -3,13 +3,15 @@ import successResponse from "../utils/success-response.js";
 export default class AuthController {
   #loginUseCase;
   #registerUseCase;
+  #verifyUseCase;
 
-  constructor({ loginUseCase, registerUseCase }) {
+  constructor({ loginUseCase, registerUseCase, verifyUseCase }) {
     if (!loginUseCase || !registerUseCase) {
       throw new Error("dependency required");
     }
     this.#loginUseCase = loginUseCase;
     this.#registerUseCase = registerUseCase;
+    this.#verifyUseCase = verifyUseCase;
   }
 
   async login(req, res, next) {
@@ -58,8 +60,9 @@ export default class AuthController {
 
   async verifyEmail(req, res, next) {
     try {
-      const data = {};
-      return successResponse(res, data, "Auth retrieved successfully", 200);
+      const { token } = req.query;
+      const data = await this.#verifyUseCase.execute(token);
+      return successResponse(res, data, "User verified successfully", 200);
     } catch (error) {
       next(error);
     }

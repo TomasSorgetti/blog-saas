@@ -25,10 +25,9 @@ export default class LoginUseCase {
 
     const user = new UserEntity(userFound);
 
-    // method to verify acc not implemented
-    // if (userFound.isVerified) {
-    //   throw new UnauthorizedError("User no verified");
-    // }
+    if (userFound.isVerified) {
+      throw new UnauthorizedError("User no verified");
+    }
 
     if (user.deletedAt) {
       throw new NotFoundError("User allready deleted");

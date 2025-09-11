@@ -41,8 +41,6 @@ export default class RegisterUseCase {
 
     const newUser = await this.#userRepository.create(user);
 
-    console.log("NEW USER", newUser);
-
     const verificationToken = this.#jwtService.signCode(newUser._id);
     const verificationTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
 
