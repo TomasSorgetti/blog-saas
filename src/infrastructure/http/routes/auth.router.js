@@ -1,4 +1,5 @@
 import express from "express";
+import AuthValidation from "../middlewares/validators/auth.validators.js";
 
 export default class AuthRouter {
   #router;
@@ -17,13 +18,18 @@ export default class AuthRouter {
     /**
      * @POST /api/auth/login
      */
-    this.#router.post("/login", this.#controller.login.bind(this.#controller));
+    this.#router.post(
+      "/login",
+      AuthValidation.login().handle,
+      this.#controller.login.bind(this.#controller)
+    );
 
     /**
      * @POST /api/auth/register
      */
     this.#router.post(
       "/register",
+      AuthValidation.register().handle,
       this.#controller.register.bind(this.#controller)
     );
 
@@ -32,6 +38,7 @@ export default class AuthRouter {
      */
     this.#router.get(
       "/check-email",
+      AuthValidation.checkEmail().handle,
       this.#controller.checkEmail.bind(this.#controller)
     );
 
@@ -40,6 +47,7 @@ export default class AuthRouter {
      */
     this.#router.post(
       "/verify",
+      AuthValidation.verify().handle,
       this.#controller.verifyEmail.bind(this.#controller)
     );
 
@@ -48,6 +56,7 @@ export default class AuthRouter {
      */
     this.#router.post(
       "/resend-code",
+      AuthValidation.resendCode().handle,
       this.#controller.resendVerificationCode.bind(this.#controller)
     );
 
