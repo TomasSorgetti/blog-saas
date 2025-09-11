@@ -2,6 +2,8 @@
 import RedisService from "../infrastructure/adapters/cache/service.js";
 import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
 import RabbitService from "../infrastructure/adapters/queue/service.js";
+import HashService from "../infrastructure/security/hash.js";
+import JWTService from "../infrastructure/security/jwt.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
@@ -49,6 +51,11 @@ export default class Container {
     this.#services.rabbitService = new RabbitService(
       this.#config.rabbitChannel
     );
+    this.#services.hashService = new HashService();
+    this.#services.jwtService = new JWTService({
+      accessSecret: config.env.JWT_ACCESS_SECRET,
+      refreshSecret: config.env.JWT_REFRESH_SECRET,
+    });
   }
 
   #initializeRepositories() {
@@ -64,9 +71,11 @@ export default class Container {
     //auth
     this.#usecases.loginUseCase = new LoginUseCase({
       userRepository: this.#repositories.userRepository,
+      jwtService: this.#services.jwtService,
     });
     this.#usecases.registerUseCase = new RegisterUseCase({
       userRepository: this.#repositories.userRepository,
+      hashService: this.#services.hashService,
     });
     //article
     this.#usecases.getArticlesUseCase = new GetArticlesUseCase({
