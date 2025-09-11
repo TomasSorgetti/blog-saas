@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
+        - ./package*.json:/usr/src/app/
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}

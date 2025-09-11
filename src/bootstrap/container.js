@@ -7,6 +7,7 @@ import JWTService from "../infrastructure/security/jwt.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
+import SubscriptionRepository from "../infrastructure/database/repositories/subscription.repository.js";
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
 import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
 import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
@@ -51,15 +52,20 @@ export default class Container {
     this.#services.rabbitService = new RabbitService(
       this.#config.rabbitChannel
     );
-    this.#services.hashService = new HashService();
+    this.#services.hashService = new HashService({
+      saltRounds: this.#config.env.HASH_SALT_ROUNDS,
+    });
     this.#services.jwtService = new JWTService({
-      accessSecret: config.env.JWT_ACCESS_SECRET,
-      refreshSecret: config.env.JWT_REFRESH_SECRET,
+      accessSecret: this.#config.env.JWT_ACCESS_SECRET,
+      refreshSecret: this.#config.env.JWT_REFRESH_SECRET,
     });
   }
 
   #initializeRepositories() {
     this.#repositories.userRepository = new UserRepository(this.#config);
+    this.#repositories.subscriptionRepository = new SubscriptionRepository(
+      this.#config
+    );
     this.#repositories.articleRepository = new ArticleRepository(this.#config);
     this.#repositories.categoryRepository = new CategoryRepository(
       this.#config
@@ -75,6 +81,7 @@ export default class Container {
     });
     this.#usecases.registerUseCase = new RegisterUseCase({
       userRepository: this.#repositories.userRepository,
+      subscriptionRepository: this.#repositories.subscriptionRepository,
       hashService: this.#services.hashService,
     });
     //article

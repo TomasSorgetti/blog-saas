@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import {
-  DatabaseError,
-  NotFoundError,
   RepositoryError,
+  NotFoundError,
+  AlreadyExistsError,
+  InvalidInputError,
 } from "../../../domain/errors/index.js";
 
 class ArticleRepository {
@@ -10,117 +11,158 @@ class ArticleRepository {
 
   constructor(config = {}) {
     this.#model = config.db.models.Article;
+    if (!this.#model) throw new RepositoryError("Article model not provided");
   }
 
   async findById(id) {
-    if (!mongoose.isValidObjectId(id)) {
-      throw new RepositoryError("Invalid article ID");
-    }
+    try {
+      if (!mongoose.isValidObjectId(id)) {
+        throw new InvalidInputError("Invalid article ID");
+      }
 
-    const article = await this.#model.findById(id).lean().exec();
-    if (!article) {
-      throw new RepositoryError(`Article with ID ${id} not found`);
-    }
+      const article = await this.#model.findById(id).lean().exec();
+      if (!article) throw new NotFoundError(`Article with ID ${id} not found`);
 
-    return article;
+      return article;
+    } catch (err) {
+      if (err.name === "NotFoundError" || err.name === "InvalidInputError")
+        throw err;
+      throw new RepositoryError(err.message);
+    }
   }
 
   async findBySlug(slug) {
-    if (!slug || typeof slug !== "string") {
-      throw new RepositoryError("Invalid or missing slug");
-    }
+    try {
+      if (!slug || typeof slug !== "string") {
+        throw new InvalidInputError("Invalid or missing slug");
+      }
 
-    const article = await this.#model.findOne({ slug }).lean().exec();
-    if (!article) {
-      throw new RepositoryError(`Article with slug ${slug} not found`);
-    }
+      const article = await this.#model.findOne({ slug }).lean().exec();
+      if (!article)
+        throw new NotFoundError(`Article with slug ${slug} not found`);
 
-    return article;
+      return article;
+    } catch (err) {
+      if (err.name === "NotFoundError" || err.name === "InvalidInputError")
+        throw err;
+      throw new RepositoryError(err.message);
+    }
   }
 
   async findAll(filters = {}, { skip = 0, limit = 10 } = {}) {
-    const query = {};
+    try {
+      const query = {};
 
-    if (filters.status) {
-      query.status = filters.status;
-    }
-    if (filters.tags) {
-      query.tags = { $regex: filters.tags, $options: "i" };
-    }
-    if (typeof filters.isFeatured === "boolean") {
-      query.isFeatured = filters.isFeatured;
-    }
+      if (filters.status) query.status = filters.status;
+      if (filters.tags) query.tags = { $regex: filters.tags, $options: "i" };
+      if (typeof filters.isFeatured === "boolean")
+        query.isFeatured = filters.isFeatured;
 
-    const [items, total] = await Promise.all([
-      this.#model
-        .find(query)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean()
-        .exec(),
-      this.#model.countDocuments(query),
-    ]);
+      const [items, total] = await Promise.all([
+        this.#model
+          .find(query)
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit)
+          .lean()
+          .exec(),
+        this.#model.countDocuments(query),
+      ]);
 
-    return { items, total };
+      return { items, total };
+    } catch (err) {
+      throw new RepositoryError(err.message);
+    }
   }
 
   async create(data) {
-    const article = new this.#model(data);
-    const savedArticle = await article.save();
-    return savedArticle.toObject();
+    try {
+      const article = new this.#model(data);
+      const savedArticle = await article.save();
+      return savedArticle.toObject();
+    } catch (err) {
+      if (err.code === 11000) {
+        const key = Object.keys(err.keyValue)[0];
+        throw new AlreadyExistsError(`${key} already exists`);
+      }
+      throw new RepositoryError(err.message);
+    }
   }
 
   async update(slug, data) {
-    if (!slug || typeof slug !== "string") {
-      throw new InvalidInputError("Invalid or missing slug", { field: "slug" });
+    try {
+      if (!slug || typeof slug !== "string") {
+        throw new InvalidInputError("Invalid or missing slug", {
+          field: "slug",
+        });
+      }
+
+      const article = await this.#model
+        .findOneAndUpdate(
+          { slug },
+          { $set: data },
+          { new: true, runValidators: true }
+        )
+        .lean()
+        .exec();
+
+      if (!article)
+        throw new NotFoundError(`Article with slug ${slug} not found`);
+
+      return article;
+    } catch (err) {
+      if (err.code === 11000) {
+        const key = Object.keys(err.keyValue)[0];
+        throw new AlreadyExistsError(`${key} already exists`);
+      }
+      if (err.name === "NotFoundError" || err.name === "InvalidInputError")
+        throw err;
+      throw new RepositoryError(err.message);
     }
-
-    const article = await this.#model
-      .findOneAndUpdate(
-        { slug },
-        { $set: data },
-        { new: true, runValidators: true }
-      )
-      .lean()
-      .exec();
-
-    if (!article) {
-      throw new NotFoundError(`Article with slug ${slug} not found`, { slug });
-    }
-
-    return article;
   }
 
   async delete(slug) {
-    if (!slug || typeof slug !== "string") {
-      throw new InvalidInputError("Invalid or missing slug", { field: "slug" });
+    try {
+      if (!slug || typeof slug !== "string") {
+        throw new InvalidInputError("Invalid or missing slug", {
+          field: "slug",
+        });
+      }
+
+      const article = await this.#model
+        .findOneAndDelete({ slug })
+        .lean()
+        .exec();
+      if (!article)
+        throw new NotFoundError(`Article with slug ${slug} not found`);
+
+      return { slug: article.slug };
+    } catch (err) {
+      if (err.name === "NotFoundError" || err.name === "InvalidInputError")
+        throw err;
+      throw new RepositoryError(err.message);
     }
-
-    const article = await this.#model.findOneAndDelete({ slug }).lean().exec();
-
-    if (!article) {
-      throw new NotFoundError(`Article with slug ${slug} not found`, { slug });
-    }
-
-    return { slug: article.slug };
   }
 
   async incrementViews(id) {
-    if (!mongoose.isValidObjectId(id)) {
-      throw new RepositoryError("Invalid article ID");
+    try {
+      if (!mongoose.isValidObjectId(id)) {
+        throw new InvalidInputError("Invalid article ID");
+      }
+
+      const article = await this.#model
+        .findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true })
+        .lean()
+        .exec();
+
+      if (!article) throw new NotFoundError(`Article with ID ${id} not found`);
+
+      return article;
+    } catch (err) {
+      if (err.name === "NotFoundError" || err.name === "InvalidInputError")
+        throw err;
+      throw new RepositoryError(err.message);
     }
-
-    const article = await this.#model
-      .findByIdAndUpdate(id, { $inc: { views: 1 } }, { new: true })
-      .lean()
-      .exec();
-
-    if (!article) {
-      throw new RepositoryError(`Article with ID ${id} not found`);
-    }
-
-    return article;
   }
 }
 

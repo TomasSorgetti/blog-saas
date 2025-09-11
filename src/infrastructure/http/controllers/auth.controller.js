@@ -29,14 +29,20 @@ export default class AuthController {
 
   async register(req, res, next) {
     try {
-      const { name, email, password } = req.body;
+      const { username, email, password, plan } = req.body;
 
       const response = await this.#registerUseCase.execute({
-        name,
+        username,
         email,
         password,
+        plan,
       });
-      return successResponse(res, response, "Auth retrieved successfully", 200);
+      return successResponse(
+        res,
+        response,
+        "User registered successfully. Please verify your email to activate your account.",
+        200
+      );
     } catch (error) {
       next(error);
     }

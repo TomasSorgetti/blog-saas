@@ -13,6 +13,7 @@ const env = cleanEnv(process.env, {
   RABBIT_URL: str({ default: "amqp://guest:guest@localhost:5672/" }),
   JWT_ACCESS_SECRET: str({ default: "your_jwt_access_secret" }),
   JWT_REFRESH_SECRET: str({ default: "your_jwt_refresh_secret" }),
+  HASH_SALT_ROUNDS: port({ default: 10 }),
 });
 
 export default env;

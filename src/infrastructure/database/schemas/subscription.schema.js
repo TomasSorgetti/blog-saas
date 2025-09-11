@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const subscriptionSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  plan: { type: String, enum: ["free", "pro", "enterprise"], default: "free" },
+  plan: { type: String, enum: ["free", "pro", "premium"], default: "free" },
   status: {
     type: String,
     enum: ["active", "canceled", "expired"],

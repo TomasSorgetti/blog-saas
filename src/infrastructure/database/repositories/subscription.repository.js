@@ -4,19 +4,20 @@ import {
   NotFoundError,
 } from "../../../domain/errors/index.js";
 
-class UserRepository {
+class SubscriptionRepository {
   #model;
 
   constructor(config = {}) {
-    this.#model = config.db?.models.User;
-    if (!this.#model) throw new RepositoryError("User model not provided");
+    this.#model = config.db?.models.Subscription;
+    if (!this.#model)
+      throw new RepositoryError("Subscription model not provided");
   }
 
   async findById(id) {
     try {
-      const user = await this.#model.findById(id).lean().exec();
-      if (!user) throw new NotFoundError("User not found");
-      return user;
+      const subscription = await this.#model.findById(id).lean().exec();
+      if (!subscription) throw new NotFoundError("Subscription not found");
+      return subscription;
     } catch (err) {
       throw new RepositoryError(err.message);
     }
@@ -32,9 +33,9 @@ class UserRepository {
 
   async create(data) {
     try {
-      const user = new this.#model(data);
-      const savedUser = await user.save();
-      return savedUser.toObject();
+      const subscription = new this.#model(data);
+      const savedSubscription = await subscription.save();
+      return savedSubscription.toObject();
     } catch (err) {
       if (err.code === 11000) {
         const key = Object.keys(err.keyValue)[0];
@@ -46,12 +47,12 @@ class UserRepository {
 
   async update(id, data) {
     try {
-      const user = await this.#model
+      const subscription = await this.#model
         .findByIdAndUpdate(id, data, { new: true, runValidators: true })
         .lean()
         .exec();
-      if (!user) throw new NotFoundError("User not found");
-      return user;
+      if (!subscription) throw new NotFoundError("Subscription not found");
+      return subscription;
     } catch (err) {
       if (err.code === 11000) {
         const key = Object.keys(err.keyValue)[0];
@@ -63,13 +64,16 @@ class UserRepository {
 
   async delete(id) {
     try {
-      const user = await this.#model.findByIdAndDelete(id).lean().exec();
-      if (!user) throw new NotFoundError("User not found");
-      return { id: user._id };
+      const subscription = await this.#model
+        .findByIdAndDelete(id)
+        .lean()
+        .exec();
+      if (!subscription) throw new NotFoundError("Subscription not found");
+      return { id: subscription._id };
     } catch (err) {
       throw new RepositoryError(err.message);
     }
   }
 }
 
-export default UserRepository;
+export default SubscriptionRepository;
