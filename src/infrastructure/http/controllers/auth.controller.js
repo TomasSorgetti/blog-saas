@@ -29,13 +29,12 @@ export default class AuthController {
 
   async register(req, res, next) {
     try {
-      const { username, email, password, plan } = req.body;
+      const { username, email, password } = req.body;
 
       const response = await this.#registerUseCase.execute({
         username,
         email,
         password,
-        plan,
       });
       return successResponse(
         res,

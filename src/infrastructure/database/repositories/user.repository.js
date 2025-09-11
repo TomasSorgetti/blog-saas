@@ -22,6 +22,20 @@ class UserRepository {
     }
   }
 
+  async findByEmail(email) {
+    try {
+      const user = await this.#model
+        .findOne({ email })
+        .select("+password")
+        .lean()
+        .exec();
+      if (!user) throw new NotFoundError("User not found");
+      return user;
+    } catch (err) {
+      throw new RepositoryError(err.message);
+    }
+  }
+
   async findAll(filters = {}) {
     try {
       return await this.#model.find(filters).lean().exec();

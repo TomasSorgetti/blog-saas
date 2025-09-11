@@ -78,6 +78,7 @@ export default class Container {
     this.#usecases.loginUseCase = new LoginUseCase({
       userRepository: this.#repositories.userRepository,
       jwtService: this.#services.jwtService,
+      hashService: this.#services.hashService,
     });
     this.#usecases.registerUseCase = new RegisterUseCase({
       userRepository: this.#repositories.userRepository,

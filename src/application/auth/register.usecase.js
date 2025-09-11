@@ -12,7 +12,7 @@ export default class RegisterUseCase {
     this.#hashService = hashService;
   }
 
-  async execute({ username, email, password, preferences, plan = "free" }) {
+  async execute({ username, email, password, preferences }) {
     // todo => use a queue to create an user
     const hashedPassword = await this.#hashService.hash(password);
 
@@ -29,7 +29,7 @@ export default class RegisterUseCase {
 
     const subscription = new SubscriptionEntity({
       userId: newUser._id,
-      plan,
+      plan: "free",
       status: "active",
     });
 

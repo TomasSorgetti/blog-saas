@@ -73,4 +73,22 @@ export default class UserEntity {
   hasLoginMethod(provider) {
     return this.loginMethods.some((lm) => lm.provider === provider);
   }
+
+  sanitized() {
+    return {
+      id: this.id,
+      username: this.username,
+      email: this.email,
+      role: this.role,
+      avatar: this.avatar,
+      isVerified: this.isVerified,
+      lastLogin: this.lastLogin,
+      isActive: this.isActive,
+      loginMethods: this.loginMethods,
+      twoFactorEnabled: this.twoFactorEnabled,
+      createdAt: this.createdAt,
+      preferences: this.preferences,
+      subscription: this.subscription,
+    };
+  }
 }
