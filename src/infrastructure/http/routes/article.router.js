@@ -1,4 +1,5 @@
 import express from "express";
+import ArticleValidation from "../middlewares/validators/article.validators.js";
 
 export default class ArticleRouter {
   #router;
@@ -17,12 +18,17 @@ export default class ArticleRouter {
     /**
      * @GET /api/articles/
      */
-    this.#router.get("/", this.#controller.getAll.bind(this.#controller));
+    this.#router.get(
+      "/",
+      ArticleValidation.getAll().handle,
+      this.#controller.getAll.bind(this.#controller)
+    );
     /**
      * @GET /api/articles/:id
      */
     this.#router.get(
       "/:slug",
+      ArticleValidation.getBySlug().handle,
       this.#controller.getPostBySlug.bind(this.#controller)
     );
     /**
@@ -30,17 +36,23 @@ export default class ArticleRouter {
      */
     this.#router.get(
       "/search",
+      ArticleValidation.search().handle,
       this.#controller.searchPost.bind(this.#controller)
     );
     /**
      * @POST /api/articles/
      */
-    this.#router.post("/", this.#controller.createPost.bind(this.#controller));
+    this.#router.post(
+      "/",
+      ArticleValidation.create().handle,
+      this.#controller.createPost.bind(this.#controller)
+    );
     /**
      * @PATCH /api/articles/:id
      */
     this.#router.patch(
       "/:slug",
+      ArticleValidation.update().handle,
       this.#controller.updatePost.bind(this.#controller)
     );
     /**
@@ -48,6 +60,7 @@ export default class ArticleRouter {
      */
     this.#router.delete(
       "/:slug",
+      ArticleValidation.delete().handle,
       this.#controller.deletePost.bind(this.#controller)
     );
 
@@ -56,6 +69,7 @@ export default class ArticleRouter {
      */
     this.#router.patch(
       "/:slug/publish",
+      ArticleValidation.publish().handle,
       this.#controller.publishPost.bind(this.#controller)
     );
     /**
@@ -63,6 +77,7 @@ export default class ArticleRouter {
      */
     this.#router.patch(
       "/:slug/unpublish",
+      ArticleValidation.unpublish().handle,
       this.#controller.unpublishPost.bind(this.#controller)
     );
     /**
@@ -70,6 +85,7 @@ export default class ArticleRouter {
      */
     this.#router.post(
       "/:slug/star",
+      ArticleValidation.star().handle,
       this.#controller.starPost.bind(this.#controller)
     );
   }
