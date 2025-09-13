@@ -118,9 +118,9 @@ export default class AuthController {
 
   async logout(req, res, next) {
     try {
-      const refreshToken = req?.cookies.refreshToken;
+      const { sessionId } = req.user;
 
-      const data = await this.#logoutUseCase.execute({ refreshToken });
+      const data = await this.#logoutUseCase.execute({sessionId});
 
       res.clearCookie("accessToken", {
         httpOnly: true,

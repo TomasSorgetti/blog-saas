@@ -7,14 +7,12 @@ export default class LogoutUseCase {
     this.#sessionRepository = sessionRepository;
   }
 
-  async execute({ refreshToken }) {
-    if (!refreshToken) {
+  async execute({ sessionId }) {
+    if (!sessionId) {
       throw new BadRequestError("No token provided");
     }
 
-    const deletedSession = await this.#sessionRepository.deleteByRefreshToken(
-      refreshToken
-    );
+    const deletedSession = await this.#sessionRepository.deleteById(sessionId);
 
     return {
       userId: deletedSession.userId,

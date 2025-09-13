@@ -1,16 +1,22 @@
 import express from "express";
 import AuthValidation from "../middlewares/validators/auth.validators.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class AuthRouter {
   #router;
   #controller;
+  #jwtService;
+  #authMiddleware;
 
-  constructor({ authController }) {
+  constructor({ authController, jwtService }) {
     if (!authController) {
       throw new Error("authController is required");
     }
     this.#router = express.Router();
     this.#controller = authController;
+    this.#jwtService = jwtService;
+
+    this.#authMiddleware = authMiddleware(this.#jwtService);
     this.#setupRoutes();
   }
 
@@ -73,6 +79,7 @@ export default class AuthRouter {
      */
     this.#router.post(
       "/logout",
+      this.#authMiddleware,
       this.#controller.logout.bind(this.#controller)
     );
   }

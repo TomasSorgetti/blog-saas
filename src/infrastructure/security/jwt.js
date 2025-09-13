@@ -22,14 +22,16 @@ export default class JWTService {
     this.#rememberMultiplier = { access: 7, refresh: 4 };
   }
 
-  signAccess(userId, rememberMe = false) {
+  signAccess(userId, sessionId, rememberMe = false) {
     const expiresIn = rememberMe
       ? `${
           parseInt(this.#defaultAccessExpires) * this.#rememberMultiplier.access
         }h`
       : this.#defaultAccessExpires;
 
-    return jwt.sign({ userId, rememberMe }, this.#accessSecret, { expiresIn });
+    return jwt.sign({ userId, sessionId, rememberMe }, this.#accessSecret, {
+      expiresIn,
+    });
   }
 
   signRefresh(userId, rememberMe = false) {

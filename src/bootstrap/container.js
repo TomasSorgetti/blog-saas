@@ -20,7 +20,10 @@ import LoginUseCase from "../application/auth/login.usecase.js";
 import RegisterUseCase from "../application/auth/register.usecase.js";
 import VerifyUseCase from "../application/auth/verify.usecase.js";
 import LogoutUseCase from "../application/auth/logout.usecase.js";
-
+//session usecases
+import GetAllSessionsUseCase from "../application/session/getAll.usecase.js";
+import DeleteAllSessionsUseCase from "../application/session/deleteAll.usecase.js";
+import DeleteSessionUseCase from "../application/session/delete.usecase.js";
 //article usecases
 import GetArticlesUseCase from "../application/article/getArticles.usecase.js";
 import GetArticleUseCase from "../application/article/getArticle.usecase.js";
@@ -31,6 +34,7 @@ import DeleteArticleUseCase from "../application/article/deleteArticle.usecase.j
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
 import UserController from "../infrastructure/http/controllers/user.controller.js";
+import SessionController from "../infrastructure/http/controllers/session.controller.js";
 import ArticleController from "../infrastructure/http/controllers/article.controller.js";
 import CategoryController from "../infrastructure/http/controllers/category.controller.js";
 
@@ -104,6 +108,17 @@ export default class Container {
     this.#usecases.logoutUseCase = new LogoutUseCase({
       sessionRepository: this.#repositories.sessionRepository,
     });
+    //session
+    this.#usecases.getAllSessionsUseCase = new GetAllSessionsUseCase({
+      sessionRepository: this.#repositories.sessionRepository,
+    });
+    this.#usecases.deleteAllSessionsUseCase = new DeleteAllSessionsUseCase({
+      sessionRepository: this.#repositories.sessionRepository,
+    });
+    this.#usecases.deleteSessionUseCase = new DeleteSessionUseCase({
+      sessionRepository: this.#repositories.sessionRepository,
+    });
+
     //article
     this.#usecases.getArticlesUseCase = new GetArticlesUseCase({
       articleRepository: this.#repositories.articleRepository,
@@ -135,7 +150,15 @@ export default class Container {
       verifyUseCase: this.#usecases.verifyUseCase,
       logoutUseCase: this.#usecases.logoutUseCase,
     });
+
     this.#controllers.userController = new UserController({});
+
+    this.#controllers.sessionController = new SessionController({
+      getAllSessionsUseCase: this.#usecases.getAllSessionsUseCase,
+      deleteAllSessionsUseCase: this.#usecases.deleteAllSessionsUseCase,
+      deleteSessionUseCase: this.#usecases.deleteSessionUseCase,
+    });
+
     this.#controllers.articleController = new ArticleController({
       getArticlesUseCase: this.#usecases.getArticlesUseCase,
       getArticleUseCase: this.#usecases.getArticleUseCase,
@@ -143,6 +166,7 @@ export default class Container {
       updateArticleUseCase: this.#usecases.updateArticleUseCase,
       deleteArticleUseCase: this.#usecases.deleteArticleUseCase,
     });
+
     this.#controllers.categoryController = new CategoryController({});
   }
 

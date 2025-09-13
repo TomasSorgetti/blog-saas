@@ -95,6 +95,32 @@ class SessionRepository {
       throw new RepositoryError(err.message);
     }
   }
+
+  async deleteByUserId(userId) {
+    try {
+      const result = await this.#model.deleteMany({ userId });
+
+      if (result.deletedCount === 0) {
+        throw new NotFoundError("No sessions found for this user");
+      }
+
+      return result; // opcional: podés devolver { deletedCount: result.deletedCount }
+    } catch (err) {
+      if (err instanceof NotFoundError) throw err;
+      throw new RepositoryError(err.message);
+    }
+  }
+  
+  async deleteById(id) {
+    try {
+      const deleted = await this.#model.findOneAndDelete({ id }).lean();
+      if (!deleted) throw new NotFoundError("Session not found");
+      return deleted;
+    } catch (err) {
+      if (err instanceof NotFoundError) throw err;
+      throw new RepositoryError(err.message);
+    }
+  }
 }
 
 export default SessionRepository;
