@@ -3,22 +3,25 @@ import {
   InvalidCredentialsError,
 } from "../../domain/errors/index.js";
 import UserEntity from "../../domain/entities/user.entity.js";
+import SessionEntity from "../../domain/entities/session.entity.js";
 
 export default class LoginUseCase {
   #userRepository;
+  #sessionRepository;
   #jwtService;
   #hashService;
 
-  constructor({ userRepository, jwtService, hashService }) {
+  constructor({ userRepository, sessionRepository, jwtService, hashService }) {
     if (!userRepository) {
       throw new Error("userRepository is required");
     }
     this.#userRepository = userRepository;
+    this.#sessionRepository = sessionRepository;
     this.#jwtService = jwtService;
     this.#hashService = hashService;
   }
 
-  async execute({ email, password, rememberme }) {
+  async execute({ email, password, rememberme, userAgent, ip }) {
     const userFound = await this.#userRepository.findByEmail(email);
 
     if (!userFound) throw new NotFoundError("User not found");
@@ -54,8 +57,24 @@ export default class LoginUseCase {
     const accessToken = this.#jwtService.signAccess(user._id, rememberme);
     const refreshToken = this.#jwtService.signRefresh(user._id, rememberme);
 
-    // generate a new session, send mail if is diferent(?)
+    const { exp } = jwt.decode(refreshToken);
+    const expiresAt = new Date(exp * 1000);
 
-    return { accessToken, refreshToken, user: user.sanitized() };
+    const sessionEntity = new SessionEntity({
+      userId: user._id,
+      refreshToken,
+      userAgent,
+      ip,
+      expiresAt,
+    });
+
+    const newSession = await this.#sessionRepository.create(sessionEntity);
+
+    return {
+      accessToken,
+      refreshToken,
+      user: user.sanitized(),
+      sessionId: newSession._id,
+    };
   }
 }

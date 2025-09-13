@@ -18,12 +18,40 @@ export default class AuthController {
     try {
       const { email, password, rememberme } = req.body;
 
-      const response = await this.#loginUseCase.execute({
-        email,
-        password,
-        rememberme,
+      const userAgent = req.get("user-agent") || "unknown";
+      const ip =
+        req.headers["x-forwarded-for"]?.split(",")[0] ||
+        req.socket.remoteAddress;
+
+      const { accessToken, refreshToken, user, sessionId } =
+        await this.#loginUseCase.execute({
+          email,
+          password,
+          rememberme,
+          userAgent,
+          ip,
+        });
+
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: "false",
+        sameSite: "Lax",
+        maxAge: 28 * 24 * 60 * 60 * 1000,
       });
-      return successResponse(res, response, "Auth retrieved successfully", 200);
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: "false",
+        sameSite: "Lax",
+        maxAge: 28 * 24 * 60 * 60 * 1000,
+      });
+
+      return successResponse(
+        res,
+        { user, sessionId },
+        "Auth retrieved successfully",
+        200
+      );
     } catch (error) {
       next(error);
     }

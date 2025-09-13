@@ -6,7 +6,6 @@ import path from "path";
 import errorMiddleware from "../infrastructure/http/middlewares/error.middleware.js";
 import Container from "./container.js";
 import MainRouter from "../infrastructure/http/routes/main.router.js";
-
 class Server {
   #app;
   #config;
@@ -27,8 +26,8 @@ class Server {
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    this.#app.use(express.static(path.join(__dirname, "../../public")));
 
+    this.#app.use(express.static(path.join(__dirname, "../../public")));
     this.#app.get("/", (req, res) => {
       res.sendFile(path.join(__dirname, "../../public", "index.html"));
     });

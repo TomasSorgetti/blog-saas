@@ -7,6 +7,7 @@ import JWTService from "../infrastructure/security/jwt.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
+import SessionRepository from "../infrastructure/database/repositories/session.repository.js";
 import SubscriptionRepository from "../infrastructure/database/repositories/subscription.repository.js";
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
 import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
@@ -65,6 +66,7 @@ export default class Container {
 
   #initializeRepositories() {
     this.#repositories.userRepository = new UserRepository(this.#config);
+    this.#repositories.sessionRepository = new SessionRepository(this.#config);
     this.#repositories.subscriptionRepository = new SubscriptionRepository(
       this.#config
     );
@@ -79,6 +81,7 @@ export default class Container {
     //auth
     this.#usecases.loginUseCase = new LoginUseCase({
       userRepository: this.#repositories.userRepository,
+      sessionRepository: this.#repositories.sessionRepository,
       jwtService: this.#services.jwtService,
       hashService: this.#services.hashService,
     });
