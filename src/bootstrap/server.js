@@ -27,10 +27,15 @@ class Server {
     this.#app.use(cors());
     this.#app.use(cookieParser());
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+    this.#app.use((req, res, next) => {
+      console.log(`Request: ${req.method} ${req.url}`);
+      next();
+    });
 
     this.#app.use(express.static(path.join(__dirname, "../../public")));
+
     this.#app.get("/", (req, res) => {
       res.sendFile(path.join(__dirname, "../../public", "index.html"));
     });

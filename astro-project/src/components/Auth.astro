@@ -1,0 +1,87 @@
+---
+import Request, { HttpMethod } from "./ui/Request.astro";
+
+const registerBody = {
+  username: "",
+  email: "",
+  password: "",
+};
+const registerResponse = {
+  status: 200,
+  message: "Verify your email",
+  details: {
+    tokenExpiresIn: "20m",
+  },
+};
+
+const loginBody = {
+  email: "tomassorgetti456@gmail.com",
+  password: "admin",
+  rememberme: false,
+};
+
+const loginResponse = {
+  success: true,
+  status: 200,
+  message: "Auth retrieved successfully",
+  data: {
+    user: {
+      id: "68c58bba1958b797be8bbd3b",
+      username: "Tomas Sorgetti",
+      email: "tomassorgetti456@gmail.com",
+      role: "user",
+      avatar: null,
+      isVerified: true,
+      lastLogin: "2025-09-13T18:01:31.626Z",
+      isActive: true,
+      loginMethods: [
+        {
+          provider: "email",
+          addedAt: "2025-09-13T15:20:26.419Z",
+          _id: "68c58bba1958b797be8bbd3c",
+        },
+      ],
+      twoFactorEnabled: false,
+      createdAt: "2025-09-13T15:20:26.419Z",
+      preferences: {
+        language: "en",
+        notifications: {
+          email: {
+            marketing: false,
+            productUpdates: true,
+            activity: true,
+          },
+          push: false,
+        },
+      },
+      subscription: "68c58bba1958b797be8bbd3e",
+    },
+    sessionId: "68c5b2e35b845580b407e1fc",
+  },
+};
+---
+
+<section id="auth" class="mt-10 lg:mt-20">
+  <h2 class="text-3xl">Autenticación</h2>
+  <div class="space-y-20 mt-20">
+    <Request
+      method={HttpMethod.POST}
+      url="/api/auth/register"
+      previewJSON={registerBody}
+      Response={registerResponse}
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/auth/login"
+      previewJSON={loginBody}
+      Response={loginResponse}
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/verify"
+      previewJSON={{ token: "abc123", userId: 1 }}
+      Response={{ status: 200, message: "Verification successful" }}
+      useQuery={true}
+    />
+  </div>
+</section>
