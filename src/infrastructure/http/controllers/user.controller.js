@@ -1,15 +1,19 @@
 import successResponse from "../utils/success-response.js";
 
 export default class UserController {
-  constructor() {}
+  #getProfileUseCase;
+
+  constructor({ getProfileUseCase }) {
+    this.#getProfileUseCase = getProfileUseCase;
+  }
 
   async profile(req, res, next) {
     try {
       const user = req.user;
-      console.log("USER: ", user);
 
-      const data = user;
-      return successResponse(res, data, "Users retrieved successfully", 200);
+      const data = await this.#getProfileUseCase.execute(user.id);
+      
+      return successResponse(res, data, "User retrieved successfully", 200);
     } catch (error) {
       next(error);
     }

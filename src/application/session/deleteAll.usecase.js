@@ -1,10 +1,3 @@
-import {
-  NotFoundError,
-  InvalidCredentialsError,
-  UnauthorizedError,
-} from "../../domain/errors/index.js";
-import SessionEntity from "../../domain/entities/session.entity.js";
-
 export default class DeleteAllSessionsUseCase {
   #sessionRepository;
 

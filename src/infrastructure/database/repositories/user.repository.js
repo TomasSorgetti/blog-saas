@@ -14,7 +14,10 @@ class UserRepository {
 
   async findById(id) {
     try {
-      const user = await this.#model.findById(id).lean().exec();
+      const user = await this.#model
+        .findById(id)
+        .populate("subscription")
+        .exec();
       if (!user) throw new NotFoundError("User not found");
       return user;
     } catch (err) {
