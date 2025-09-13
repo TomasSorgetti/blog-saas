@@ -1,0 +1,32 @@
+---
+import Request, { HttpMethod } from "./ui/Request.astro";
+
+const getAllSessionsBody = {};
+const getAllSessionsResponse = {
+  success: true,
+  status: 200,
+  message: "Sessions retrieved successfully",
+  data: [
+    {
+      userId: "68c5f0ee2004494584bb22ac",
+      userAgent: "PostmanRuntime/7.46.0",
+      ip: "172.21.0.1",
+      expiresAt: "2025-09-20T22:37:51.000Z",
+      isValid: true,
+      createdAt: "2025-09-13T22:37:58.631Z",
+    },
+  ],
+};
+---
+
+<section id="session" class="mt-10 lg:mt-20">
+  <h2 class="text-3xl">Sessión</h2>
+  <div class="space-y-20 mt-20">
+    <Request
+      method={HttpMethod.GET}
+      url="/api/sessions/"
+      previewJSON={getAllSessionsBody}
+      Response={getAllSessionsResponse}
+    />
+  </div>
+</section>

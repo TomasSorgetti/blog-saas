@@ -119,12 +119,12 @@ export default class AuthController {
     try {
       const refreshToken = req.cookies?.refreshToken;
 
-      const { newAccessToken, newRefreshToken } =
+      const { newAccesToken, newRefreshToken } =
         await this.#refreshUseCase.execute({
           refreshToken,
         });
 
-      res.cookie("accessToken", newAccessToken, {
+      res.cookie("accessToken", newAccesToken, {
         httpOnly: true,
         secure: "false",
         sameSite: "Lax",

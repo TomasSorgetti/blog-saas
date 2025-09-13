@@ -36,7 +36,9 @@ export default class RefreshUseCase {
       }
     }
 
-    const session = this.#sessionRepository.findByRefreshToken(refreshToken);
+    const session = await this.#sessionRepository.findByRefreshToken(
+      refreshToken
+    );
 
     const newAccesToken = this.#jwtService.signAccess(
       payload.userId,
