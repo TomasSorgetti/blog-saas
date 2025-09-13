@@ -1,12 +1,14 @@
 import bcrypt from "bcryptjs";
 
 export default class HashService {
+  #saltRounds;
+
   constructor({ saltRounds = 10 }) {
-    this.saltRounds = saltRounds;
+    this.#saltRounds = saltRounds;
   }
 
   async hash(password) {
-    const salt = await bcrypt.genSalt(this.saltRounds);
+    const salt = await bcrypt.genSalt(this.#saltRounds);
     return bcrypt.hash(password, salt);
   }
 

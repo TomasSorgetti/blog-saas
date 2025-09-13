@@ -1,7 +1,12 @@
-// infrastructure/security/jwtService.js
 import jwt from "jsonwebtoken";
 
 export default class JWTService {
+  #accessSecret;
+  #refreshSecret;
+  #defaultAccessExpires;
+  #defaultRefreshExpires;
+  #rememberMultiplier;
+
   constructor({
     accessSecret,
     refreshSecret,
@@ -9,62 +14,55 @@ export default class JWTService {
     refreshExpires = "7d",
   }) {
     if (!accessSecret || !refreshSecret) throw new Error("JWT secrets not set");
-    this.accessSecret = accessSecret;
-    this.refreshSecret = refreshSecret;
-    this.defaultAccessExpires = accessExpires;
-    this.defaultRefreshExpires = refreshExpires;
 
-    this.rememberMultiplier = {
-      access: 7,
-      refresh: 4,
-    };
+    this.#accessSecret = accessSecret;
+    this.#refreshSecret = refreshSecret;
+    this.#defaultAccessExpires = accessExpires;
+    this.#defaultRefreshExpires = refreshExpires;
+    this.#rememberMultiplier = { access: 7, refresh: 4 };
   }
 
   signAccess(userId, rememberMe = false) {
     const expiresIn = rememberMe
       ? `${
-          parseInt(this.defaultAccessExpires) * this.rememberMultiplier.access
+          parseInt(this.#defaultAccessExpires) * this.#rememberMultiplier.access
         }h`
-      : this.defaultAccessExpires;
+      : this.#defaultAccessExpires;
 
-    const payload = { userId, rememberMe };
-    return jwt.sign(payload, this.accessSecret, { expiresIn });
+    return jwt.sign({ userId, rememberMe }, this.#accessSecret, { expiresIn });
   }
 
   signRefresh(userId, rememberMe = false) {
     const expiresIn = rememberMe
       ? `${
-          parseInt(this.defaultRefreshExpires) * this.rememberMultiplier.refresh
+          parseInt(this.#defaultRefreshExpires) *
+          this.#rememberMultiplier.refresh
         }d`
-      : this.defaultRefreshExpires;
+      : this.#defaultRefreshExpires;
 
-    const payload = { userId, rememberMe };
-    return jwt.sign(payload, this.refreshSecret, { expiresIn });
+    return jwt.sign({ userId, rememberMe }, this.#refreshSecret, { expiresIn });
   }
 
   signCode(userId) {
-    const expiresIn = "1h";
-    const payload = { userId };
-    return jwt.sign(payload, this.accessSecret, { expiresIn });
+    return jwt.sign({ userId }, this.#accessSecret, { expiresIn: "1h" });
   }
 
   verifyAccess(token) {
-    return this.verifyToken(token, this.accessSecret);
+    return this.verifyToken(token, this.#accessSecret);
   }
-  
+
   verifyRefresh(token) {
-    return this.verifyToken(token, this.refreshSecret);
+    return this.verifyToken(token, this.#refreshSecret);
   }
-  
-  verifyCode (token) {
-    return this.verifyToken(token, this.accessSecret);
+
+  verifyCode(token) {
+    return this.verifyToken(token, this.#accessSecret);
   }
-  
+
   verifyToken(token, secret) {
     try {
-      const decoded = jwt.verify(token, secret);
-      return decoded; // { userId, rememberMe, iat, exp }
-    } catch (err) {
+      return jwt.verify(token, secret);
+    } catch {
       throw new Error("Invalid token");
     }
   }
