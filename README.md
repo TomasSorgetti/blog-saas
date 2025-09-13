@@ -71,17 +71,28 @@ Add a .env file with this variables
 PORT=8080
 NODE_ENV=development
 API_URL=http://localhost
-FRONT_URL=http://localhost:5173
+FRONT_URL=http://localhost:4321
+
+# security
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+HASH_SALT_ROUNDS=10
 
 # MongoDB
 MONGO_URL=mongodb://mongo:27017
-MONGO_DB_NAME=parcial_express
+MONGO_DB_NAME=blog_saas
 
 # Redis
 REDIS_URL=redis://redis:6379
 
 # Elasticsearch
 ELASTICSEARCH_URL=http://elasticsearch:9200
+
+# RabbitMQ queue
+RABBIT_URL=amqp://user:password@rabbitmq:5672/
+
+# Email resend
+RESEND_API_KEY=your_resend_api_key
 ```
 
 ### start project

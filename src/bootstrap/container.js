@@ -2,6 +2,7 @@
 import RedisService from "../infrastructure/adapters/cache/service.js";
 import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
 import RabbitService from "../infrastructure/adapters/queue/service.js";
+import EmailService from "../infrastructure/adapters/email/service.js";
 import HashService from "../infrastructure/security/hash.js";
 import JWTService from "../infrastructure/security/jwt.js";
 
@@ -50,6 +51,7 @@ export default class Container {
 
   #initializeServices() {
     this.#services.redisService = new RedisService(this.#config.redis);
+    this.#services.emailService = new EmailService(this.#config.email);
     this.#services.elasticsearchService = new ElasticsearchService(
       this.#config.elastic
     );
@@ -91,6 +93,7 @@ export default class Container {
       subscriptionRepository: this.#repositories.subscriptionRepository,
       hashService: this.#services.hashService,
       jwtService: this.#services.jwtService,
+      emailService: this.#services.emailService,
     });
     this.#usecases.verifyUseCase = new VerifyUseCase({
       userRepository: this.#repositories.userRepository,

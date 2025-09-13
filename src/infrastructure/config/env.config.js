@@ -14,6 +14,7 @@ const env = cleanEnv(process.env, {
   JWT_ACCESS_SECRET: str({ default: "your_jwt_access_secret" }),
   JWT_REFRESH_SECRET: str({ default: "your_jwt_refresh_secret" }),
   HASH_SALT_ROUNDS: port({ default: 10 }),
+  RESEND_API_KEY: str({ default: "your_resend_api_key" }),
 });
 
 export default env;

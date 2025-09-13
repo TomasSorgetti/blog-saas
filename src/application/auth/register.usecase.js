@@ -7,17 +7,20 @@ export default class RegisterUseCase {
   #subscriptionRepository;
   #hashService;
   #jwtService;
+  #emailService;
 
   constructor({
     userRepository,
     subscriptionRepository,
     hashService,
     jwtService,
+    emailService,
   }) {
     this.#userRepository = userRepository;
     this.#subscriptionRepository = subscriptionRepository;
     this.#hashService = hashService;
     this.#jwtService = jwtService;
+    this.#emailService = emailService;
   }
 
   async execute({ username, email, password, preferences }) {
@@ -60,12 +63,21 @@ export default class RegisterUseCase {
       verificationTokenExpires,
     });
 
-    // todo => send verification email with the link with token
-    console.log(verificationToken);
+    const emailSent = await this.#emailService.sendEmail({
+      to: newUser.email,
+      subject: "Verify your email",
+      html: `
+        <h1>Verify your email</h1>
+        <a href='http://localhost:4321/verify-email&token=${verificationToken}'>Verify email</a>
+      `,
+    });
+
+    console.log(emailSent);
 
     return {
       username: newUser.username,
       email: newUser.email,
+      tokenExpiresIn: verificationTokenExpires,
     };
   }
 }

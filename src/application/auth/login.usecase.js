@@ -1,6 +1,7 @@
 import {
   NotFoundError,
   InvalidCredentialsError,
+  UnauthorizedError,
 } from "../../domain/errors/index.js";
 import UserEntity from "../../domain/entities/user.entity.js";
 import SessionEntity from "../../domain/entities/session.entity.js";
@@ -28,8 +29,8 @@ export default class LoginUseCase {
 
     const user = new UserEntity(userFound);
 
-    if (userFound.isVerified) {
-      throw new UnauthorizedError("User no verified");
+    if (!user.isVerified) {
+      throw new UnauthorizedError("User not verified");
     }
 
     if (user.deletedAt) {
