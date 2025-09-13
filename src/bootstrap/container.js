@@ -18,6 +18,7 @@ import CommentRepository from "../infrastructure/database/repositories/comment.r
 import LoginUseCase from "../application/auth/login.usecase.js";
 import RegisterUseCase from "../application/auth/register.usecase.js";
 import VerifyUseCase from "../application/auth/verify.usecase.js";
+import LogoutUseCase from "../application/auth/logout.usecase.js";
 
 //article usecases
 import GetArticlesUseCase from "../application/article/getArticles.usecase.js";
@@ -95,6 +96,9 @@ export default class Container {
       userRepository: this.#repositories.userRepository,
       jwtService: this.#services.jwtService,
     });
+    this.#usecases.logoutUseCase = new LogoutUseCase({
+      sessionRepository: this.#repositories.sessionRepository,
+    });
     //article
     this.#usecases.getArticlesUseCase = new GetArticlesUseCase({
       articleRepository: this.#repositories.articleRepository,
@@ -124,6 +128,7 @@ export default class Container {
       loginUseCase: this.#usecases.loginUseCase,
       registerUseCase: this.#usecases.registerUseCase,
       verifyUseCase: this.#usecases.verifyUseCase,
+      logoutUseCase: this.#usecases.logoutUseCase,
     });
     this.#controllers.userController = new UserController({});
     this.#controllers.articleController = new ArticleController({

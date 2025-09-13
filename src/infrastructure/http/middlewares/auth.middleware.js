@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import {
   UnauthorizedError,
   BadRequestError,
@@ -6,15 +7,13 @@ import {
 export default function authMiddleware(jwtService) {
   return (req, res, next) => {
     try {
-      const token =
-        req.cookies?.accessToken || req.headers["authorization"]?.split(" ")[1];
+      const token = req.cookies?.accessToken;
 
       if (!token) {
         throw new BadRequestError("Access token required");
       }
 
       let payload;
-
       try {
         payload = jwtService.verifyAccess(token);
       } catch (err) {
@@ -38,7 +37,11 @@ export default function authMiddleware(jwtService) {
 
       next();
     } catch (err) {
-      next(new UnauthorizedError("Invalid or expired access token"));
+      if (err instanceof BadRequestError || err instanceof UnauthorizedError) {
+        next(err);
+      } else {
+        next(new UnauthorizedError("Invalid or expired access token"));
+      }
     }
   };
 }

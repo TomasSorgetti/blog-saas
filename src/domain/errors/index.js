@@ -1,7 +1,7 @@
 import CustomError from "./CustomError.js";
 import ERROR_CODES from "./errorCodes.js";
 
-export default class BadRequestError extends CustomError {
+class BadRequestError extends CustomError {
   constructor(message = "Bad request", details = {}) {
     super(message, ERROR_CODES.GENERAL.BAD_REQUEST, 400, details);
   }

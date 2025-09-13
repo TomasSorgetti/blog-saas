@@ -4,14 +4,16 @@ export default class AuthController {
   #loginUseCase;
   #registerUseCase;
   #verifyUseCase;
+  #logoutUseCase;
 
-  constructor({ loginUseCase, registerUseCase, verifyUseCase }) {
+  constructor({ loginUseCase, registerUseCase, verifyUseCase, logoutUseCase }) {
     if (!loginUseCase || !registerUseCase) {
       throw new Error("dependency required");
     }
     this.#loginUseCase = loginUseCase;
     this.#registerUseCase = registerUseCase;
     this.#verifyUseCase = verifyUseCase;
+    this.#logoutUseCase = logoutUseCase;
   }
 
   async login(req, res, next) {
@@ -116,8 +118,25 @@ export default class AuthController {
 
   async logout(req, res, next) {
     try {
-      const data = {};
-      return successResponse(res, data, "Auth retrieved successfully", 200);
+      const refreshToken = req?.cookies.refreshToken;
+
+      const data = await this.#logoutUseCase.execute({ refreshToken });
+
+      res.clearCookie("accessToken", {
+        httpOnly: true,
+        sameSite: "Lax",
+        secure: false,
+        path: "/",
+      });
+
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        sameSite: "Lax",
+        secure: false,
+        path: "/",
+      });
+
+      return successResponse(res, data, "Log out successfully", 200);
     } catch (error) {
       next(error);
     }
