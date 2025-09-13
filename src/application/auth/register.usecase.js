@@ -7,25 +7,29 @@ export default class RegisterUseCase {
   #subscriptionRepository;
   #hashService;
   #jwtService;
-  #emailService;
+  // #emailService;
+  #rabbitService;
+  #env;
 
   constructor({
     userRepository,
     subscriptionRepository,
     hashService,
     jwtService,
-    emailService,
+    // emailService,
+    rabbitService,
+    env,
   }) {
     this.#userRepository = userRepository;
     this.#subscriptionRepository = subscriptionRepository;
     this.#hashService = hashService;
     this.#jwtService = jwtService;
-    this.#emailService = emailService;
+    // this.#emailService = emailService;
+    this.#rabbitService = rabbitService;
+    this.#env = env;
   }
 
   async execute({ username, email, password, preferences }) {
-    // todo => use a queue to create an user
-
     const existingUser = await this.#userRepository.findByEmail(email);
     if (existingUser) {
       throw new AlreadyExistsError("User allready exists");
@@ -63,16 +67,26 @@ export default class RegisterUseCase {
       verificationTokenExpires,
     });
 
-    const emailSent = await this.#emailService.sendEmail({
+    // const emailSent = await this.#emailService.sendEmail({
+    //   to: newUser.email,
+    //   subject: "Verify your email",
+    //   html: `
+    //     <h1>Verify your email</h1>
+    //     <a href='http://localhost:4321/verify-email&token=${verificationToken}'>Verify email</a>
+    //   `,
+    // });
+
+    await this.#rabbitService.publish("email_queue", {
+      type: "VERIFY_EMAIL",
       to: newUser.email,
       subject: "Verify your email",
       html: `
         <h1>Verify your email</h1>
-        <a href='http://localhost:4321/verify-email&token=${verificationToken}'>Verify email</a>
+        <a href='${
+          this.#env.FRONT_URL
+        }/verify-email&token=${verificationToken}'>Verify email</a>
       `,
     });
-
-    console.log(emailSent);
 
     return {
       username: newUser.username,

@@ -57,7 +57,6 @@ export default class UserRouter {
       "/me",
       this.#controller.deleteProfile.bind(this.#controller)
     );
-
     /**
      * @GET /api/users/all
      */

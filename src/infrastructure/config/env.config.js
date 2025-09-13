@@ -6,6 +6,7 @@ dotenvConfig();
 const env = cleanEnv(process.env, {
   PORT: port({ default: 8080 }),
   API_URL: str({ default: "http://localhost" }),
+  FRONT_URL: str({ default: "http://localhost:4321" }),
   MONGO_URL: str({ default: "mongodb://localhost:27017/" }),
   MONGO_DB_NAME: str({ default: "blog_saas" }),
   REDIS_URL: str({ default: "redis://redis:6379" }),

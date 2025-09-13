@@ -17,6 +17,7 @@ services:
       - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
       - RABBIT_URL=${RABBIT_URL}
       - HASH_SALT_ROUNDS=${HASH_SALT_ROUNDS}
+      - RESEND_API_KEY=${RESEND_API_KEY}
     depends_on:
       mongo:
         condition: service_healthy
@@ -112,6 +113,20 @@ services:
       - blog-network
     logging:
       driver: "none"
+
+  worker_email:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: node src/infrastructure/workers/email.worker.js
+    restart: unless-stopped
+    environment:
+      - RABBIT_URL=amqp://user:password@rabbitmq:5672
+      - RESEND_API_KEY=${RESEND_API_KEY}
+    depends_on:
+      - rabbitmq
+    networks:
+      - blog-network
 
 volumes:
   mongo-data:
