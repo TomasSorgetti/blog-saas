@@ -5,7 +5,10 @@ export default class UserController {
 
   async profile(req, res, next) {
     try {
-      const data = {};
+      const user = req.user;
+      console.log("USER: ", user);
+
+      const data = user;
       return successResponse(res, data, "Users retrieved successfully", 200);
     } catch (error) {
       next(error);

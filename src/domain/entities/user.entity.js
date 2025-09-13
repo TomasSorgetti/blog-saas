@@ -2,7 +2,7 @@ import { InvalidInputError } from "../errors/index.js";
 
 export default class UserEntity {
   constructor({
-    id = null,
+    _id = null,
     username,
     email,
     password = null,
@@ -27,7 +27,7 @@ export default class UserEntity {
     if (!email) throw new InvalidInputError("Email is required");
     if (!username) throw new InvalidInputError("Username is required");
 
-    this.id = id;
+    this.id = _id?.toString() || _id || null;
     this.username = username;
     this.email = email.toLowerCase();
     this.password = password;

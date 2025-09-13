@@ -1,11 +1,13 @@
 import express from "express";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import path from "path";
 import errorMiddleware from "../infrastructure/http/middlewares/error.middleware.js";
 import Container from "./container.js";
 import MainRouter from "../infrastructure/http/routes/main.router.js";
+
 class Server {
   #app;
   #config;
@@ -23,6 +25,7 @@ class Server {
     this.#app.use(express.json());
     this.#app.use(morgan("dev"));
     this.#app.use(cors());
+    this.#app.use(cookieParser());
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);

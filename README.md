@@ -110,15 +110,17 @@ Test endpoints at
 │ ├── application
 │ │ └── usecases
 │ │
-│ ├── config
-│ │ ├── index.js
-│ │ └── env.config
-│ │
 │ ├── infrastructure
 │ │ ├── database
 │ │ │ ├── repositories/
 │ │ │ ├── schemas/
 │ │ │ └── database.js
+│ │ ├── config
+│ │ │ ├── env.config.js
+│ │ │ └── index.js
+│ │ ├── secure
+│ │ │ ├── jwt.js
+│ │ │ └── hash.js
 │ │ ├── http
 │ │ │   ├── controllers
 │ │ │   ├── middlewares

@@ -1,15 +1,22 @@
 import express from "express";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class UserRouter {
   #router;
   #controller;
+  #jwtService;
+  #authMiddleware;
 
-  constructor({ userController }) {
+  constructor({ userController, jwtService }) {
     if (!userController) {
       throw new Error("UserController is required");
     }
     this.#router = express.Router();
     this.#controller = userController;
+    this.#jwtService = jwtService;
+
+    this.#authMiddleware = authMiddleware(this.#jwtService);
+
     this.#setupRoutes();
   }
 
@@ -17,7 +24,11 @@ export default class UserRouter {
     /**
      * @GET /api/users/me
      */
-    this.#router.get("/me", this.#controller.profile.bind(this.#controller));
+    this.#router.get(
+      "/me",
+      this.#authMiddleware,
+      this.#controller.profile.bind(this.#controller)
+    );
     /**
      * @PATCH /api/users/me
      */

@@ -54,14 +54,14 @@ export default class LoginUseCase {
       throw new InvalidCredentialsError("Wrong password");
     }
 
-    const accessToken = this.#jwtService.signAccess(user._id, rememberme);
-    const refreshToken = this.#jwtService.signRefresh(user._id, rememberme);
+    const accessToken = this.#jwtService.signAccess(user.id, rememberme);
+    const refreshToken = this.#jwtService.signRefresh(user.id, rememberme);
 
-    const { exp } = jwt.decode(refreshToken);
+    const { exp } = this.#jwtService.verifyRefresh(refreshToken);
     const expiresAt = new Date(exp * 1000);
 
     const sessionEntity = new SessionEntity({
-      userId: user._id,
+      userId: user.id,
       refreshToken,
       userAgent,
       ip,

@@ -1,6 +1,12 @@
 import CustomError from "./CustomError.js";
 import ERROR_CODES from "./errorCodes.js";
 
+export default class BadRequestError extends CustomError {
+  constructor(message = "Bad request", details = {}) {
+    super(message, ERROR_CODES.GENERAL.BAD_REQUEST, 400, details);
+  }
+}
+
 // Errores de autenticación
 class UnauthorizedError extends CustomError {
   constructor(message = "Unauthorized access", details = {}) {
@@ -73,6 +79,7 @@ class MissingFieldError extends CustomError {
 
 export {
   CustomError,
+  BadRequestError,
   UnauthorizedError,
   InvalidCredentialsError,
   TokenExpiredError,
