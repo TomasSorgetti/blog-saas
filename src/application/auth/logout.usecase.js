@@ -14,9 +14,6 @@ export default class LogoutUseCase {
 
     const deletedSession = await this.#sessionRepository.deleteById(sessionId);
 
-    return {
-      userId: deletedSession.userId,
-      loggedOutAt: new Date().toISOString(),
-    };
+    return;
   }
 }

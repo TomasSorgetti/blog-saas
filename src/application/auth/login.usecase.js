@@ -59,10 +59,10 @@ export default class LoginUseCase {
     }
 
     const refreshToken = this.#jwtService.signRefresh(user.id, rememberme);
-    
+
     const { exp } = this.#jwtService.verifyRefresh(refreshToken);
     const expiresAt = new Date(exp * 1000);
-    
+
     const sessionEntity = new SessionEntity({
       userId: user.id,
       refreshToken,
@@ -70,12 +70,12 @@ export default class LoginUseCase {
       ip,
       expiresAt,
     });
-    
+
     const newSession = await this.#sessionRepository.create(sessionEntity);
-    
+
     const accessToken = this.#jwtService.signAccess(
       user.id,
-      newSession._id,
+      newSession._id.toString(),
       rememberme
     );
 

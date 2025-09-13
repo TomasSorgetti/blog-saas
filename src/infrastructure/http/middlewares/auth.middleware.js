@@ -32,6 +32,7 @@ export default function authMiddleware(jwtService) {
 
       req.user = {
         id: payload.userId.toString(),
+        sessionId: payload.sessionId.toString(),
         rememberMe: payload.rememberMe || false,
       };
 

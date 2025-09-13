@@ -110,10 +110,10 @@ class SessionRepository {
       throw new RepositoryError(err.message);
     }
   }
-  
+
   async deleteById(id) {
     try {
-      const deleted = await this.#model.findOneAndDelete({ id }).lean();
+      const deleted = await this.#model.findOneAndDelete({ _id: id }).lean();
       if (!deleted) throw new NotFoundError("Session not found");
       return deleted;
     } catch (err) {

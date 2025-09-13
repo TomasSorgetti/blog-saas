@@ -5,8 +5,15 @@ export default class AuthController {
   #registerUseCase;
   #verifyUseCase;
   #logoutUseCase;
+  #refreshUseCase;
 
-  constructor({ loginUseCase, registerUseCase, verifyUseCase, logoutUseCase }) {
+  constructor({
+    loginUseCase,
+    registerUseCase,
+    verifyUseCase,
+    logoutUseCase,
+    refreshUseCase,
+  }) {
     if (!loginUseCase || !registerUseCase) {
       throw new Error("dependency required");
     }
@@ -14,6 +21,7 @@ export default class AuthController {
     this.#registerUseCase = registerUseCase;
     this.#verifyUseCase = verifyUseCase;
     this.#logoutUseCase = logoutUseCase;
+    this.#refreshUseCase = refreshUseCase;
   }
 
   async login(req, res, next) {
@@ -109,8 +117,28 @@ export default class AuthController {
 
   async refreshToken(req, res, next) {
     try {
-      const data = {};
-      return successResponse(res, data, "Auth retrieved successfully", 200);
+      const refreshToken = req.cookies?.refreshToken;
+
+      const { newAccessToken, newRefreshToken } =
+        await this.#refreshUseCase.execute({
+          refreshToken,
+        });
+
+      res.cookie("accessToken", newAccessToken, {
+        httpOnly: true,
+        secure: "false",
+        sameSite: "Lax",
+        maxAge: 28 * 24 * 60 * 60 * 1000,
+      });
+
+      res.cookie("refreshToken", newRefreshToken, {
+        httpOnly: true,
+        secure: "false",
+        sameSite: "Lax",
+        maxAge: 28 * 24 * 60 * 60 * 1000,
+      });
+
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
@@ -120,7 +148,7 @@ export default class AuthController {
     try {
       const { sessionId } = req.user;
 
-      const data = await this.#logoutUseCase.execute({sessionId});
+      const data = await this.#logoutUseCase.execute({ sessionId });
 
       res.clearCookie("accessToken", {
         httpOnly: true,
@@ -136,7 +164,7 @@ export default class AuthController {
         path: "/",
       });
 
-      return successResponse(res, data, "Log out successfully", 200);
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

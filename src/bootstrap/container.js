@@ -20,6 +20,7 @@ import LoginUseCase from "../application/auth/login.usecase.js";
 import RegisterUseCase from "../application/auth/register.usecase.js";
 import VerifyUseCase from "../application/auth/verify.usecase.js";
 import LogoutUseCase from "../application/auth/logout.usecase.js";
+import RefreshUseCase from "../application/auth/refresh.usecase.js";
 //user usecases
 import GetProfileUseCase from "../application/user/profile.usecase.js";
 //session usecases
@@ -110,6 +111,10 @@ export default class Container {
     this.#usecases.logoutUseCase = new LogoutUseCase({
       sessionRepository: this.#repositories.sessionRepository,
     });
+    this.#usecases.refreshUseCase = new RefreshUseCase({
+      sessionRepository: this.#repositories.sessionRepository,
+      jwtService: this.#services.jwtService,
+    });
     //user
     this.#usecases.getProfileUseCase = new GetProfileUseCase({
       userRepository: this.#repositories.userRepository,
@@ -156,6 +161,7 @@ export default class Container {
       registerUseCase: this.#usecases.registerUseCase,
       verifyUseCase: this.#usecases.verifyUseCase,
       logoutUseCase: this.#usecases.logoutUseCase,
+      refreshUseCase: this.#usecases.refreshUseCase,
     });
 
     this.#controllers.userController = new UserController({
