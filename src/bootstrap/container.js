@@ -10,6 +10,8 @@ import JWTService from "../infrastructure/security/jwt.js";
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
 import SessionRepository from "../infrastructure/database/repositories/session.repository.js";
 import SubscriptionRepository from "../infrastructure/database/repositories/subscription.repository.js";
+import PlanRepository from "../infrastructure/database/repositories/plan.repository.js";
+import WorkbenchRepository from "../infrastructure/database/repositories/workbench.repository.js";
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
 import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
 import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
@@ -80,6 +82,10 @@ export default class Container {
     this.#repositories.subscriptionRepository = new SubscriptionRepository(
       this.#config
     );
+    this.#repositories.planRepository = new PlanRepository(this.#config);
+    this.#repositories.workbenchRepository = new WorkbenchRepository(
+      this.#config
+    );
     this.#repositories.articleRepository = new ArticleRepository(this.#config);
     this.#repositories.categoryRepository = new CategoryRepository(
       this.#config
@@ -98,9 +104,10 @@ export default class Container {
     this.#usecases.registerUseCase = new RegisterUseCase({
       userRepository: this.#repositories.userRepository,
       subscriptionRepository: this.#repositories.subscriptionRepository,
+      planRepository: this.#services.planRepository,
+      workbenchRepository: this.#services.workbenchRepository,
       hashService: this.#services.hashService,
       jwtService: this.#services.jwtService,
-      // emailService: this.#services.emailService,
       rabbitService: this.#services.rabbitService,
       env: this.#config.env,
     });

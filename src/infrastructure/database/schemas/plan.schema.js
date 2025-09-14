@@ -1,7 +1,12 @@
+import mongoose from "mongoose";
+
 const planSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
-    price: { type: Number, required: true },
+    price: {
+      monthly: { type: Number, default: 0 },
+      yearly: { type: Number, default: 0 },
+    },
     currency: { type: String, default: "USD" },
     features: {
       workbenches: { type: Number, default: 1 },

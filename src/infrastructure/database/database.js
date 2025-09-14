@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
+// schemas
 import User from "./schemas/user.schema.js";
 import Session from "./schemas/session.schema.js";
 import Subscription from "./schemas/subscription.schema.js";
 import Article from "./schemas/article.schema.js";
 import Category from "./schemas/category.schema.js";
+import Plan from "./schemas/plan.schema.js";
+import Workbench from "./schemas/workbench.schema.js";
+import Notification from "./schemas/notification.schema.js";
+import ApiKey from "./schemas/apikey.schema.js";
+
+// seeds
+import seedPlans from "./seeds/plan.seed.js";
 
 export const connectDB = async (dbUrl) => {
   if (!dbUrl) {
@@ -21,12 +29,20 @@ export const connectDB = async (dbUrl) => {
       minPoolSize: 2,
     });
     console.log("MongoDB connected");
+
+    await seedPlans(Plan);
+    console.log("Seeds created");
+
     return {
       mongoose,
       models: {
         User,
         Session,
         Subscription,
+        Plan,
+        Workbench,
+        Notification,
+        ApiKey,
         Article,
         Category,
       },

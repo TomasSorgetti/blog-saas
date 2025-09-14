@@ -91,4 +91,29 @@ export default class UserEntity {
       subscription: this.subscription,
     };
   }
+
+  toObject() {
+    return {
+      username: this.username,
+      email: this.email,
+      password: this.password,
+      role: this.role,
+      avatar: this.avatar,
+      isVerified: this.isVerified,
+      verificationToken: this.verificationToken,
+      verificationTokenExpires: this.verificationTokenExpires,
+      resetToken: this.resetToken,
+      resetTokenExpires: this.resetTokenExpires,
+      lastLogin: this.lastLogin,
+      isActive: this.isActive,
+      deletedAt: this.deletedAt,
+      loginMethods: this.loginMethods,
+      twoFactorEnabled: this.twoFactorEnabled,
+      twoFactorSecret: this.twoFactorSecret,
+      createdAt: this.createdAt,
+      preferences: this.preferences,
+      subscription: this.subscription,
+      sessions: this.sessions,
+    };
+  }
 }
