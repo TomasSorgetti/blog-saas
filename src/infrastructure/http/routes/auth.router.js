@@ -40,15 +40,6 @@ export default class AuthRouter {
     );
 
     /**
-     * @GET /api/auth/check-email
-     */
-    this.#router.get(
-      "/check-email",
-      AuthValidation.checkEmail().handle,
-      this.#controller.checkEmail.bind(this.#controller)
-    );
-
-    /**
      * @POST /api/auth/verify
      */
     this.#router.post(

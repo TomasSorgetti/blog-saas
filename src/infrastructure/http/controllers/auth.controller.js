@@ -14,9 +14,6 @@ export default class AuthController {
     logoutUseCase,
     refreshUseCase,
   }) {
-    if (!loginUseCase || !registerUseCase) {
-      throw new Error("dependency required");
-    }
     this.#loginUseCase = loginUseCase;
     this.#registerUseCase = registerUseCase;
     this.#verifyUseCase = verifyUseCase;
@@ -82,15 +79,6 @@ export default class AuthController {
         "User registered successfully. Please verify your email to activate your account.",
         200
       );
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async checkEmail(req, res, next) {
-    try {
-      const data = {};
-      return successResponse(res, data, "Auth retrieved successfully", 200);
     } catch (error) {
       next(error);
     }

@@ -57,10 +57,6 @@ const articleSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    // author: {
-    //   type: String,
-    //   trim: true,
-    // },
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   },
   { timestamps: true }
