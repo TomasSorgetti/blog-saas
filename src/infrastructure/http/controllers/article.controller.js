@@ -64,19 +64,11 @@ export default class ArticleController {
 
   async createPost(req, res, next) {
     try {
-      const {
-        title,
-        slug,
-        content,
-        summary,
-        author,
-        tags,
-        status,
-        image,
-        isFeatured,
-      } = req.body;
+      const author = req?.user?.id;
+      const { title, slug, content, summary, tags, status, image, isFeatured } =
+        req.body;
 
-      const article = await this.#createArticleUseCase.execute({
+      await this.#createArticleUseCase.execute({
         title,
         slug,
         content,
@@ -87,12 +79,8 @@ export default class ArticleController {
         image,
         isFeatured,
       });
-      return successResponse(
-        res,
-        article,
-        "Article retrieved successfully",
-        200
-      );
+
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

@@ -1,16 +1,22 @@
 import express from "express";
 import ArticleValidation from "../middlewares/validators/article.validators.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class ArticleRouter {
   #router;
   #controller;
+  #jwtService;
+  #authMiddleware;
 
-  constructor({ articleController }) {
+  constructor({ articleController, jwtService }) {
     if (!articleController) {
       throw new Error("articleController is required");
     }
     this.#router = express.Router();
     this.#controller = articleController;
+    this.#jwtService = jwtService;
+
+    this.#authMiddleware = authMiddleware(this.#jwtService);
     this.#setupRoutes();
   }
 
@@ -45,6 +51,7 @@ export default class ArticleRouter {
     this.#router.post(
       "/",
       ArticleValidation.create().handle,
+      this.#authMiddleware,
       this.#controller.createPost.bind(this.#controller)
     );
     /**

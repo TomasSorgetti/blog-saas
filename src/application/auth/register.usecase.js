@@ -59,7 +59,6 @@ export default class RegisterUseCase {
     const verificationToken = this.#jwtService.signCode(newUser._id);
     const verificationTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
 
-    // subscription
     const subscription = new SubscriptionEntity({
       userId: newUser._id,
       planId: freePlan._id,
@@ -69,7 +68,6 @@ export default class RegisterUseCase {
       subscription.toObject()
     );
 
-    // workbench
     const workbenchEntity = new WorkbenchEntity({
       name: "My Workspace",
       owner: newUser._id,

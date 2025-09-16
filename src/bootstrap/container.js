@@ -104,8 +104,8 @@ export default class Container {
     this.#usecases.registerUseCase = new RegisterUseCase({
       userRepository: this.#repositories.userRepository,
       subscriptionRepository: this.#repositories.subscriptionRepository,
-      planRepository: this.#services.planRepository,
-      workbenchRepository: this.#services.workbenchRepository,
+      planRepository: this.#repositories.planRepository,
+      workbenchRepository: this.#repositories.workbenchRepository,
       hashService: this.#services.hashService,
       jwtService: this.#services.jwtService,
       rabbitService: this.#services.rabbitService,
