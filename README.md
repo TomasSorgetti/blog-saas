@@ -5,7 +5,7 @@ El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de s
 
 ---
 ![1](https://github.com/user-attachments/assets/667f9e87-c8bb-4600-b168-c67359c5ed7f)
-![2](https://github.com/user-attachments/assets/5f8ee22d-7e65-42c9-9118-59065b8c7576)
+![2](https://github.com/user-attachments/assets/75e2a276-903e-41fd-9ba7-c0575c6997ef)
 
 
 ## ✨ Características principales
