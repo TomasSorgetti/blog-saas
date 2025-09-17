@@ -47,8 +47,17 @@ class CategoryRepository {
     }
   }
 
-  async delete(id) {
-    return "NOT_IMPLEMENTED";
+  async delete(_id, createdBy) {
+    try {
+      const category = await this.#model
+        .findOneAndDelete({ _id, createdBy })
+        .lean()
+        .exec();
+      if (!category) throw new NotFoundError("category not found");
+      return { id: category._id };
+    } catch (err) {
+      throw new RepositoryError(err.message);
+    }
   }
 }
 

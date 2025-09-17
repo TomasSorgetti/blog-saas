@@ -3,16 +3,19 @@ import successResponse from "../utils/success-response.js";
 export default class CategoryController {
   #createCategoryUseCase;
   #updateCategoryUseCase;
+  #deleteCategoryUseCase;
   #getAllCategoriesUseCase;
 
   constructor({
     createCategoryUseCase,
     getAllCategoriesUseCase,
     updateCategoryUseCase,
+    deleteCategoryUseCase,
   }) {
     this.#createCategoryUseCase = createCategoryUseCase;
     this.#updateCategoryUseCase = updateCategoryUseCase;
     this.#getAllCategoriesUseCase = getAllCategoriesUseCase;
+    this.#deleteCategoryUseCase = deleteCategoryUseCase;
   }
 
   async getAll(req, res, next) {
@@ -68,8 +71,12 @@ export default class CategoryController {
 
   async deleteCategory(req, res, next) {
     try {
-      const data = "data";
-      return successResponse(res, data, "Category retrieved successfully", 200);
+      const userId = req.user.id;
+      const { id } = req.params;
+
+      await this.#deleteCategoryUseCase.execute({ userId, id });
+
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

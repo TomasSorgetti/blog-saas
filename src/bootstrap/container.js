@@ -39,6 +39,7 @@ import DeleteArticleUseCase from "../application/article/deleteArticle.usecase.j
 import GetAllCategoriesUseCase from "../application/category/getAll.usecase.js";
 import CreateCategoryUseCase from "../application/category/create.usecase.js";
 import UpdateCategoryUseCase from "../application/category/update.usecase.js";
+import DeleteCategoryUseCase from "../application/category/delete.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -177,6 +178,10 @@ export default class Container {
       categoryRepository: this.#repositories.categoryRepository,
       redisService: this.#services.redisService,
     });
+    this.#usecases.deleteCategoryUseCase = new DeleteCategoryUseCase({
+      categoryRepository: this.#repositories.categoryRepository,
+      redisService: this.#services.redisService,
+    });
   }
 
   #initializeControllers() {
@@ -210,6 +215,7 @@ export default class Container {
       getAllCategoriesUseCase: this.#usecases.getAllCategoriesUseCase,
       createCategoryUseCase: this.#usecases.createCategoryUseCase,
       updateCategoryUseCase: this.#usecases.updateCategoryUseCase,
+      deleteCategoryUseCase: this.#usecases.deleteCategoryUseCase,
     });
   }
 
