@@ -1,8 +1,3 @@
-import {
-  InvalidCredentialsError,
-  NotFoundError,
-  TokenExpiredError,
-} from "../../domain/errors/index.js";
 import CategoryEntity from "../../domain/entities/category.entity.js";
 
 export default class createCategoryUseCase {
@@ -16,6 +11,9 @@ export default class createCategoryUseCase {
   }
 
   async execute({ name, userId, isGlobal = false }) {
+    console.log("NAME: ", name);
+    console.log("SLUG: ", name.toLowerCase().replace(/ /g, "-"));
+
     const categoryEntity = new CategoryEntity({
       name,
       slug: name.toLowerCase().replace(/ /g, "-"),
@@ -23,6 +21,6 @@ export default class createCategoryUseCase {
       isGlobal,
     });
 
-    return await this.#categoryRepository.create(categoryEntity);
+    return await this.#categoryRepository.create(categoryEntity.toObject());
   }
 }

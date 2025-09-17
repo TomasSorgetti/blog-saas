@@ -2,14 +2,25 @@ import successResponse from "../utils/success-response.js";
 
 export default class CategoryController {
   #createCategoryUseCase;
+  #updateCategoryUseCase;
+  #getAllCategoriesUseCase;
 
-  constructor(createCategoryUseCase) {
+  constructor({
+    createCategoryUseCase,
+    getAllCategoriesUseCase,
+    updateCategoryUseCase,
+  }) {
     this.#createCategoryUseCase = createCategoryUseCase;
+    this.#updateCategoryUseCase = updateCategoryUseCase;
+    this.#getAllCategoriesUseCase = getAllCategoriesUseCase;
   }
 
   async getAll(req, res, next) {
     try {
-      const data = "data";
+      const userId = req.user.id;
+
+      const data = await this.#getAllCategoriesUseCase.execute({ userId });
+
       return successResponse(res, data, "Category retrieved successfully", 200);
     } catch (error) {
       next(error);
@@ -18,7 +29,7 @@ export default class CategoryController {
 
   async getCategoryById(req, res, next) {
     try {
-      const data = "data";
+      const data = "NOT_IMPLEMENTED";
       return successResponse(res, data, "Category retrieved successfully", 200);
     } catch (error) {
       next(error);
@@ -43,8 +54,13 @@ export default class CategoryController {
 
   async updateCategory(req, res, next) {
     try {
-      const data = "data";
-      return successResponse(res, data, "Category retrieved successfully", 200);
+      const userId = req.user.id;
+      const { id } = req.params;
+      const { name } = req.body;
+
+      await this.#updateCategoryUseCase.execute({ userId, id, name });
+
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

@@ -36,7 +36,9 @@ import CreateArticleUseCase from "../application/article/createArticle.usecase.j
 import UpdateArticleUseCase from "../application/article/updateArticle.usecase.js";
 import DeleteArticleUseCase from "../application/article/deleteArticle.usecase.js";
 //category usecases
+import GetAllCategoriesUseCase from "../application/category/getAll.usecase.js";
 import CreateCategoryUseCase from "../application/category/create.usecase.js";
+import UpdateCategoryUseCase from "../application/category/update.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -163,12 +165,20 @@ export default class Container {
       redisService: this.#services.redisService,
     });
     //category
+    this.#usecases.getAllCategoriesUseCase = new GetAllCategoriesUseCase({
+      categoryRepository: this.#repositories.categoryRepository,
+      redisService: this.#services.redisService,
+    });
     this.#usecases.createCategoryUseCase = new CreateCategoryUseCase({
       categoryRepository: this.#repositories.categoryRepository,
       redisService: this.#services.redisService,
     });
+    this.#usecases.updateCategoryUseCase = new UpdateCategoryUseCase({
+      categoryRepository: this.#repositories.categoryRepository,
+      redisService: this.#services.redisService,
+    });
   }
-  
+
   #initializeControllers() {
     this.#controllers.authController = new AuthController({
       loginUseCase: this.#usecases.loginUseCase,
@@ -196,7 +206,11 @@ export default class Container {
       deleteArticleUseCase: this.#usecases.deleteArticleUseCase,
     });
 
-    this.#controllers.categoryController = new CategoryController({});
+    this.#controllers.categoryController = new CategoryController({
+      getAllCategoriesUseCase: this.#usecases.getAllCategoriesUseCase,
+      createCategoryUseCase: this.#usecases.createCategoryUseCase,
+      updateCategoryUseCase: this.#usecases.updateCategoryUseCase,
+    });
   }
 
   #initializeDependencies() {
