@@ -35,6 +35,8 @@ import GetArticleUseCase from "../application/article/getArticle.usecase.js";
 import CreateArticleUseCase from "../application/article/createArticle.usecase.js";
 import UpdateArticleUseCase from "../application/article/updateArticle.usecase.js";
 import DeleteArticleUseCase from "../application/article/deleteArticle.usecase.js";
+//category usecases
+import CreateCategoryUseCase from "../application/category/create.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -160,8 +162,13 @@ export default class Container {
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
     });
+    //category
+    this.#usecases.createCategoryUseCase = new CreateCategoryUseCase({
+      categoryRepository: this.#repositories.categoryRepository,
+      redisService: this.#services.redisService,
+    });
   }
-
+  
   #initializeControllers() {
     this.#controllers.authController = new AuthController({
       loginUseCase: this.#usecases.loginUseCase,
