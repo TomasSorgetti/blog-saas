@@ -1,6 +1,6 @@
 // Services imports
 import RedisService from "../infrastructure/adapters/cache/service.js";
-import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
+// import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
 import RabbitService from "../infrastructure/adapters/queue/service.js";
 // import EmailService from "../infrastructure/adapters/email/service.js";
 import HashService from "../infrastructure/security/hash.js";
@@ -66,9 +66,9 @@ export default class Container {
   #initializeServices() {
     this.#services.redisService = new RedisService(this.#config.redis);
     // this.#services.emailService = new EmailService(this.#config.email);
-    this.#services.elasticsearchService = new ElasticsearchService(
-      this.#config.elastic
-    );
+    // this.#services.elasticsearchService = new ElasticsearchService(
+    //   this.#config.elastic
+    // );
     this.#services.rabbitService = new RabbitService(
       this.#config.rabbitChannel
     );

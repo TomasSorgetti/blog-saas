@@ -1,7 +1,7 @@
 import envConfig from "./env.config.js";
 import { connectDB } from "../database/database.js";
 import { connectRedis } from "../adapters/cache/client.js";
-import { connectElastic } from "../adapters/elasticsearch/client.js";
+// import { connectElastic } from "../adapters/elasticsearch/client.js";
 import { connectRabbit } from "../adapters/queue/client.js";
 // import { connectEmail } from "../adapters/email/client.js";
 
@@ -11,7 +11,7 @@ export const initializeConfig = async () => {
 
   const redis = await connectRedis(envConfig.REDIS_URL);
 
-  const elastic = connectElastic(envConfig.ELASTICSEARCH_URL);
+  // const elastic = connectElastic(envConfig.ELASTICSEARCH_URL);
 
   const { channel } = await connectRabbit(envConfig.RABBIT_URL);
 
@@ -20,7 +20,7 @@ export const initializeConfig = async () => {
   return {
     db,
     redis,
-    elastic,
+    // elastic,
     rabbitChannel: channel,
     // email,
     env: envConfig,
