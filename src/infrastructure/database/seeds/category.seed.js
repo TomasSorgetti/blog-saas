@@ -3,6 +3,7 @@ export default async function seedCategories(CategorySchema) {
     {
       name: "General",
       slug: "general",
+      createdBy: null,
       isGlobal: true,
     },
   ];
