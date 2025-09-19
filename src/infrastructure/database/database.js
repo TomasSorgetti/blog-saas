@@ -12,6 +12,7 @@ import ApiKey from "./schemas/apikey.schema.js";
 
 // seeds
 import seedPlans from "./seeds/plan.seed.js";
+import seedCategories from "./seeds/category.seed.js";
 
 export const connectDB = async (dbUrl) => {
   if (!dbUrl) {
@@ -31,6 +32,7 @@ export const connectDB = async (dbUrl) => {
     console.log("MongoDB connected");
 
     await seedPlans(Plan);
+    await seedCategories(Category);
     console.log("Seeds created");
 
     return {

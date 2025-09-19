@@ -1,4 +1,4 @@
-import Article from "../../domain/entities/article.entity.js";
+import ArticleEntity from "../../domain/entities/article.entity.js";
 
 export default class UpdateArticleUseCase {
   #articleRepository;
@@ -13,16 +13,16 @@ export default class UpdateArticleUseCase {
   }
 
   async execute(articleData) {
-    const article = new Article(articleData).toJSON();
+    const article = new ArticleEntity(articleData).toJSON();
     const updatedArticle = await this.#articleRepository.update(
       article.slug,
       article
     );
 
-    await this.#redisService.invalidateArticlesCache(
-      this.#redisService,
-      article.slug
-    );
+    // await this.#redisService.invalidateArticlesCache(
+    //   this.#redisService,
+    //   article.slug
+    // );
 
     return updatedArticle;
   }

@@ -1,7 +1,7 @@
 import { InvalidInputError } from "../errors/index.js";
 import ERROR_CODES from "../errors/errorCodes.js";
 
-export default class Article {
+export default class ArticleEntity {
   #title;
   #slug;
   #content;
@@ -11,6 +11,7 @@ export default class Article {
   #status;
   #image;
   #isFeatured;
+  #categories;
 
   constructor({
     title,
@@ -22,6 +23,7 @@ export default class Article {
     status,
     image,
     isFeatured,
+    categories,
   }) {
     if (!title || typeof title !== "string") {
       throw new InvalidInputError("Title is required and must be a string", {
@@ -91,18 +93,28 @@ export default class Article {
       );
     }
 
-    if (image && typeof image !== "string") {
-      throw new InvalidInputError("Image must be a string", {
-        field: "image",
-        code: ERROR_CODES.VALIDATION.INVALID_INPUT,
-      });
-    }
+    // if (image && typeof image !== "string") {
+    //   throw new InvalidInputError("Image must be a string", {
+    //     field: "image",
+    //     code: ERROR_CODES.VALIDATION.INVALID_INPUT,
+    //   });
+    // }
 
     if (isFeatured !== undefined && typeof isFeatured !== "boolean") {
       throw new InvalidInputError("isFeatured must be a boolean", {
         field: "isFeatured",
         code: ERROR_CODES.VALIDATION.INVALID_INPUT,
       });
+    }
+
+    if (categories && !Array.isArray(categories)) {
+      throw new InvalidInputError(
+        "Categories must be an array of strings (ids)",
+        {
+          field: "categories",
+          code: ERROR_CODES.VALIDATION.INVALID_INPUT,
+        }
+      );
     }
 
     this.#title = title.trim();
@@ -114,6 +126,7 @@ export default class Article {
     this.#status = status || "DRAFT";
     this.#image = image ? image.trim() : undefined;
     this.#isFeatured = isFeatured ?? false;
+    this.#categories = categories ?? [];
   }
 
   get title() {
@@ -152,6 +165,10 @@ export default class Article {
     return this.#isFeatured;
   }
 
+  get categories() {
+    return this.#categories;
+  }
+
   toJSON() {
     return {
       title: this.#title,
@@ -163,6 +180,7 @@ export default class Article {
       status: this.#status,
       image: this.#image,
       isFeatured: this.#isFeatured,
+      categories: this.#categories,
     };
   }
 }

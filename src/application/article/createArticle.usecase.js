@@ -1,4 +1,4 @@
-import Article from "../../domain/entities/article.entity.js";
+import ArticleEntity from "../../domain/entities/article.entity.js";
 
 export default class CreateArticleUseCase {
   #articleRepository;
@@ -21,8 +21,9 @@ export default class CreateArticleUseCase {
     status,
     image,
     isFeatured,
+    categories,
   }) {
-    const article = new Article({
+    const newArticle = new ArticleEntity({
       title,
       slug,
       content,
@@ -32,11 +33,11 @@ export default class CreateArticleUseCase {
       status,
       image,
       isFeatured,
+      categories,
     });
 
-    await this.#articleRepository.create(article);
+    await this.#articleRepository.create(newArticle.toJSON());
 
-    await this.#redisService.invalidateArticlesCache(this.#redisService);
 
     return;
   }

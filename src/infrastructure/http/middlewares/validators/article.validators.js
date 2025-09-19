@@ -66,12 +66,7 @@ export default class ArticleValidation extends ValidationMiddleware {
         .optional()
         .isIn(["DRAFT", "PUBLISHED", "ARCHIVED"])
         .withMessage("Status must be DRAFT, PUBLISHED or ARCHIVED"),
-      body("image").optional().isURL().withMessage("Image must be a valid URL"),
-      body("author")
-        .notEmpty()
-        .withMessage("Author is required")
-        .isMongoId()
-        .withMessage("Author must be a valid MongoDB ObjectId"),
+      // body("image").optional().isURL().withMessage("Image must be a valid URL"),
       body("categories")
         .optional()
         .isArray()

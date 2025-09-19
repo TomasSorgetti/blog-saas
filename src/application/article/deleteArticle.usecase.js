@@ -1,5 +1,3 @@
-import Article from "../../domain/entities/article.entity.js";
-
 export default class DeleteArticleUseCase {
   #articleRepository;
   #redisService;
@@ -14,8 +12,6 @@ export default class DeleteArticleUseCase {
 
   async execute(slug) {
     const result = await this.#articleRepository.delete(slug);
-
-    await this.#redisService.invalidateArticlesCache(this.#redisService, slug);
 
     return result;
   }

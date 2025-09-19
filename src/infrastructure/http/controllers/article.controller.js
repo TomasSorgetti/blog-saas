@@ -65,8 +65,17 @@ export default class ArticleController {
   async createPost(req, res, next) {
     try {
       const author = req?.user?.id;
-      const { title, slug, content, summary, tags, status, image, isFeatured } =
-        req.body;
+      const {
+        title,
+        slug,
+        content,
+        summary,
+        tags,
+        status,
+        image,
+        isFeatured,
+        categories,
+      } = req.body;
 
       await this.#createArticleUseCase.execute({
         title,
@@ -78,6 +87,7 @@ export default class ArticleController {
         status,
         image,
         isFeatured,
+        categories,
       });
 
       res.status(204).send();

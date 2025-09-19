@@ -4,10 +4,9 @@ Blog SaaS es una plataforma para **crear, gestionar y consumir artículos** como
 El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de suscripción, API pública y herramientas de inteligencia artificial para potenciar la creación de contenido.
 
 ---
+
 ![1](https://github.com/user-attachments/assets/667f9e87-c8bb-4600-b168-c67359c5ed7f)
 ![2](https://github.com/user-attachments/assets/66888a3a-ed5c-4d59-aa99-29cad2bbc5e2)
-
-
 
 ## ✨ Características principales
 
@@ -176,3 +175,8 @@ Test endpoints at
 └── package.json
 
 ```
+
+## todo
+
+- añadir trim() a los datos de entrada en las entities
+- añadir rate limiters
