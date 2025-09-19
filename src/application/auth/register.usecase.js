@@ -10,7 +10,7 @@ export default class RegisterUseCase {
   #workbenchRepository;
   #hashService;
   #jwtService;
-  #rabbitService;
+  #emailService;
   #env;
 
   constructor({
@@ -20,7 +20,7 @@ export default class RegisterUseCase {
     workbenchRepository,
     hashService,
     jwtService,
-    rabbitService,
+    emailService,
     env,
   }) {
     this.#userRepository = userRepository;
@@ -29,7 +29,7 @@ export default class RegisterUseCase {
     this.#workbenchRepository = workbenchRepository;
     this.#hashService = hashService;
     this.#jwtService = jwtService;
-    this.#rabbitService = rabbitService;
+    this.#emailService = emailService;
     this.#env = env;
   }
 
@@ -81,8 +81,7 @@ export default class RegisterUseCase {
       verificationTokenExpires,
     });
 
-    await this.#rabbitService.publish("email_queue", {
-      type: "VERIFY_EMAIL",
+    await this.#emailService.sendEmail({
       to: newUser.email,
       subject: "Verify your email",
       html: `
@@ -92,6 +91,17 @@ export default class RegisterUseCase {
         }/verify-email&token=${verificationToken}'>Verify email</a>
       `,
     });
+    // await this.#rabbitService.publish("email_queue", {
+    //   type: "VERIFY_EMAIL",
+    //   to: newUser.email,
+    //   subject: "Verify your email",
+    //   html: `
+    //     <h1>Verify your email</h1>
+    //     <a href='${
+    //       this.#env.FRONT_URL
+    //     }/verify-email&token=${verificationToken}'>Verify email</a>
+    //   `,
+    // });
 
     return {
       username: newUser.username,

@@ -1,8 +1,8 @@
 // Services imports
 import RedisService from "../infrastructure/adapters/cache/service.js";
 // import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
-import RabbitService from "../infrastructure/adapters/queue/service.js";
-// import EmailService from "../infrastructure/adapters/email/service.js";
+// import RabbitService from "../infrastructure/adapters/queue/service.js";
+import EmailService from "../infrastructure/adapters/email/service.js";
 import HashService from "../infrastructure/security/hash.js";
 import JWTService from "../infrastructure/security/jwt.js";
 
@@ -65,13 +65,13 @@ export default class Container {
 
   #initializeServices() {
     this.#services.redisService = new RedisService(this.#config.redis);
-    // this.#services.emailService = new EmailService(this.#config.email);
+    this.#services.emailService = new EmailService(this.#config.email);
     // this.#services.elasticsearchService = new ElasticsearchService(
     //   this.#config.elastic
     // );
-    this.#services.rabbitService = new RabbitService(
-      this.#config.rabbitChannel
-    );
+    // this.#services.rabbitService = new RabbitService(
+    //   this.#config.rabbitChannel
+    // );
     this.#services.hashService = new HashService({
       saltRounds: this.#config.env.HASH_SALT_ROUNDS,
     });
@@ -111,9 +111,9 @@ export default class Container {
       subscriptionRepository: this.#repositories.subscriptionRepository,
       planRepository: this.#repositories.planRepository,
       workbenchRepository: this.#repositories.workbenchRepository,
+      emailService: this.#services.emailService,
       hashService: this.#services.hashService,
       jwtService: this.#services.jwtService,
-      rabbitService: this.#services.rabbitService,
       env: this.#config.env,
     });
     this.#usecases.verifyUseCase = new VerifyUseCase({
@@ -155,7 +155,6 @@ export default class Container {
     this.#usecases.createArticleUseCase = new CreateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
-      rabbitService: this.#services.rabbitService,
     });
     this.#usecases.updateArticleUseCase = new UpdateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
