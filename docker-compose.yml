@@ -13,8 +13,6 @@ services:
       - FRONT_URL=${FRONT_URL}
       - MONGO_URL=${MONGO_URL}
       - REDIS_URL=${REDIS_URL}
-      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
-      - RABBIT_URL=${RABBIT_URL}
       - HASH_SALT_ROUNDS=${HASH_SALT_ROUNDS}
       - RESEND_API_KEY=${RESEND_API_KEY}
     restart: unless-stopped

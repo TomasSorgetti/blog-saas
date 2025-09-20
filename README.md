@@ -10,7 +10,7 @@ El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de s
 ![1](https://github.com/user-attachments/assets/667f9e87-c8bb-4600-b168-c67359c5ed7f)
 ![2](https://github.com/user-attachments/assets/66888a3a-ed5c-4d59-aa99-29cad2bbc5e2)
 
-## ✨ Características principales
+## Características principales
 
 ### Gestión de artículos
 
@@ -68,7 +68,7 @@ El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de s
 - **Base de datos**: MongoDB.
 - **Búsqueda**: Elasticsearch.
 - **Cache**: Redis.
-- **Colas de trabajo**: RabbitMQ.
+- **Colas de trabajo**: Bull.
 - **Autenticación**:
   - JWT (sesiones internas).
   - API Keys (consumo externo, scopes).

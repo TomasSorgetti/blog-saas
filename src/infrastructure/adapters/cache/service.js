@@ -26,15 +26,4 @@ export default class RedisService {
   async smembers(setKey) {
     return await this.client.smembers(setKey);
   }
-
-  async invalidateArticlesCache(slug = null) {
-    if (slug) {
-      await this.del(`article:${slug}`);
-    }
-    const keys = await this.smembers("articles:cache-keys");
-    if (keys.length > 0) {
-      await this.client.del(keys);
-      await this.del("articles:cache-keys");
-    }
-  }
 }
