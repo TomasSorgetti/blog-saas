@@ -59,7 +59,7 @@ class Server {
     const port = this.#config.env.PORT;
     const api_url = this.#config.env.API_URL;
 
-    this.#app.listen(port, '0.0.0.0', () => {
+    this.#app.listen(port, () => {
       console.log("- - - - - - - - - - - - - - - - -");
       console.log(`Server running on ${api_url}`);
       console.log("- - - - - - - - - - - - - - - - -");
