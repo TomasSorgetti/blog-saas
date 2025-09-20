@@ -136,7 +136,7 @@ class ArticleRepository {
       if (!article)
         throw new NotFoundError(`Article with slug ${slug} not found`);
 
-      return { slug: article.slug };
+      return { slug: article.slug, author: article.author };
     } catch (err) {
       if (err.name === "NotFoundError" || err.name === "InvalidInputError")
         throw err;

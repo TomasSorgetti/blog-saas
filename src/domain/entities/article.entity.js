@@ -169,7 +169,7 @@ export default class ArticleEntity {
     return this.#categories;
   }
 
-  toJSON() {
+  toObject() {
     return {
       title: this.#title,
       slug: this.#slug,

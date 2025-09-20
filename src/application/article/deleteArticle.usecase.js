@@ -3,15 +3,20 @@ export default class DeleteArticleUseCase {
   #redisService;
 
   constructor({ articleRepository, redisService }) {
-    if (!articleRepository) {
-      throw new Error("articleRepository is required");
-    }
     this.#articleRepository = articleRepository;
     this.#redisService = redisService;
   }
 
   async execute(slug) {
     const result = await this.#articleRepository.delete(slug);
+
+    if (this.#redisService) {
+      const keys = await this.#redisService.keys("articles:*");
+      for (const key of keys) {
+        await this.#redisService.del(key);
+      }
+      await this.#redisService.del(`article:${slug}`);
+    }
 
     return result;
   }

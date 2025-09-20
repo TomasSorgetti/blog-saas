@@ -5,24 +5,24 @@ export default class UpdateArticleUseCase {
   #redisService;
 
   constructor({ articleRepository, redisService }) {
-    if (!articleRepository) {
-      throw new Error("articleRepository is required");
-    }
     this.#articleRepository = articleRepository;
     this.#redisService = redisService;
   }
 
   async execute(articleData) {
-    const article = new ArticleEntity(articleData).toJSON();
+    const article = new ArticleEntity(articleData).toObject();
     const updatedArticle = await this.#articleRepository.update(
       article.slug,
       article
     );
 
-    // await this.#redisService.invalidateArticlesCache(
-    //   this.#redisService,
-    //   article.slug
-    // );
+    if (this.#redisService) {
+      const keys = await this.#redisService.keys("articles:*");
+      for (const key of keys) {
+        await this.#redisService.del(key);
+      }
+      await this.#redisService.del(`article:${article.slug}`);
+    }
 
     return updatedArticle;
   }
