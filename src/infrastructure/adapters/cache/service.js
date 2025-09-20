@@ -15,6 +15,10 @@ export default class RedisService {
     return data ? JSON.parse(data) : null;
   }
 
+  async keys(pattern) {
+    return await this.client.keys(pattern);
+  }
+
   async del(key) {
     await this.client.del(key);
   }

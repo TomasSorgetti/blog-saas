@@ -1,12 +1,20 @@
 import ArticleEntity from "../../domain/entities/article.entity.js";
+import NotificationEntity from "../../domain/entities/notification.entity.js";
 
 export default class CreateArticleUseCase {
   #articleRepository;
   #redisService;
+  #notificationRepository;
   #socketService;
 
-  constructor({ articleRepository, redisService, socketService }) {
+  constructor({
+    articleRepository,
+    notificationRepository,
+    redisService,
+    socketService,
+  }) {
     this.#articleRepository = articleRepository;
+    this.#notificationRepository = notificationRepository;
     this.#redisService = redisService;
     this.#socketService = socketService;
   }
@@ -45,13 +53,22 @@ export default class CreateArticleUseCase {
       }
     }
 
-    // const notification = await this.#notificationRepository.create({
-    //   userId: author,
-    //   type: "activity",
-    //   message: `¡Has creado un nuevo artículo: ${title}!`,
-    // });
+    const notificationEntity = new NotificationEntity({
+      userId: author,
+      type: "activity",
+      message: `¡New article created: ${title}!`,
+      link: `/articles/${slug}`,
+    });
 
-    // this.#socketService.sendNotification(author, notification);
+    try {
+      const notification = await this.#notificationRepository.create(
+        notificationEntity.toObject()
+      );
+      this.#socketService.sendNotification(author, notification);
+    } catch (err) {
+      console.error("Failed to send notification:", err);
+    }
+
     return;
   }
 }

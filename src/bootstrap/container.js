@@ -15,6 +15,7 @@ import WorkbenchRepository from "../infrastructure/database/repositories/workben
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
 import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
 import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
+import NotificationRepository from "../infrastructure/database/repositories/notification.repository.js";
 
 // UseCases imports
 //auth usecases
@@ -95,6 +96,9 @@ export default class Container {
       this.#config
     );
     this.#repositories.commentRepository = new CommentRepository(this.#config);
+    this.#repositories.notificationRepository = new NotificationRepository(
+      this.#config
+    );
   }
 
   #initializeUseCases() {
@@ -155,16 +159,19 @@ export default class Container {
     });
     this.#usecases.createArticleUseCase = new CreateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      notificationRepository: this.#repositories.notificationRepository,
       redisService: this.#services.redisService,
       socketService: this.#services.socketService,
     });
     this.#usecases.updateArticleUseCase = new UpdateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      notificationRepository: this.#repositories.notificationRepository,
       redisService: this.#services.redisService,
       socketService: this.#services.socketService,
     });
     this.#usecases.deleteArticleUseCase = new DeleteArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
+      notificationRepository: this.#repositories.notificationRepository,
       redisService: this.#services.redisService,
       socketService: this.#services.socketService,
     });
