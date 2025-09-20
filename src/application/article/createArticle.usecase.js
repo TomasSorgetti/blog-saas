@@ -3,10 +3,12 @@ import ArticleEntity from "../../domain/entities/article.entity.js";
 export default class CreateArticleUseCase {
   #articleRepository;
   #redisService;
+  #socketService;
 
-  constructor({ articleRepository, redisService }) {
+  constructor({ articleRepository, redisService, socketService }) {
     this.#articleRepository = articleRepository;
     this.#redisService = redisService;
+    this.#socketService = socketService;
   }
 
   async execute({
@@ -43,6 +45,13 @@ export default class CreateArticleUseCase {
       }
     }
 
+    // const notification = await this.#notificationRepository.create({
+    //   userId: author,
+    //   type: "activity",
+    //   message: `¡Has creado un nuevo artículo: ${title}!`,
+    // });
+
+    // this.#socketService.sendNotification(author, notification);
     return;
   }
 }

@@ -68,6 +68,7 @@ El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de s
 - **Base de datos**: MongoDB.
 - **Búsqueda**: Elasticsearch.
 - **Cache**: Redis.
+- **Notificaciones en tiempo real**: Socket.io.
 - **Colas de trabajo**: Bull.
 - **Autenticación**:
   - JWT (sesiones internas).

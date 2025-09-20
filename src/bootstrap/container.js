@@ -2,9 +2,9 @@
 import RedisService from "../infrastructure/adapters/cache/service.js";
 import HashService from "../infrastructure/security/hash.js";
 import JWTService from "../infrastructure/security/jwt.js";
-import QueueService from "../infrastructure/adapters/queue/service.js";
 import EmailService from "../infrastructure/adapters/email/service.js";
 import emailProcessor from "../infrastructure/adapters/queue/processors/email.processor.js";
+import SocketService from "../infrastructure/adapters/socket/service.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
@@ -77,6 +77,7 @@ export default class Container {
     this.#services.emailQueueService.process(
       emailProcessor(this.#services.emailService)
     );
+    this.#services.socketService = new SocketService();
   }
 
   #initializeRepositories() {
@@ -150,18 +151,22 @@ export default class Container {
     this.#usecases.getArticleUseCase = new GetArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
+      socketService: this.#services.socketService,
     });
     this.#usecases.createArticleUseCase = new CreateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
+      socketService: this.#services.socketService,
     });
     this.#usecases.updateArticleUseCase = new UpdateArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
+      socketService: this.#services.socketService,
     });
     this.#usecases.deleteArticleUseCase = new DeleteArticleUseCase({
       articleRepository: this.#repositories.articleRepository,
       redisService: this.#services.redisService,
+      socketService: this.#services.socketService,
     });
     //category
     this.#usecases.getAllCategoriesUseCase = new GetAllCategoriesUseCase({
