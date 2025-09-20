@@ -11,6 +11,7 @@ export default class RegisterUseCase {
   #hashService;
   #jwtService;
   #emailService;
+  #emailQueueService;
   #env;
 
   constructor({
@@ -21,6 +22,7 @@ export default class RegisterUseCase {
     hashService,
     jwtService,
     emailService,
+    emailQueueService,
     env,
   }) {
     this.#userRepository = userRepository;
@@ -30,6 +32,7 @@ export default class RegisterUseCase {
     this.#hashService = hashService;
     this.#jwtService = jwtService;
     this.#emailService = emailService;
+    this.#emailQueueService = emailQueueService;
     this.#env = env;
   }
 
@@ -81,27 +84,17 @@ export default class RegisterUseCase {
       verificationTokenExpires,
     });
 
-    await this.#emailService.sendEmail({
+    await this.#emailQueueService.addJob({
+      type: "VERIFY_EMAIL",
       to: newUser.email,
       subject: "Verify your email",
       html: `
         <h1>Verify your email</h1>
         <a href='${
           this.#env.FRONT_URL
-        }/verify-email&token=${verificationToken}'>Verify email</a>
+        }/verify-email?token=${verificationToken}'>Verify email</a>
       `,
     });
-    // await this.#rabbitService.publish("email_queue", {
-    //   type: "VERIFY_EMAIL",
-    //   to: newUser.email,
-    //   subject: "Verify your email",
-    //   html: `
-    //     <h1>Verify your email</h1>
-    //     <a href='${
-    //       this.#env.FRONT_URL
-    //     }/verify-email&token=${verificationToken}'>Verify email</a>
-    //   `,
-    // });
 
     return {
       username: newUser.username,

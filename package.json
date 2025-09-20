@@ -15,9 +15,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@elastic/elasticsearch": "^9.1.1",
-    "amqplib": "^0.10.9",
     "bcryptjs": "^3.0.2",
+    "bull": "^4.16.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",

@@ -1,10 +1,10 @@
 // Services imports
 import RedisService from "../infrastructure/adapters/cache/service.js";
-// import ElasticsearchService from "../infrastructure/adapters/elasticsearch/service.js";
-// import RabbitService from "../infrastructure/adapters/queue/service.js";
-import EmailService from "../infrastructure/adapters/email/service.js";
 import HashService from "../infrastructure/security/hash.js";
 import JWTService from "../infrastructure/security/jwt.js";
+import QueueService from "../infrastructure/adapters/queue/service.js";
+import EmailService from "../infrastructure/adapters/email/service.js";
+import emailProcessor from "../infrastructure/adapters/queue/processors/email.processor.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
@@ -65,13 +65,6 @@ export default class Container {
 
   #initializeServices() {
     this.#services.redisService = new RedisService(this.#config.redis);
-    this.#services.emailService = new EmailService(this.#config.email);
-    // this.#services.elasticsearchService = new ElasticsearchService(
-    //   this.#config.elastic
-    // );
-    // this.#services.rabbitService = new RabbitService(
-    //   this.#config.rabbitChannel
-    // );
     this.#services.hashService = new HashService({
       saltRounds: this.#config.env.HASH_SALT_ROUNDS,
     });
@@ -79,6 +72,11 @@ export default class Container {
       accessSecret: this.#config.env.JWT_ACCESS_SECRET,
       refreshSecret: this.#config.env.JWT_REFRESH_SECRET,
     });
+    this.#services.emailService = new EmailService(this.#config.email);
+    this.#services.emailQueueService = this.#config.queues.emailQueueService;
+    this.#services.emailQueueService.process(
+      emailProcessor(this.#services.emailService)
+    );
   }
 
   #initializeRepositories() {
@@ -112,6 +110,7 @@ export default class Container {
       planRepository: this.#repositories.planRepository,
       workbenchRepository: this.#repositories.workbenchRepository,
       emailService: this.#services.emailService,
+      emailQueueService: this.#services.emailQueueService,
       hashService: this.#services.hashService,
       jwtService: this.#services.jwtService,
       env: this.#config.env,

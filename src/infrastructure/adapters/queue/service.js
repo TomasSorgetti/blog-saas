@@ -1,27 +1,26 @@
-export default class RabbitService {
-  constructor(channel) {
-    this.channel = channel;
+import Queue from "bull";
+
+export default class QueueService {
+  #queue;
+
+  constructor(queueName, redisUrl) {
+    this.#queue = new Queue(queueName, redisUrl);
   }
 
-  async publish(queue, message) {
-    await this.channel.assertQueue(queue, { durable: true });
-    this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
-      persistent: true,
+  async addJob(data) {
+    await this.#queue.add(data, {
+      removeOnComplete: true,
+      attempts: 3,
     });
   }
 
-  async consume(queue, callback) {
-    await this.channel.assertQueue(queue, { durable: true });
-    this.channel.consume(
-      queue,
-      (msg) => {
-        if (msg !== null) {
-          const content = JSON.parse(msg.content.toString());
-          callback(content, msg);
-          this.channel.ack(msg);
-        }
-      },
-      { noAck: false }
-    );
+  process(callback) {
+    this.#queue.process(async (job) => {
+      await callback(job);
+    });
+  }
+
+  on(event, listener) {
+    this.#queue.on(event, listener);
   }
 }
