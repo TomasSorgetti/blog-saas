@@ -15,7 +15,25 @@ class SubscriptionRepository {
 
   async findById(id) {
     try {
-      const subscription = await this.#model.findById(id).lean().exec();
+      const subscription = await this.#model
+        .findById(id)
+        .populate("planId")
+        .lean()
+        .exec();
+      if (!subscription) throw new NotFoundError("Subscription not found");
+      return subscription;
+    } catch (err) {
+      throw new RepositoryError(err.message);
+    }
+  }
+
+  async findByUserId(userId) {
+    try {
+      const subscription = await this.#model
+        .findOne({ userId })
+        .populate("planId")
+        .lean()
+        .exec();
       if (!subscription) throw new NotFoundError("Subscription not found");
       return subscription;
     } catch (err) {
@@ -25,7 +43,7 @@ class SubscriptionRepository {
 
   async findAll(filters = {}) {
     try {
-      return await this.#model.find(filters).lean().exec();
+      return await this.#model.find(filters).populate("planId").lean().exec();
     } catch (err) {
       throw new RepositoryError(err.message);
     }

@@ -41,6 +41,8 @@ import GetAllCategoriesUseCase from "../application/category/getAll.usecase.js";
 import CreateCategoryUseCase from "../application/category/create.usecase.js";
 import UpdateCategoryUseCase from "../application/category/update.usecase.js";
 import DeleteCategoryUseCase from "../application/category/delete.usecase.js";
+//subscription usecases
+import GetMySubscriptionUseCase from "../application/subscription/getMySubscription.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -48,6 +50,7 @@ import UserController from "../infrastructure/http/controllers/user.controller.j
 import SessionController from "../infrastructure/http/controllers/session.controller.js";
 import ArticleController from "../infrastructure/http/controllers/article.controller.js";
 import CategoryController from "../infrastructure/http/controllers/category.controller.js";
+import SubscriptionController from "../infrastructure/http/controllers/subscription.controller.js";
 
 export default class Container {
   #config;
@@ -192,6 +195,11 @@ export default class Container {
       categoryRepository: this.#repositories.categoryRepository,
       redisService: this.#services.redisService,
     });
+
+    this.#usecases.getMySubscriptionUseCase = new GetMySubscriptionUseCase({
+      subscriptionRepository: this.#repositories.subscriptionRepository,
+      redisService: this.#services.redisService,
+    });
   }
 
   #initializeControllers() {
@@ -226,6 +234,10 @@ export default class Container {
       createCategoryUseCase: this.#usecases.createCategoryUseCase,
       updateCategoryUseCase: this.#usecases.updateCategoryUseCase,
       deleteCategoryUseCase: this.#usecases.deleteCategoryUseCase,
+    });
+
+    this.#controllers.subscriptionController = new SubscriptionController({
+      getMySubscriptionUseCase: this.#usecases.getMySubscriptionUseCase,
     });
   }
 

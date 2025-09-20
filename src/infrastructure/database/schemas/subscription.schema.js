@@ -23,7 +23,7 @@ const subscriptionSchema = new mongoose.Schema(
     paymentProvider: {
       type: String,
       enum: ["stripe", "paypal", "manual"],
-      default: "stripe",
+      default: "manual",
     },
     externalId: { type: String },
   },

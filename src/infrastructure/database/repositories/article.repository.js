@@ -20,7 +20,11 @@ class ArticleRepository {
         throw new InvalidInputError("Invalid article ID");
       }
 
-      const article = await this.#model.findById(id).lean().exec();
+      const article = await this.#model
+        .findById(id)
+        .populate("categories")
+        .lean()
+        .exec();
       if (!article) throw new NotFoundError(`Article with ID ${id} not found`);
 
       return article;
@@ -37,7 +41,11 @@ class ArticleRepository {
         throw new InvalidInputError("Invalid or missing slug");
       }
 
-      const article = await this.#model.findOne({ slug }).lean().exec();
+      const article = await this.#model
+        .findOne({ slug })
+        .populate("categories")
+        .lean()
+        .exec();
       if (!article)
         throw new NotFoundError(`Article with slug ${slug} not found`);
 
@@ -61,6 +69,7 @@ class ArticleRepository {
       const [items, total] = await Promise.all([
         this.#model
           .find(query)
+          .populate("categories")
           .sort({ createdAt: -1 })
           .skip(skip)
           .limit(limit)

@@ -5,6 +5,7 @@ import UserRouter from "./user.router.js";
 import SessionRouter from "./session.router.js";
 import ArticleRouter from "./article.router.js";
 import CategoryRouter from "./category.router.js";
+import SubscriptionRouter from "./subscription.router.js";
 
 class MainRouter {
   #router;
@@ -27,6 +28,10 @@ class MainRouter {
       sessionController: dependencies.controllers.sessionController,
       jwtService: dependencies.services.jwtService,
     });
+    const subscriptionRouter = new SubscriptionRouter({
+      subscriptionController: dependencies.controllers.subscriptionController,
+      jwtService: dependencies.services.jwtService,
+    });
     const articleRouter = new ArticleRouter({
       articleController: dependencies.controllers.articleController,
       jwtService: dependencies.services.jwtService,
@@ -39,6 +44,7 @@ class MainRouter {
     this.#router.use("/auth", authRouter.getRouter());
     this.#router.use("/users", userRouter.getRouter());
     this.#router.use("/sessions", sessionRouter.getRouter());
+    this.#router.use("/subscriptions", subscriptionRouter.getRouter());
     this.#router.use("/articles", articleRouter.getRouter());
     this.#router.use("/categories", categoryRouter.getRouter());
   }
