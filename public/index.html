@@ -1,6 +1,98 @@
-<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.13.7"><title>Parcial Node y Express</title><link rel="stylesheet" href="/_astro/index.DsPhQN4r.css"></head> <body>  <div id="container" data-astro-cid-mmc7otgs> <img id="background" src="/_astro/background.BPKAcmfN.svg" alt="" fetchpriority="high" data-astro-cid-mmc7otgs> <main data-astro-cid-mmc7otgs> <section id="hero" data-astro-cid-mmc7otgs> <a href="https://astro.build" data-astro-cid-mmc7otgs><img src="/_astro/astro.Dm8K3lV8.svg" width="115" height="48" alt="Astro Homepage" data-astro-cid-mmc7otgs></a> <h1 data-astro-cid-mmc7otgs>
-To get started, open the <code data-astro-cid-mmc7otgs><pre data-astro-cid-mmc7otgs>src/pages</pre></code> directory in your project.
-</h1> <section id="links" data-astro-cid-mmc7otgs> <a class="button" href="https://docs.astro.build" data-astro-cid-mmc7otgs>Read our docs</a> <a href="https://astro.build/chat" data-astro-cid-mmc7otgs>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" data-astro-cid-mmc7otgs><path fill="currentColor" d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z" data-astro-cid-mmc7otgs></path></svg> </a> </section> </section> </main> <a href="https://astro.build/blog/astro-5/" id="news" class="box" data-astro-cid-mmc7otgs> <svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" data-astro-cid-mmc7otgs><path d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z" fill="#111827" data-astro-cid-mmc7otgs></path></svg> <h2 data-astro-cid-mmc7otgs>What's New in Astro 5.0?</h2> <p data-astro-cid-mmc7otgs>
-From content layers to server islands, click to learn more about the new features and
-			improvements in Astro 5.0
-</p> </a> </div>   </body></html>
+<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.13.9"><title>Parcial Node y Express</title><link rel="stylesheet" href="/_astro/index.BjI_lvrL.css"></head> <body>  <main class="container mx-auto py-32"> <h1 class="text-5xl font-bold">Documentación del parcial</h1> <section id="auth" class="mt-10 lg:mt-20"> <h2 class="text-3xl">Autenticación</h2> <div class="space-y-20 mt-20"> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500" data-astro-cid-ojruzr6o>@POST</span> /api/auth/register </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
+  &#34;username&#34;: &#34;&#34;,
+  &#34;email&#34;: &#34;&#34;,
+  &#34;password&#34;: &#34;&#34;
+}" data-response-json="{
+  &#34;success&#34;: true,
+  &#34;status&#34;: 200,
+  &#34;message&#34;: &#34;User registered successfully. Please verify your email to activate your account.&#34;,
+  &#34;data&#34;: {
+    &#34;username&#34;: &#34;Tomas Sorgetti&#34;,
+    &#34;email&#34;: &#34;tomassorgetti456@gmail.com&#34;,
+    &#34;tokenExpiresIn&#34;: &#34;2025-09-13T23:32:14.161Z&#34;
+  }
+}" data-use-query="false" data-astro-cid-ojruzr6o>
+Ver respuesta
+</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>{
+  &quot;username&quot;: &quot;&quot;,
+  &quot;email&quot;: &quot;&quot;,
+  &quot;password&quot;: &quot;&quot;
+}</span>
+  </pre> </div>  <script type="module">document.querySelectorAll(".json-toggle-component").forEach(c=>{const n=c.querySelector(".toggle-button"),t=c.querySelector(".json-pre");let s=t.querySelector(".json-content, .query-table");const d=n.dataset.previewJson||"{}",i=n.dataset.responseJson||"{}",p=n.dataset.useQuery==="true";let r=!1;n.addEventListener("click",()=>{s.classList.add("fade"),setTimeout(()=>{if(r){if(p){const e=document.createElement("table");e.className="query-table";let o="";try{const l=JSON.parse(d);o=Object.entries(l).map(([u,a])=>`<tr><td>${u}</td><td>${typeof a=="object"?JSON.stringify(a):String(a)}</td></tr>`).join("")}catch{o="<tr><td>error</td><td>Invalid JSON</td></tr>"}e.innerHTML=`
+              <thead>
+                <tr>
+                  Query Params
+                </tr>
+              </thead>
+              <tbody>${o}</tbody>
+            `,t.innerHTML="",t.appendChild(e)}else{const e=document.createElement("span");e.className="json-content",e.textContent=d,t.innerHTML="",t.appendChild(e)}n.textContent="Ver respuesta"}else{const e=document.createElement("span");e.className="json-content",e.textContent=i,t.innerHTML="",t.appendChild(e),n.textContent="Ocultar respuesta"}s=t.querySelector(".json-content, .query-table"),s.classList.remove("fade"),r=!r},300)})});</script> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500" data-astro-cid-ojruzr6o>@POST</span> /api/auth/login </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
+  &#34;email&#34;: &#34;tomassorgetti456@gmail.com&#34;,
+  &#34;password&#34;: &#34;admin&#34;,
+  &#34;rememberme&#34;: false
+}" data-response-json="{
+  &#34;success&#34;: true,
+  &#34;status&#34;: 200,
+  &#34;message&#34;: &#34;Auth retrieved successfully&#34;,
+  &#34;data&#34;: {
+    &#34;user&#34;: {
+      &#34;id&#34;: &#34;68c58bba1958b797be8bbd3b&#34;,
+      &#34;username&#34;: &#34;Tomas Sorgetti&#34;,
+      &#34;email&#34;: &#34;tomassorgetti456@gmail.com&#34;,
+      &#34;role&#34;: &#34;user&#34;,
+      &#34;avatar&#34;: null,
+      &#34;isVerified&#34;: true,
+      &#34;lastLogin&#34;: &#34;2025-09-13T18:01:31.626Z&#34;,
+      &#34;isActive&#34;: true,
+      &#34;loginMethods&#34;: [
+        {
+          &#34;provider&#34;: &#34;email&#34;,
+          &#34;addedAt&#34;: &#34;2025-09-13T15:20:26.419Z&#34;,
+          &#34;_id&#34;: &#34;68c58bba1958b797be8bbd3c&#34;
+        }
+      ],
+      &#34;twoFactorEnabled&#34;: false,
+      &#34;createdAt&#34;: &#34;2025-09-13T15:20:26.419Z&#34;,
+      &#34;preferences&#34;: {
+        &#34;language&#34;: &#34;en&#34;,
+        &#34;notifications&#34;: {
+          &#34;email&#34;: {
+            &#34;marketing&#34;: false,
+            &#34;productUpdates&#34;: true,
+            &#34;activity&#34;: true
+          },
+          &#34;push&#34;: false
+        }
+      },
+      &#34;subscription&#34;: &#34;68c58bba1958b797be8bbd3e&#34;
+    },
+    &#34;sessionId&#34;: &#34;68c5b2e35b845580b407e1fc&#34;
+  }
+}" data-use-query="false" data-astro-cid-ojruzr6o>
+Ver respuesta
+</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>{
+  &quot;email&quot;: &quot;tomassorgetti456@gmail.com&quot;,
+  &quot;password&quot;: &quot;admin&quot;,
+  &quot;rememberme&quot;: false
+}</span>
+  </pre> </div>   <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500" data-astro-cid-ojruzr6o>@POST</span> /api/verify </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
+  &#34;token&#34;: &#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA&#34;
+}" data-response-json="{
+  &#34;success&#34;: true,
+  &#34;status&#34;: 200,
+  &#34;message&#34;: &#34;User verified successfully&#34;
+}" data-use-query="true" data-astro-cid-ojruzr6o>
+Ver respuesta
+</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <table class="query-table" data-astro-cid-ojruzr6o>
+        <thead data-astro-cid-ojruzr6o>
+          <tr data-astro-cid-ojruzr6o>
+            Query Params
+          </tr>
+        </thead>
+        <tbody data-astro-cid-ojruzr6o>
+          <tr data-astro-cid-ojruzr6o>
+              <td data-astro-cid-ojruzr6o>token</td>
+              <td data-astro-cid-ojruzr6o>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA</td>
+            </tr>
+        </tbody>
+      </table>
+  </pre> </div>   </div> </section> </main>  </body></html>

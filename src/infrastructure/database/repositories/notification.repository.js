@@ -33,7 +33,7 @@ export default class NotificationRepository {
     }
   }
 
-  async findByUser(userId, { skip = 0, limit = 20 } = {}) {
+  async findByUser(userId, { skip = 0, limit = 10 } = {}) {
     try {
       if (!mongoose.isValidObjectId(userId)) {
         throw new InvalidInputError("Invalid user ID");

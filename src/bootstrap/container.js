@@ -43,6 +43,8 @@ import UpdateCategoryUseCase from "../application/category/update.usecase.js";
 import DeleteCategoryUseCase from "../application/category/delete.usecase.js";
 //subscription usecases
 import GetMySubscriptionUseCase from "../application/subscription/getMySubscription.usecase.js";
+//notification usecases
+import GetMyNotificationsUseCase from "../application/notification/getMyNotifications.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -51,6 +53,7 @@ import SessionController from "../infrastructure/http/controllers/session.contro
 import ArticleController from "../infrastructure/http/controllers/article.controller.js";
 import CategoryController from "../infrastructure/http/controllers/category.controller.js";
 import SubscriptionController from "../infrastructure/http/controllers/subscription.controller.js";
+import NotificationController from "../infrastructure/http/controllers/notification.controller.js";
 
 export default class Container {
   #config;
@@ -195,9 +198,14 @@ export default class Container {
       categoryRepository: this.#repositories.categoryRepository,
       redisService: this.#services.redisService,
     });
-
+    // subscription
     this.#usecases.getMySubscriptionUseCase = new GetMySubscriptionUseCase({
       subscriptionRepository: this.#repositories.subscriptionRepository,
+      redisService: this.#services.redisService,
+    });
+    // notification
+    this.#usecases.getMyNotificationsUseCase = new GetMyNotificationsUseCase({
+      notificationRepository: this.#repositories.notificationRepository,
       redisService: this.#services.redisService,
     });
   }
@@ -238,6 +246,10 @@ export default class Container {
 
     this.#controllers.subscriptionController = new SubscriptionController({
       getMySubscriptionUseCase: this.#usecases.getMySubscriptionUseCase,
+    });
+
+    this.#controllers.notificationController = new NotificationController({
+      getMyNotificationsUseCase: this.#usecases.getMyNotificationsUseCase,
     });
   }
 

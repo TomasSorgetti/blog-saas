@@ -6,6 +6,7 @@ import SessionRouter from "./session.router.js";
 import ArticleRouter from "./article.router.js";
 import CategoryRouter from "./category.router.js";
 import SubscriptionRouter from "./subscription.router.js";
+import NotificationRouter from "./notification.router.js";
 
 class MainRouter {
   #router;
@@ -40,6 +41,10 @@ class MainRouter {
       categoryController: dependencies.controllers.categoryController,
       jwtService: dependencies.services.jwtService,
     });
+    const notificationRouter = new NotificationRouter({
+      notificationController: dependencies.controllers.notificationController,
+      jwtService: dependencies.services.jwtService,
+    });
 
     this.#router.use("/auth", authRouter.getRouter());
     this.#router.use("/users", userRouter.getRouter());
@@ -47,6 +52,7 @@ class MainRouter {
     this.#router.use("/subscriptions", subscriptionRouter.getRouter());
     this.#router.use("/articles", articleRouter.getRouter());
     this.#router.use("/categories", categoryRouter.getRouter());
+    this.#router.use("/notifications", notificationRouter.getRouter());
   }
 
   getRouter() {
