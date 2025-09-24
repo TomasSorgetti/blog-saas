@@ -1,4 +1,5 @@
 ---
+import Footer from "../components/Footer.astro";
 import Navigation from "../components/Navigation.astro";
 import "../styles/global.css";
 
@@ -15,10 +16,11 @@ const { title } = Astro.props;
     <title>{title} | Documentación del parcial</title>
   </head>
   <body>
-    <main class="container mx-auto max-w-6xl py-20">
+    <main class="container mx-auto max-w-6xl pt-20">
       <h1 class="text-5xl font-bold">Documentación del parcial</h1>
       <Navigation />
       <slot />
+      <Footer />
     </main>
   </body>
 </html>

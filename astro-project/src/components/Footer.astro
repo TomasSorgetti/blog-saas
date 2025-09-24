@@ -1,0 +1,24 @@
+---
+
+---
+
+<footer class="text-center p-10 space-y-4 border-t border-gray-200">
+  <ul>
+    <li>Alumno: Tomás Sorgetti</li>
+    <li>Materia: Aplicaciones Híbridas</li>
+    <li>Docente: Jonathan Cruz</li>
+    <li>Comisión: DWN4AV</li>
+  </ul>
+  <small class="text-sm" itemprop="copyrightNotice">
+    © <span id="dynamic-year">{new Date().getFullYear()}</span> Todos los derechos
+    reservados.
+  </small>
+</footer>
+
+<script>
+  const yearElement = document.getElementById("dynamic-year");
+
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear().toString();
+  }
+</script>
