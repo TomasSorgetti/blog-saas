@@ -108,7 +108,7 @@ docker compose -f docker-compose.yml -f docker-compose.override.yml up --build
 
 # if you make changes to docker-compose.override.yml or .env
 docker compose build --no-cache
-docker compose up --build
+docker compose up
 
 
 # production
@@ -192,7 +192,15 @@ Test endpoints at
 - [ ] **Monitoreo**: (pendiente: Sentry, Grafana).
 - [ ] **AI**: integración futura con modelos LLM.
 
+## Datos
+
+- **Alumno**: Tomás Sorgetti
+- **Materia**: Aplicaciones Hibridas
+- **Nombre del docente**: Jonathan Cruz
+- **Comisión**: DWN4AV
+
 ## todo
 
 - añadir trim() y toLowerCase() a los datos de entrada en las entities
 - añadir rate limiters
+- añadir footer con data del alumno
