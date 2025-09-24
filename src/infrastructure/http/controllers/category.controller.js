@@ -5,16 +5,19 @@ export default class CategoryController {
   #updateCategoryUseCase;
   #deleteCategoryUseCase;
   #getAllCategoriesUseCase;
+  #getCategoryUseCase;
 
   constructor({
     createCategoryUseCase,
     getAllCategoriesUseCase,
+    getCategoryUseCase,
     updateCategoryUseCase,
     deleteCategoryUseCase,
   }) {
     this.#createCategoryUseCase = createCategoryUseCase;
     this.#updateCategoryUseCase = updateCategoryUseCase;
     this.#getAllCategoriesUseCase = getAllCategoriesUseCase;
+    this.#getCategoryUseCase = getCategoryUseCase;
     this.#deleteCategoryUseCase = deleteCategoryUseCase;
   }
 
@@ -32,7 +35,9 @@ export default class CategoryController {
 
   async getCategoryById(req, res, next) {
     try {
-      const data = "NOT_IMPLEMENTED";
+      const { id } = req.params;
+
+      const data = await this.#getCategoryUseCase.execute({ id });
       return successResponse(res, data, "Category retrieved successfully", 200);
     } catch (error) {
       next(error);

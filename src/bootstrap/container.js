@@ -38,6 +38,7 @@ import UpdateArticleUseCase from "../application/article/updateArticle.usecase.j
 import DeleteArticleUseCase from "../application/article/deleteArticle.usecase.js";
 //category usecases
 import GetAllCategoriesUseCase from "../application/category/getAll.usecase.js";
+import GetCategoryUseCase from "../application/category/getOne.usecase.js";
 import CreateCategoryUseCase from "../application/category/create.usecase.js";
 import UpdateCategoryUseCase from "../application/category/update.usecase.js";
 import DeleteCategoryUseCase from "../application/category/delete.usecase.js";
@@ -186,6 +187,10 @@ export default class Container {
       categoryRepository: this.#repositories.categoryRepository,
       redisService: this.#services.redisService,
     });
+    this.#usecases.getCategoryUseCase = new GetCategoryUseCase({
+      categoryRepository: this.#repositories.categoryRepository,
+      redisService: this.#services.redisService,
+    });
     this.#usecases.createCategoryUseCase = new CreateCategoryUseCase({
       categoryRepository: this.#repositories.categoryRepository,
       redisService: this.#services.redisService,
@@ -239,6 +244,7 @@ export default class Container {
 
     this.#controllers.categoryController = new CategoryController({
       getAllCategoriesUseCase: this.#usecases.getAllCategoriesUseCase,
+      getCategoryUseCase: this.#usecases.getCategoryUseCase,
       createCategoryUseCase: this.#usecases.createCategoryUseCase,
       updateCategoryUseCase: this.#usecases.updateCategoryUseCase,
       deleteCategoryUseCase: this.#usecases.deleteCategoryUseCase,

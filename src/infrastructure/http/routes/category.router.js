@@ -34,7 +34,7 @@ export default class CategoryRouter {
      */
     this.#router.get(
       "/:id",
-      this.#authMiddleware,
+      // this.#authMiddleware,
       this.#controller.getCategoryById.bind(this.#controller)
     );
     /**

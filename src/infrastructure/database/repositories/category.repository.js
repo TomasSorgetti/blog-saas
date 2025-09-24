@@ -8,7 +8,11 @@ class CategoryRepository {
   }
 
   async findById(id) {
-    return "NOT_IMPLEMENTED";
+    try {
+      return await this.#model.findById(id).lean().exec();
+    } catch (err) {
+      throw new RepositoryError(err.message);
+    }
   }
 
   async findAll(filters = {}) {
