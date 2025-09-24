@@ -32,7 +32,12 @@ const formattedResponseJSON: string = JSON.stringify(Response, null, 2);
     </p>
     {
       credentialsInclude && (
-        <span class="text-red-500">Credentials include needed</span>
+        <p class="text-red-500 relative">
+          Credentials include needed{" "}
+          <span class="italic text-xs text-gray-500 absolute -bottom-3 left-0 w-full text-center">
+            (automatic in postman)
+          </span>
+        </p>
       )
     }
     <button

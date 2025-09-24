@@ -10,6 +10,8 @@ import {
 } from "../data/auth.js";
 import Request from "../components/ui/Request.astro";
 import { HttpMethod } from "../types/http";
+import AuthRoadmap from "../assets/auth_roadmap.webp";
+import { Image } from "astro:assets";
 ---
 
 <Layout title="Authentication">
@@ -47,6 +49,11 @@ import { HttpMethod } from "../types/http";
       previewJSON={null}
       Response={null}
       credentialsInclude
+    />
+    <Image
+      src={AuthRoadmap}
+      alt="authentication roadmap"
+      class="w-full h-auto"
     />
   </div>
 </Layout>

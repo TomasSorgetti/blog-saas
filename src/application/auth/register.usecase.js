@@ -89,7 +89,9 @@ export default class RegisterUseCase {
       to: newUser.email,
       subject: "Verify your email",
       html: `
-        <h1>Verify your email</h1>
+        <h1>Verify your email, token expires in 1 hour</h1>
+        <h2>IMPORTANTE: Para desarrollo, copiá el token del url y envialo en el campo "token" de la query en la ruta /api/auth/verify</h2>
+        <p>Token: ${verificationToken}</p>
         <a href='${
           this.#env.FRONT_URL
         }/verify-email?token=${verificationToken}'>Verify email</a>
