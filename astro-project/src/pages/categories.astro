@@ -22,6 +22,7 @@ import {
       previewJSON={emptyInput}
       Response={getAllCategoriesResponse}
       credentialsInclude
+      status={200}
     />
     <Request
       method={HttpMethod.POST}
@@ -29,6 +30,7 @@ import {
       previewJSON={createCategoryInput}
       Response={createCategoryResponse}
       credentialsInclude
+      status={201}
     />
     <Request
       method={HttpMethod.PATCH}
@@ -36,6 +38,7 @@ import {
       previewJSON={updateCategoryInput}
       Response={updateCategoryResponse}
       credentialsInclude
+      status={201}
     />
     <Request
       method={HttpMethod.DELETE}
@@ -43,6 +46,7 @@ import {
       previewJSON={emptyInput}
       Response={deleteCategoryResponse}
       credentialsInclude
+      status={201}
     />
   </div>
 </Layout>

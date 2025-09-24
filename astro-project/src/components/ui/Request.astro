@@ -1,6 +1,7 @@
 ---
 import { HttpMethod } from "../../types/http";
 import Method from "./Method.astro";
+import Status from "./Status.astro";
 
 export interface Props {
   method: HttpMethod;
@@ -9,6 +10,7 @@ export interface Props {
   Response?: any;
   useQuery?: boolean;
   credentialsInclude?: boolean;
+  status: number;
 }
 
 const {
@@ -18,6 +20,7 @@ const {
   Response = {},
   useQuery = false,
   credentialsInclude = false,
+  status = 200,
 } = Astro.props;
 
 const formattedPreviewJSON: string = JSON.stringify(previewJSON, null, 2);
@@ -50,7 +53,10 @@ const formattedResponseJSON: string = JSON.stringify(Response, null, 2);
     </button>
   </div>
   <pre
-    class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white">
+    class="json-pre relative w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white overflow-hidden">
+    <div class="absolute top-0 right-10">
+      <Status status={status} />
+    </div>
     {useQuery ? (
       <table class="query-table">
         <thead>
@@ -74,13 +80,30 @@ const formattedResponseJSON: string = JSON.stringify(Response, null, 2);
 </div>
 
 <style>
-  .json-pre {
-    position: relative;
+  .query-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+
+  .query-table th,
+  .query-table td {
+    border: 1px solid #4b5563;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    overflow: hidden;
+    max-width: 25rem;
+  }
+
+  .query-table thead th {
+    background-color: #1f2937;
+    color: #f9fafb;
+    font-weight: 600;
   }
 
   .json-content,
   .query-table {
-    display: block;
     opacity: 1;
     transition: opacity 0.3s ease;
   }
@@ -88,29 +111,6 @@ const formattedResponseJSON: string = JSON.stringify(Response, null, 2);
   .json-content.fade,
   .query-table.fade {
     opacity: 0;
-  }
-
-  .query-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: "Consolas", "Monaco", monospace;
-    font-size: 0.9rem;
-  }
-
-  .query-table th,
-  .query-table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #444;
-  }
-
-  .query-table th {
-    color: #f8f8f2;
-    font-weight: bold;
-  }
-
-  .query-table td {
-    color: #f8f8f2;
   }
 
   .toggle-button {

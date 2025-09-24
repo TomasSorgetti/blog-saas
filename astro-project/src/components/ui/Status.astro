@@ -1,0 +1,24 @@
+---
+const { status } = Astro.props;
+
+const color: any = {
+  200: "text-green-500",
+  201: "text-green-500",
+  202: "text-green-500",
+  203: "text-green-500",
+  400: "text-orange-500",
+  401: "text-orange-500",
+  403: "text-orange-500",
+  404: "text-orange-500",
+  500: "text-red-500",
+  501: "text-red-500",
+  502: "text-red-500",
+  503: "text-red-500",
+  504: "text-red-500",
+  default: "text-gray-500",
+};
+
+const colorClass = color[status] ?? color.default;
+---
+
+<span class={colorClass}>{status}</span>

@@ -1,9 +1,26 @@
-<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.13.9"><title>Sessions | Documentación del parcial</title><link rel="stylesheet" href="/_astro/articles.DlrF-K23.css"></head> <body> <main class="container mx-auto max-w-6xl py-20"> <h1 class="text-5xl font-bold">Documentación del parcial</h1> <ul class="flex items-center justify-start gap-4 py-4 mt-20 flex-wrap"> <li> <a href="/" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Authentication </a> </li> <li> <a href="/users" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Users </a> </li> <li> <a href="/sessions" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Sessions </a> </li> <li> <a href="/subscriptions" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Subscriptions </a> </li> <li> <a href="/articles" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Articles </a> </li> <li> <a href="/categories" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Categories </a> </li> <li> <a href="/notifications" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Notifications </a> </li> </ul>  <h2 class="text-3xl mt-20">Sessions</h2> <div class="space-y-20 mt-10"> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-green-500">@GET</span> /api/sessions </p> <p class="text-red-500 relative" data-astro-cid-ojruzr6o>
+<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.13.9"><title>Sessions | Documentación del parcial</title><link rel="stylesheet" href="/_astro/articles.CAimVwxj.css"></head> <body> <main class="container mx-auto max-w-6xl py-20"> <h1 class="text-5xl font-bold">Documentación del parcial</h1> <ul class="flex items-center justify-start gap-4 py-4 mt-20 flex-wrap"> <li> <a href="/" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Authentication </a> </li> <li> <a href="/users" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Users </a> </li> <li> <a href="/sessions" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Sessions </a> </li> <li> <a href="/subscriptions" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Subscriptions </a> </li> <li> <a href="/articles" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Articles </a> </li> <li> <a href="/categories" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Categories </a> </li> <li> <a href="/notifications" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Notifications </a> </li> </ul>  <h2 class="text-3xl mt-20">Sessions</h2> <div class="space-y-20 mt-10"> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-green-500">@GET</span> /api/sessions </p> <p class="text-red-500 relative" data-astro-cid-ojruzr6o>
 Credentials include needed  <span class="italic text-xs text-gray-500 absolute -bottom-3 left-0 w-full text-center" data-astro-cid-ojruzr6o>
 (automatic in postman)
-</span> </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="null" data-response-json="null" data-use-query="false" data-astro-cid-ojruzr6o>
+</span> </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{}" data-response-json="{
+  &#34;success&#34;: true,
+  &#34;status&#34;: 200,
+  &#34;message&#34;: &#34;Sessions retrieved successfully&#34;,
+  &#34;data&#34;: [
+    {
+      &#34;userId&#34;: &#34;68cdd74ceb3d3ce6c8b8e5ae&#34;,
+      &#34;userAgent&#34;: &#34;PostmanRuntime/7.46.0&#34;,
+      &#34;ip&#34;: &#34;172.18.0.1&#34;,
+      &#34;expiresAt&#34;: &#34;2025-10-01T14:27:09.000Z&#34;,
+      &#34;isValid&#34;: true,
+      &#34;createdAt&#34;: &#34;2025-09-24T14:29:13.240Z&#34;
+    }
+  ]
+}" data-use-query="false" data-astro-cid-ojruzr6o>
 Ver respuesta
-</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>null</span>
+</button> </div> <pre class="json-pre relative w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white overflow-hidden" data-astro-cid-ojruzr6o>    <div class="absolute top-0 right-10" data-astro-cid-ojruzr6o>
+      <span class="text-green-500">200</span>
+    </div>
+    <span class="json-content" data-astro-cid-ojruzr6o>{}</span>
   </pre> </div>  <script type="module">document.querySelectorAll(".json-toggle-component").forEach(c=>{const n=c.querySelector(".toggle-button"),t=c.querySelector(".json-pre");let s=t.querySelector(".json-content, .query-table");const d=n.dataset.previewJson||"{}",i=n.dataset.responseJson||"{}",p=n.dataset.useQuery==="true";let r=!1;n.addEventListener("click",()=>{s.classList.add("fade"),setTimeout(()=>{if(r){if(p){const e=document.createElement("table");e.className="query-table";let o="";try{const l=JSON.parse(d);o=Object.entries(l).map(([u,a])=>`<tr><td>${u}</td><td>${typeof a=="object"?JSON.stringify(a):String(a)}</td></tr>`).join("")}catch{o="<tr><td>error</td><td>Invalid JSON</td></tr>"}e.innerHTML=`
               <thead>
                 <tr>
@@ -14,7 +31,15 @@ Ver respuesta
             `,t.innerHTML="",t.appendChild(e)}else{const e=document.createElement("span");e.className="json-content",e.textContent=d,t.innerHTML="",t.appendChild(e)}n.textContent="Ver respuesta"}else{const e=document.createElement("span");e.className="json-content",e.textContent=i,t.innerHTML="",t.appendChild(e),n.textContent="Ocultar respuesta"}s=t.querySelector(".json-content, .query-table"),s.classList.remove("fade"),r=!r},300)})});</script> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-red-500">@DELETE</span> /api/sessions </p> <p class="text-red-500 relative" data-astro-cid-ojruzr6o>
 Credentials include needed  <span class="italic text-xs text-gray-500 absolute -bottom-3 left-0 w-full text-center" data-astro-cid-ojruzr6o>
 (automatic in postman)
-</span> </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="null" data-response-json="null" data-use-query="false" data-astro-cid-ojruzr6o>
+</span> </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{}" data-response-json="{
+  &#34;success&#34;: true,
+  &#34;status&#34;: 201,
+  &#34;message&#34;: &#34;Sessions deleted successfully&#34;,
+  &#34;data&#34;: null
+}" data-use-query="false" data-astro-cid-ojruzr6o>
 Ver respuesta
-</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>null</span>
+</button> </div> <pre class="json-pre relative w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white overflow-hidden" data-astro-cid-ojruzr6o>    <div class="absolute top-0 right-10" data-astro-cid-ojruzr6o>
+      <span class="text-green-500">201</span>
+    </div>
+    <span class="json-content" data-astro-cid-ojruzr6o>{}</span>
   </pre> </div>   </div>  </main> </body></html>

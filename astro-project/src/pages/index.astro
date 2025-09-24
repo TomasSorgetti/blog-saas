@@ -25,12 +25,14 @@ import { Image } from "astro:assets";
       url="/api/auth/login"
       previewJSON={loginBody}
       Response={loginResponse}
+      status={200}
     />
     <Request
       method={HttpMethod.POST}
       url="/api/auth/register"
       previewJSON={registerBody}
       Response={registerResponse}
+      status={201}
     />
     <Request
       method={HttpMethod.POST}
@@ -38,6 +40,7 @@ import { Image } from "astro:assets";
       previewJSON={verifyBody}
       Response={verifyResponse}
       useQuery={true}
+      status={201}
     />
     <Request
       method={HttpMethod.POST}
@@ -45,6 +48,7 @@ import { Image } from "astro:assets";
       previewJSON={emptyInput}
       Response={refreshResponse}
       credentialsInclude
+      status={201}
     />
     <Request
       method={HttpMethod.POST}
@@ -52,6 +56,7 @@ import { Image } from "astro:assets";
       previewJSON={emptyInput}
       Response={logoutResponse}
       credentialsInclude
+      status={200}
     />
     <Image
       src={AuthRoadmap}
