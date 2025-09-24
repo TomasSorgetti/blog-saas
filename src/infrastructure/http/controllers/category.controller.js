@@ -49,7 +49,7 @@ export default class CategoryController {
         userId,
       });
 
-      res.status(204).send();
+      return successResponse(res, null, "Category created successfully", 201);
     } catch (error) {
       next(error);
     }
@@ -63,7 +63,7 @@ export default class CategoryController {
 
       await this.#updateCategoryUseCase.execute({ userId, id, name });
 
-      res.status(204).send();
+      return successResponse(res, null, "Category updated successfully", 201);
     } catch (error) {
       next(error);
     }
@@ -76,7 +76,7 @@ export default class CategoryController {
 
       await this.#deleteCategoryUseCase.execute({ userId, id });
 
-      res.status(204).send();
+      return successResponse(res, null, "Category deleted successfully", 201);
     } catch (error) {
       next(error);
     }

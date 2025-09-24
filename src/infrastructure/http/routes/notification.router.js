@@ -22,8 +22,8 @@ export default class NotificationRouter {
      * @GET /api/notifications/
      */
     this.#router.get(
-      "/me/:userId",
-      // this.#authMiddleware,
+      "/me",
+      this.#authMiddleware,
       this.#controller.getAll.bind(this.#controller)
     );
   }

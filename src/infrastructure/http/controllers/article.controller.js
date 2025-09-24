@@ -90,7 +90,7 @@ export default class ArticleController {
         categories,
       });
 
-      res.status(204).send();
+      return successResponse(res, null, "Article created successfully", 201);
     } catch (error) {
       next(error);
     }
@@ -110,7 +110,7 @@ export default class ArticleController {
         isFeatured,
       } = req.body;
 
-      const data = await this.#updateArticleUseCase.execute({
+      await this.#updateArticleUseCase.execute({
         title,
         slug,
         content,
@@ -121,7 +121,8 @@ export default class ArticleController {
         image,
         isFeatured,
       });
-      return successResponse(res, data, "Article retrieved successfully", 200);
+
+      return successResponse(res, null, "Article updated successfully", 201);
     } catch (error) {
       next(error);
     }

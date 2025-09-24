@@ -77,7 +77,7 @@ export default class AuthController {
         res,
         response,
         "User registered successfully. Please verify your email to activate your account.",
-        200
+        201
       );
     } catch (error) {
       next(error);
@@ -88,7 +88,7 @@ export default class AuthController {
     try {
       const { token } = req.query;
       const data = await this.#verifyUseCase.execute(token);
-      return successResponse(res, data, "User verified successfully", 200);
+      return successResponse(res, data, "User verified successfully", 201);
     } catch (error) {
       next(error);
     }
@@ -126,7 +126,7 @@ export default class AuthController {
         maxAge: 28 * 24 * 60 * 60 * 1000,
       });
 
-      res.status(204).send();
+      return successResponse(res, null, "Token refreshed successfully", 201);
     } catch (error) {
       next(error);
     }
@@ -152,7 +152,7 @@ export default class AuthController {
         path: "/",
       });
 
-      res.status(204).send();
+      return successResponse(res, null, "User logged out successfully", 200);
     } catch (error) {
       next(error);
     }

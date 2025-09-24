@@ -2,6 +2,11 @@
 import Request from "../components/ui/Request.astro";
 import { HttpMethod } from "../types/http";
 import Layout from "../layouts/Layout.astro";
+import {
+  createCategoryInput,
+  getAllCategoriesResponse,
+  updateCategoryInput,
+} from "../data/categories";
 ---
 
 <Layout title="Categories">
@@ -11,20 +16,20 @@ import Layout from "../layouts/Layout.astro";
       method={HttpMethod.GET}
       url="/api/categories"
       previewJSON={null}
-      Response={null}
+      Response={getAllCategoriesResponse}
       credentialsInclude
     />
     <Request
       method={HttpMethod.POST}
       url="/api/categories"
-      previewJSON={null}
+      previewJSON={createCategoryInput}
       Response={null}
       credentialsInclude
     />
     <Request
       method={HttpMethod.PATCH}
       url="/api/categories/:id"
-      previewJSON={null}
+      previewJSON={updateCategoryInput}
       Response={null}
       credentialsInclude
     />

@@ -42,7 +42,7 @@ export default class SessionController {
 
       await this.#deleteAllSessionsUseCase.execute(user.id);
 
-      return res.status(204).send();
+      return successResponse(res, null, "Sessions deleted successfully", 201);
     } catch (error) {
       next(error);
     }
@@ -53,8 +53,8 @@ export default class SessionController {
       const { sessionId } = req.user;
 
       await this.#deleteSessionUseCase.execute(sessionId);
-      
-      return res.status(204).send();
+
+      return successResponse(res, null, "Session deleted successfully", 201);
     } catch (error) {
       next(error);
     }

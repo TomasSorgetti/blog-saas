@@ -9,8 +9,7 @@ export default class NotificationController {
 
   async getAll(req, res, next) {
     try {
-      // const userId = req.user.id;
-      const { userId } = req.params;
+      const userId = req.user.id;
 
       const data = await this.#getMyNotificationsUseCase.execute({ userId });
 

@@ -1,5 +1,6 @@
 ---
 import Request from "../components/ui/Request.astro";
+import { getMyNotificationsResponse } from "../data/notifications";
 import Layout from "../layouts/Layout.astro";
 import { HttpMethod } from "../types/http";
 ---
@@ -11,7 +12,7 @@ import { HttpMethod } from "../types/http";
       method={HttpMethod.GET}
       url="/api/notifications/me"
       previewJSON={null}
-      Response={null}
+      Response={getMyNotificationsResponse}
       credentialsInclude
     />
   </div>

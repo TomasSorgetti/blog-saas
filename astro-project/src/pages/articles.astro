@@ -1,7 +1,7 @@
 ---
 import Request from "../components/ui/Request.astro";
 import { HttpMethod } from "../types/http";
-import { createArticleInput } from "../data/articles";
+import { createArticleInput, getAllArticlesResponse } from "../data/articles";
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -12,7 +12,7 @@ import Layout from "../layouts/Layout.astro";
       method={HttpMethod.GET}
       url="/api/articles"
       previewJSON={null}
-      Response={null}
+      Response={getAllArticlesResponse}
     />
     <Request
       method={HttpMethod.POST}
