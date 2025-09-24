@@ -28,23 +28,23 @@ export const loginResponse = {
   message: "Auth retrieved successfully",
   data: {
     user: {
-      id: "68c58bba1958b797be8bbd3b",
+      id: "68cdd74ceb3d3ce6c8b8e5ae",
       username: "Tomas Sorgetti",
       email: "tomassorgetti456@gmail.com",
       role: "user",
       avatar: null,
       isVerified: true,
-      lastLogin: "2025-09-13T18:01:31.626Z",
+      lastLogin: "2025-09-21T19:17:58.717Z",
       isActive: true,
       loginMethods: [
         {
           provider: "email",
-          addedAt: "2025-09-13T15:20:26.419Z",
-          _id: "68c58bba1958b797be8bbd3c",
+          addedAt: "2025-09-19T22:21:00.863Z",
+          _id: "68cdd74ceb3d3ce6c8b8e5af",
         },
       ],
       twoFactorEnabled: false,
-      createdAt: "2025-09-13T15:20:26.419Z",
+      createdAt: "2025-09-19T22:21:00.863Z",
       preferences: {
         language: "en",
         notifications: {
@@ -56,9 +56,9 @@ export const loginResponse = {
           push: false,
         },
       },
-      subscription: "68c58bba1958b797be8bbd3e",
+      subscription: "68cdd74ceb3d3ce6c8b8e5b2",
     },
-    sessionId: "68c5b2e35b845580b407e1fc",
+    sessionId: "68d3ffbdd3fa1de923ede2e4",
   },
 };
 

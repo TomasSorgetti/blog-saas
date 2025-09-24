@@ -1,0 +1,43 @@
+export const getMyNotificationsResponse = {
+  success: true,
+  status: 200,
+  message: "Notifications retrieved successfully",
+  data: {
+    items: [
+      {
+        _id: "68d400a6d3fa1de923ede2ed",
+        userId: "68cdd74ceb3d3ce6c8b8e5ae",
+        type: "activity",
+        message: "¡New article created: tercer post!",
+        read: false,
+        link: "/articles/tercer-post",
+        createdAt: "2025-09-24T14:31:02.033Z",
+        updatedAt: "2025-09-24T14:31:02.033Z",
+        __v: 0,
+      },
+      {
+        _id: "68d04f7e5cc5bb153e2522ab",
+        userId: "68cdd74ceb3d3ce6c8b8e5ae",
+        type: "activity",
+        message: "¡New article created: segundo post!",
+        read: false,
+        link: "/articles/segundo-post",
+        createdAt: "2025-09-21T19:18:22.671Z",
+        updatedAt: "2025-09-21T19:18:22.671Z",
+        __v: 0,
+      },
+      {
+        _id: "68d04a4c840d9c779505d798",
+        userId: "68cdd74ceb3d3ce6c8b8e5ae",
+        type: "activity",
+        message: "¡New article created: primer post!",
+        read: false,
+        link: "/articles/primer-post",
+        createdAt: "2025-09-21T18:56:12.603Z",
+        updatedAt: "2025-09-21T18:56:12.603Z",
+        __v: 0,
+      },
+    ],
+    total: 3,
+  },
+};

@@ -1,31 +1,4 @@
-<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.13.9"><title>Parcial Node y Express</title><link rel="stylesheet" href="/_astro/index.BjI_lvrL.css"></head> <body>  <main class="container mx-auto py-32"> <h1 class="text-5xl font-bold">Documentación del parcial</h1> <section id="auth" class="mt-10 lg:mt-20"> <h2 class="text-3xl">Autenticación</h2> <div class="space-y-20 mt-20"> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500" data-astro-cid-ojruzr6o>@POST</span> /api/auth/register </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
-  &#34;username&#34;: &#34;&#34;,
-  &#34;email&#34;: &#34;&#34;,
-  &#34;password&#34;: &#34;&#34;
-}" data-response-json="{
-  &#34;success&#34;: true,
-  &#34;status&#34;: 200,
-  &#34;message&#34;: &#34;User registered successfully. Please verify your email to activate your account.&#34;,
-  &#34;data&#34;: {
-    &#34;username&#34;: &#34;Tomas Sorgetti&#34;,
-    &#34;email&#34;: &#34;tomassorgetti456@gmail.com&#34;,
-    &#34;tokenExpiresIn&#34;: &#34;2025-09-13T23:32:14.161Z&#34;
-  }
-}" data-use-query="false" data-astro-cid-ojruzr6o>
-Ver respuesta
-</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>{
-  &quot;username&quot;: &quot;&quot;,
-  &quot;email&quot;: &quot;&quot;,
-  &quot;password&quot;: &quot;&quot;
-}</span>
-  </pre> </div>  <script type="module">document.querySelectorAll(".json-toggle-component").forEach(c=>{const n=c.querySelector(".toggle-button"),t=c.querySelector(".json-pre");let s=t.querySelector(".json-content, .query-table");const d=n.dataset.previewJson||"{}",i=n.dataset.responseJson||"{}",p=n.dataset.useQuery==="true";let r=!1;n.addEventListener("click",()=>{s.classList.add("fade"),setTimeout(()=>{if(r){if(p){const e=document.createElement("table");e.className="query-table";let o="";try{const l=JSON.parse(d);o=Object.entries(l).map(([u,a])=>`<tr><td>${u}</td><td>${typeof a=="object"?JSON.stringify(a):String(a)}</td></tr>`).join("")}catch{o="<tr><td>error</td><td>Invalid JSON</td></tr>"}e.innerHTML=`
-              <thead>
-                <tr>
-                  Query Params
-                </tr>
-              </thead>
-              <tbody>${o}</tbody>
-            `,t.innerHTML="",t.appendChild(e)}else{const e=document.createElement("span");e.className="json-content",e.textContent=d,t.innerHTML="",t.appendChild(e)}n.textContent="Ver respuesta"}else{const e=document.createElement("span");e.className="json-content",e.textContent=i,t.innerHTML="",t.appendChild(e),n.textContent="Ocultar respuesta"}s=t.querySelector(".json-content, .query-table"),s.classList.remove("fade"),r=!r},300)})});</script> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500" data-astro-cid-ojruzr6o>@POST</span> /api/auth/login </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
+<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.13.9"><title>Authentication | Documentación del parcial</title><link rel="stylesheet" href="/_astro/articles.DlrF-K23.css"></head> <body> <main class="container mx-auto max-w-6xl py-20"> <h1 class="text-5xl font-bold">Documentación del parcial</h1> <ul class="flex items-center justify-start gap-4 py-4 mt-20 flex-wrap"> <li> <a href="/" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out bg-[#FFEBF5] cursor-not-allowed"> Authentication </a> </li> <li> <a href="/users" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Users </a> </li> <li> <a href="/sessions" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Sessions </a> </li> <li> <a href="/subscriptions" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Subscriptions </a> </li> <li> <a href="/articles" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Articles </a> </li> <li> <a href="/categories" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Categories </a> </li> <li> <a href="/notifications" class="px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out hover:shadow-xl"> Notifications </a> </li> </ul>  <h2 class="text-3xl mt-20">Authentication</h2> <div class="space-y-20 mt-10"> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-orange-500">@POST</span> /api/auth/login </p>  <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
   &#34;email&#34;: &#34;tomassorgetti456@gmail.com&#34;,
   &#34;password&#34;: &#34;admin&#34;,
   &#34;rememberme&#34;: false
@@ -74,8 +47,35 @@ Ver respuesta
   &quot;password&quot;: &quot;admin&quot;,
   &quot;rememberme&quot;: false
 }</span>
-  </pre> </div>   <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500" data-astro-cid-ojruzr6o>@POST</span> /api/verify </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
-  &#34;token&#34;: &#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA&#34;
+  </pre> </div>  <script type="module">document.querySelectorAll(".json-toggle-component").forEach(c=>{const n=c.querySelector(".toggle-button"),t=c.querySelector(".json-pre");let s=t.querySelector(".json-content, .query-table");const d=n.dataset.previewJson||"{}",i=n.dataset.responseJson||"{}",p=n.dataset.useQuery==="true";let r=!1;n.addEventListener("click",()=>{s.classList.add("fade"),setTimeout(()=>{if(r){if(p){const e=document.createElement("table");e.className="query-table";let o="";try{const l=JSON.parse(d);o=Object.entries(l).map(([u,a])=>`<tr><td>${u}</td><td>${typeof a=="object"?JSON.stringify(a):String(a)}</td></tr>`).join("")}catch{o="<tr><td>error</td><td>Invalid JSON</td></tr>"}e.innerHTML=`
+              <thead>
+                <tr>
+                  Query Params
+                </tr>
+              </thead>
+              <tbody>${o}</tbody>
+            `,t.innerHTML="",t.appendChild(e)}else{const e=document.createElement("span");e.className="json-content",e.textContent=d,t.innerHTML="",t.appendChild(e)}n.textContent="Ver respuesta"}else{const e=document.createElement("span");e.className="json-content",e.textContent=i,t.innerHTML="",t.appendChild(e),n.textContent="Ocultar respuesta"}s=t.querySelector(".json-content, .query-table"),s.classList.remove("fade"),r=!r},300)})});</script> <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-orange-500">@POST</span> /api/auth/register </p>  <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
+  &#34;username&#34;: &#34;Tomas Sorg&#34;,
+  &#34;email&#34;: &#34;tomas.sorgetti@davinci.edu.ar&#34;,
+  &#34;password&#34;: &#34;admin&#34;
+}" data-response-json="{
+  &#34;success&#34;: true,
+  &#34;status&#34;: 200,
+  &#34;message&#34;: &#34;User registered successfully. Please verify your email to activate your account.&#34;,
+  &#34;data&#34;: {
+    &#34;username&#34;: &#34;Tomas Sorgetti&#34;,
+    &#34;email&#34;: &#34;tomassorgetti456@gmail.com&#34;,
+    &#34;tokenExpiresIn&#34;: &#34;2025-09-13T23:32:14.161Z&#34;
+  }
+}" data-use-query="false" data-astro-cid-ojruzr6o>
+Ver respuesta
+</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>{
+  &quot;username&quot;: &quot;Tomas Sorg&quot;,
+  &quot;email&quot;: &quot;tomas.sorgetti@davinci.edu.ar&quot;,
+  &quot;password&quot;: &quot;admin&quot;
+}</span>
+  </pre> </div>   <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-orange-500">@POST</span> /api/auth/verify </p>  <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="{
+  &#34;token&#34;: &#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9&#34;
 }" data-response-json="{
   &#34;success&#34;: true,
   &#34;status&#34;: 200,
@@ -91,8 +91,20 @@ Ver respuesta
         <tbody data-astro-cid-ojruzr6o>
           <tr data-astro-cid-ojruzr6o>
               <td data-astro-cid-ojruzr6o>token</td>
-              <td data-astro-cid-ojruzr6o>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA</td>
+              <td data-astro-cid-ojruzr6o>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</td>
             </tr>
         </tbody>
       </table>
-  </pre> </div>   </div> </section> </main>  </body></html>
+  </pre> </div>   <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-orange-500">@POST</span> /api/auth/refresh </p> <p class="text-red-500 relative" data-astro-cid-ojruzr6o>
+Credentials include needed  <span class="italic text-xs text-gray-500 absolute -bottom-3 left-0 w-full text-center" data-astro-cid-ojruzr6o>
+(automatic in postman)
+</span> </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="null" data-response-json="null" data-use-query="false" data-astro-cid-ojruzr6o>
+Ver respuesta
+</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>null</span>
+  </pre> </div>   <div class="mt-10 json-toggle-component" data-astro-cid-ojruzr6o> <div class="w-full flex items-center justify-between" data-astro-cid-ojruzr6o> <p class="flex items-center gap-20" data-astro-cid-ojruzr6o> <span class="italic text-gray-500 text-orange-500">@POST</span> /api/auth/logout </p> <p class="text-red-500 relative" data-astro-cid-ojruzr6o>
+Credentials include needed  <span class="italic text-xs text-gray-500 absolute -bottom-3 left-0 w-full text-center" data-astro-cid-ojruzr6o>
+(automatic in postman)
+</span> </p> <button class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer" data-preview-json="null" data-response-json="null" data-use-query="false" data-astro-cid-ojruzr6o>
+Ver respuesta
+</button> </div> <pre class="json-pre w-full bg-gray-800 min-h-60 rounded mt-10 p-12 text-white" data-astro-cid-ojruzr6o>    <span class="json-content" data-astro-cid-ojruzr6o>null</span>
+  </pre> </div>   <img src="/_astro/auth_roadmap.CNVn9rpZ_ZCvVeD.webp" alt="authentication roadmap" loading="lazy" decoding="async" fetchpriority="auto" width="1513" height="1869" class="w-full h-auto"> </div>  </main> </body></html>
