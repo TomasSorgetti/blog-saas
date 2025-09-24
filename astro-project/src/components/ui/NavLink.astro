@@ -1,0 +1,14 @@
+---
+const { href } = Astro.props;
+
+const isActive = Astro.url.pathname === href;
+---
+
+<a
+  href={href}
+  class={`px-6 py-2 rounded-full border border-gray-200 shadow duration-300 ease-in-out ${
+    isActive ? "bg-[#FFEBF5] cursor-not-allowed" : "hover:shadow-xl"
+  }`}
+>
+  <slot />
+</a>

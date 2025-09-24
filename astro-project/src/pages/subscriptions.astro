@@ -1,0 +1,17 @@
+---
+import Request, { HttpMethod } from "../components/ui/Request.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <h2 class="text-3xl mt-20">Subscriptions</h2>
+  <div class="space-y-20 mt-10">
+    <Request
+      method={HttpMethod.GET}
+      url="/api/subscriptions/me"
+      previewJSON={null}
+      Response={null}
+      credentialsInclude
+    />
+  </div>
+</Layout>

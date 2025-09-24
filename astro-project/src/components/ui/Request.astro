@@ -13,6 +13,7 @@ export interface Props {
   previewJSON?: any;
   Response?: any;
   useQuery?: boolean;
+  credentialsInclude?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   previewJSON = {},
   Response = {},
   useQuery = false,
+  credentialsInclude = false,
 } = Astro.props;
 
 const formattedPreviewJSON: string = JSON.stringify(previewJSON, null, 2);
@@ -30,9 +32,23 @@ const formattedResponseJSON: string = JSON.stringify(Response, null, 2);
 <div class="mt-10 json-toggle-component">
   <div class="w-full flex items-center justify-between">
     <p class="flex items-center gap-20">
-      <span class="italic text-gray-500">@{method}</span>
+      <span
+        class:list={[
+          "italic text-gray-500",
+          method === HttpMethod.GET && "text-green-500",
+          method === HttpMethod.POST && "text-orange-500",
+          method === HttpMethod.PUT && "text-violet-400",
+          method === HttpMethod.PATCH && "text-violet-800",
+          method === HttpMethod.DELETE && "text-red-500",
+        ]}>@{method}</span
+      >
       {url}
     </p>
+    {
+      credentialsInclude && (
+        <span class="text-red-500">Credentials include needed</span>
+      )
+    }
     <button
       class="toggle-button px-6 py-3 bg-blue-500 rounded text-white cursor-pointer"
       data-preview-json={formattedPreviewJSON}

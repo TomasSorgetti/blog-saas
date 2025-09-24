@@ -1,12 +1,10 @@
----
-import Request, { HttpMethod } from "./ui/Request.astro";
-
-const registerBody = {
-  username: "",
-  email: "",
-  password: "",
+export const registerBody = {
+  username: "Tomas Sorg",
+  email: "tomas.sorgetti@davinci.edu.ar",
+  password: "admin",
 };
-const registerResponse = {
+
+export const registerResponse = {
   success: true,
   status: 200,
   message:
@@ -18,13 +16,13 @@ const registerResponse = {
   },
 };
 
-const loginBody = {
+export const loginBody = {
   email: "tomassorgetti456@gmail.com",
   password: "admin",
   rememberme: false,
 };
 
-const loginResponse = {
+export const loginResponse = {
   success: true,
   status: 200,
   message: "Auth retrieved successfully",
@@ -64,39 +62,13 @@ const loginResponse = {
   },
 };
 
-const verifyBody = {
+export const verifyBody = {
   token:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA",
 };
 
-const verifyResponse = {
+export const verifyResponse = {
   success: true,
   status: 200,
   message: "User verified successfully",
 };
----
-
-<section id="auth" class="mt-10 lg:mt-20">
-  <h2 class="text-3xl">Autenticación</h2>
-  <div class="space-y-20 mt-20">
-    <Request
-      method={HttpMethod.POST}
-      url="/api/auth/register"
-      previewJSON={registerBody}
-      Response={registerResponse}
-    />
-    <Request
-      method={HttpMethod.POST}
-      url="/api/auth/login"
-      previewJSON={loginBody}
-      Response={loginResponse}
-    />
-    <Request
-      method={HttpMethod.POST}
-      url="/api/verify"
-      previewJSON={verifyBody}
-      Response={verifyResponse}
-      useQuery={true}
-    />
-  </div>
-</section>

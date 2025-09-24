@@ -1,0 +1,24 @@
+---
+import Request, { HttpMethod } from "../components/ui/Request.astro";
+import { createArticleInput } from "../data/articles";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <h2 class="text-3xl mt-20">Articles</h2>
+  <div class="space-y-20 mt-10">
+    <Request
+      method={HttpMethod.GET}
+      url="/api/articles"
+      previewJSON={null}
+      Response={null}
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/articles"
+      previewJSON={createArticleInput}
+      Response={null}
+      credentialsInclude
+    />
+  </div>
+</Layout>

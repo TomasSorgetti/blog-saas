@@ -1,11 +1,37 @@
 ---
-import Auth from "../components/Auth.astro";
 import Layout from "../layouts/Layout.astro";
+import {
+  registerBody,
+  registerResponse,
+  loginBody,
+  loginResponse,
+  verifyBody,
+  verifyResponse,
+} from "../data/auth.js";
+import Request, { HttpMethod } from "../components/ui/Request.astro";
 ---
 
 <Layout>
-  <main class="container mx-auto py-32">
-    <h1 class="text-5xl font-bold">Documentación del parcial</h1>
-    <Auth />
-  </main>
+  <h2 class="text-3xl mt-20">Autentication</h2>
+  <div class="space-y-20 mt-10">
+    <Request
+      method={HttpMethod.POST}
+      url="/api/auth/login"
+      previewJSON={loginBody}
+      Response={loginResponse}
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/auth/register"
+      previewJSON={registerBody}
+      Response={registerResponse}
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/verify"
+      previewJSON={verifyBody}
+      Response={verifyResponse}
+      useQuery={true}
+    />
+  </div>
 </Layout>

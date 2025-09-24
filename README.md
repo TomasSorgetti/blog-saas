@@ -181,5 +181,5 @@ Test endpoints at
 
 ## todo
 
-- añadir trim() a los datos de entrada en las entities
+- añadir trim() y toLowerCase() a los datos de entrada en las entities
 - añadir rate limiters
