@@ -64,7 +64,8 @@ export const loginResponse = {
 
 export const verifyBody = {
   token:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA",
+    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
 };
 
 export const verifyResponse = {

@@ -1,0 +1,15 @@
+---
+import { HttpMethod } from "../../types/http";
+const { method } = Astro.props;
+---
+
+<span
+  class:list={[
+    "italic text-gray-500",
+    method === HttpMethod.GET && "text-green-500",
+    method === HttpMethod.POST && "text-orange-500",
+    method === HttpMethod.PUT && "text-violet-400",
+    method === HttpMethod.PATCH && "text-violet-800",
+    method === HttpMethod.DELETE && "text-red-500",
+  ]}>@{method}</span
+>

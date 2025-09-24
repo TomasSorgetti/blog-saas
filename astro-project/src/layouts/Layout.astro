@@ -1,6 +1,8 @@
 ---
 import Navigation from "../components/Navigation.astro";
 import "../styles/global.css";
+
+const { title } = Astro.props;
 ---
 
 <!doctype html>
@@ -10,10 +12,10 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Parcial Node y Express</title>
+    <title>{title} | Documentación del parcial</title>
   </head>
   <body>
-    <main class="container mx-auto py-32">
+    <main class="container mx-auto max-w-6xl py-20">
       <h1 class="text-5xl font-bold">Documentación del parcial</h1>
       <Navigation />
       <slot />

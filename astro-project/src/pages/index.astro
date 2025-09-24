@@ -8,11 +8,12 @@ import {
   verifyBody,
   verifyResponse,
 } from "../data/auth.js";
-import Request, { HttpMethod } from "../components/ui/Request.astro";
+import Request from "../components/ui/Request.astro";
+import { HttpMethod } from "../types/http";
 ---
 
-<Layout>
-  <h2 class="text-3xl mt-20">Autentication</h2>
+<Layout title="Authentication">
+  <h2 class="text-3xl mt-20">Authentication</h2>
   <div class="space-y-20 mt-10">
     <Request
       method={HttpMethod.POST}
@@ -28,10 +29,24 @@ import Request, { HttpMethod } from "../components/ui/Request.astro";
     />
     <Request
       method={HttpMethod.POST}
-      url="/api/verify"
+      url="/api/auth/verify"
       previewJSON={verifyBody}
       Response={verifyResponse}
       useQuery={true}
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/auth/refresh"
+      previewJSON={null}
+      Response={null}
+      credentialsInclude
+    />
+    <Request
+      method={HttpMethod.POST}
+      url="/api/auth/logout"
+      previewJSON={null}
+      Response={null}
+      credentialsInclude
     />
   </div>
 </Layout>

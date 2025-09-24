@@ -1,11 +1,6 @@
 ---
-export enum HttpMethod {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  PATCH = "PATCH",
-  DELETE = "DELETE",
-}
+import { HttpMethod } from "../../types/http";
+import Method from "./Method.astro";
 
 export interface Props {
   method: HttpMethod;
@@ -32,16 +27,7 @@ const formattedResponseJSON: string = JSON.stringify(Response, null, 2);
 <div class="mt-10 json-toggle-component">
   <div class="w-full flex items-center justify-between">
     <p class="flex items-center gap-20">
-      <span
-        class:list={[
-          "italic text-gray-500",
-          method === HttpMethod.GET && "text-green-500",
-          method === HttpMethod.POST && "text-orange-500",
-          method === HttpMethod.PUT && "text-violet-400",
-          method === HttpMethod.PATCH && "text-violet-800",
-          method === HttpMethod.DELETE && "text-red-500",
-        ]}>@{method}</span
-      >
+      <Method method={method} />
       {url}
     </p>
     {
