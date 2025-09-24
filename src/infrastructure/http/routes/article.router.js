@@ -55,10 +55,11 @@ export default class ArticleRouter {
       this.#controller.createPost.bind(this.#controller)
     );
     /**
-     * @PATCH /api/articles/:id
+     * @PATCH /api/articles/:slug
      */
     this.#router.patch(
       "/:slug",
+      // todo => auth middleware
       ArticleValidation.update().handle,
       this.#controller.updatePost.bind(this.#controller)
     );

@@ -7,6 +7,9 @@ import {
   loginResponse,
   verifyBody,
   verifyResponse,
+  emptyInput,
+  refreshResponse,
+  logoutResponse,
 } from "../data/auth.js";
 import Request from "../components/ui/Request.astro";
 import { HttpMethod } from "../types/http";
@@ -39,15 +42,15 @@ import { Image } from "astro:assets";
     <Request
       method={HttpMethod.POST}
       url="/api/auth/refresh"
-      previewJSON={null}
-      Response={null}
+      previewJSON={emptyInput}
+      Response={refreshResponse}
       credentialsInclude
     />
     <Request
       method={HttpMethod.POST}
       url="/api/auth/logout"
-      previewJSON={null}
-      Response={null}
+      previewJSON={emptyInput}
+      Response={logoutResponse}
       credentialsInclude
     />
     <Image

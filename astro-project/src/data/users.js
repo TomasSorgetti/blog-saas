@@ -1,3 +1,5 @@
+export const emptyInput = {};
+
 export const profileResponse = {
   success: true,
   status: 200,

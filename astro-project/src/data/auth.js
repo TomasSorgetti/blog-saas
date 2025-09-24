@@ -1,7 +1,21 @@
+export const emptyInput = {};
+
 export const registerBody = {
   username: "Tomas Sorg",
   email: "tomas.sorgetti@davinci.edu.ar",
   password: "admin",
+};
+
+export const loginBody = {
+  email: "tomassorgetti456@gmail.com",
+  password: "admin",
+  rememberme: false,
+};
+
+export const verifyBody = {
+  token:
+    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
 };
 
 export const registerResponse = {
@@ -14,12 +28,6 @@ export const registerResponse = {
     email: "tomassorgetti456@gmail.com",
     tokenExpiresIn: "2025-09-13T23:32:14.161Z",
   },
-};
-
-export const loginBody = {
-  email: "tomassorgetti456@gmail.com",
-  password: "admin",
-  rememberme: false,
 };
 
 export const loginResponse = {
@@ -62,14 +70,22 @@ export const loginResponse = {
   },
 };
 
-export const verifyBody = {
-  token:
-    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGM1ZjBlZTIwMDQ0OTQ1ODRiYjIyYWMiLCJpYXQiOjE3NTc4MDI3MzQsImV4cCI6MTc1NzgwNjMzNH0.auGQXlguV5Re9X5edTn_Nqq1VDYc4nnrIiF0VZDXRsA",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-};
-
 export const verifyResponse = {
   success: true,
   status: 200,
   message: "User verified successfully",
+};
+
+export const refreshResponse = {
+  success: true,
+  status: 201,
+  message: "Token refreshed successfully",
+  data: null,
+};
+
+export const logoutResponse = {
+  success: true,
+  status: 200,
+  message: "User logged out successfully",
+  data: null,
 };

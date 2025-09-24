@@ -1,3 +1,5 @@
+export const emptyInput = {};
+
 export const getMySubscriptionsResponse = {
   success: true,
   status: 200,

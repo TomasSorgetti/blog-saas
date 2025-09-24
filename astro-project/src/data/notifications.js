@@ -1,3 +1,5 @@
+export const emptyInput = {};
+
 export const getMyNotificationsResponse = {
   success: true,
   status: 200,

@@ -20,6 +20,7 @@ export default class UpdateArticleUseCase {
   }
 
   async execute(articleData) {
+    //todo => validate user id
     const article = new ArticleEntity(articleData).toObject();
     const updatedArticle = await this.#articleRepository.update(
       article.slug,

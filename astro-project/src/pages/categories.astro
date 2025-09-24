@@ -3,9 +3,13 @@ import Request from "../components/ui/Request.astro";
 import { HttpMethod } from "../types/http";
 import Layout from "../layouts/Layout.astro";
 import {
+  emptyInput,
   createCategoryInput,
   getAllCategoriesResponse,
   updateCategoryInput,
+  createCategoryResponse,
+  updateCategoryResponse,
+  deleteCategoryResponse,
 } from "../data/categories";
 ---
 
@@ -15,7 +19,7 @@ import {
     <Request
       method={HttpMethod.GET}
       url="/api/categories"
-      previewJSON={null}
+      previewJSON={emptyInput}
       Response={getAllCategoriesResponse}
       credentialsInclude
     />
@@ -23,21 +27,21 @@ import {
       method={HttpMethod.POST}
       url="/api/categories"
       previewJSON={createCategoryInput}
-      Response={null}
+      Response={createCategoryResponse}
       credentialsInclude
     />
     <Request
       method={HttpMethod.PATCH}
       url="/api/categories/:id"
       previewJSON={updateCategoryInput}
-      Response={null}
+      Response={updateCategoryResponse}
       credentialsInclude
     />
     <Request
       method={HttpMethod.DELETE}
       url="/api/categories/:id"
-      previewJSON={null}
-      Response={null}
+      previewJSON={emptyInput}
+      Response={deleteCategoryResponse}
       credentialsInclude
     />
   </div>

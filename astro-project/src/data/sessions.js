@@ -1,3 +1,5 @@
+export const emptyInput = {};
+
 export const getAllResponse = {
   success: true,
   status: 200,
@@ -12,4 +14,11 @@ export const getAllResponse = {
       createdAt: "2025-09-24T14:29:13.240Z",
     },
   ],
+};
+
+export const deleteAllSessionsResponse = {
+  success: true,
+  status: 201,
+  message: "Sessions deleted successfully",
+  data: null,
 };

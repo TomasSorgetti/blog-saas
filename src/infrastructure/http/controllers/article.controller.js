@@ -98,6 +98,7 @@ export default class ArticleController {
 
   async updatePost(req, res, next) {
     try {
+      //todo => validate user id
       const { slug } = req.params;
       const {
         title,

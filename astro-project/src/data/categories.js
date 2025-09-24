@@ -1,3 +1,5 @@
+export const emptyInput = {};
+
 export const createCategoryInput = {
   name: "javascript",
 };
@@ -22,4 +24,25 @@ export const getAllCategoriesResponse = {
       __v: 0,
     },
   ],
+};
+
+export const createCategoryResponse = {
+  success: true,
+  status: 201,
+  message: "Category created successfully",
+  data: null,
+};
+
+export const updateCategoryResponse = {
+  success: true,
+  status: 201,
+  message: "Category updated successfully",
+  data: null,
+};
+
+export const deleteCategoryResponse = {
+  success: true,
+  status: 201,
+  message: "Category deleted successfully",
+  data: null,
 };
