@@ -1,9 +1,6 @@
-# Blog SaaS 🚀
+# Blog SaaS [demo-link](https://parcial-express.tomassorgetti.com.ar)
 
-http://parcial-express.tomassorgetti.com.ar/
-
-Blog SaaS es una plataforma para **crear, gestionar y consumir artículos** como servicio.  
-El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de suscripción, API pública y herramientas de inteligencia artificial para potenciar la creación de contenido.
+Blog SaaS es una plataforma para **crear, gestionar y consumir artículos** como servicio. El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de suscripción, API pública y herramientas de inteligencia artificial para potenciar la creación de contenido.
 
 ---
 
@@ -62,22 +59,6 @@ El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de s
 
 ---
 
-## 🛠️ Tecnologías
-
-- **Backend**: Node.js + Express.
-- **Base de datos**: MongoDB.
-- **Búsqueda**: Elasticsearch.
-- **Cache**: Redis.
-- **Notificaciones en tiempo real**: Socket.io.
-- **Colas de trabajo**: Bull.
-- **Autenticación**:
-  - JWT (sesiones internas).
-  - API Keys (consumo externo, scopes).
-- **Contenerización**: Docker.
-- **Monitoreo**: (pendiente: Sentry, Grafana).
-- **Notificaciones**: Websockets.
-- **AI**: integración futura con modelos LLM.
-
 ## How to start
 
 ### env
@@ -89,25 +70,18 @@ Add a .env file with this variables
 PORT=8080
 NODE_ENV=development
 API_URL=http://localhost
-FRONT_URL=http://localhost:4321
+FRONT_URL=http://localhost:5173
 
 # security
-JWT_ACCESS_SECRET=your_access_secret
-JWT_REFRESH_SECRET=your_refresh_secret
+JWT_ACCESS_SECRET=Z07sJgvqm9YJiOVVtO1imWLXa8kIk1MXn8cd4IbP7B3CSg8eqk
+JWT_REFRESH_SECRET=c8BLRXEnXhKWyW89HukN4SbjO9dvgFgEyxR3dianJYvYUzXz6J
 HASH_SALT_ROUNDS=10
 
 # MongoDB
-MONGO_URL=mongodb://mongo:27017
-MONGO_DB_NAME=blog_saas
+MONGO_URL=mongodb://mongo:27017/blog_saas
 
 # Redis
 REDIS_URL=redis://redis:6379
-
-# Elasticsearch
-ELASTICSEARCH_URL=http://elasticsearch:9200
-
-# RabbitMQ queue
-RABBIT_URL=amqp://user:password@rabbitmq:5672/
 
 # Email resend
 RESEND_API_KEY=your_resend_api_key
@@ -119,14 +93,39 @@ RESEND_API_KEY=your_resend_api_key
 # go into your project folder
 cd your_project/
 
+# confirm port 80 is free
+lsof -i :80 #linux
+netstat -ano | findstr :80 #windows
+
+# confirm docker installed and running
+docker --version
+systemctl status docker #linux
+#for windows open docker desktop
+
 # build and start application with docker
-docker-compose up --build
+# development
+docker compose -f docker-compose.yml -f docker-compose.override.yml up --build
+
+# if you make changes to docker-compose.override.yml or .env
+docker compose build --no-cache
+docker compose up --build
+
+
+# production
+docker compose up -d --build
+
 ```
 
 Test endpoints at
 
 ```sh
+# request
 @GET http://localhost/ping
+
+# response
+{
+  "message": "pong"
+}
 ```
 
 ## Arquitectura
@@ -169,15 +168,29 @@ Test endpoints at
 │ │ ├── server.js
 │ │ └── container.js
 │ │
-│ ├── domain
-│ │ ├── entities
-│ │ └── error
-│ │
-│ │
-│ └── server.js
-└── package.json
+│ └── domain
+│   ├── entities
+│   └── error
+│
+│
+├── index.js
+├── package.json
+└── ...rest
 
 ```
+
+## Tecnologías
+
+- [x] **Backend**: Node.js + Express.
+- [x] **Base de datos**: MongoDB.
+- [x] **Cache**: Redis.
+- [x] **Notificaciones en tiempo real**: Socket.io.
+- [x] **Colas de trabajo**: Bull.
+- [x] **Autenticación**: JWT.
+- [x] **Contenerización**: Docker.
+- [ ] **Búsqueda**: Elasticsearch.
+- [ ] **Monitoreo**: (pendiente: Sentry, Grafana).
+- [ ] **AI**: integración futura con modelos LLM.
 
 ## todo
 
