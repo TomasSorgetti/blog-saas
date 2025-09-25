@@ -202,5 +202,4 @@ Test endpoints at
 ## todo
 
 - añadir trim() y toLowerCase() a los datos de entrada en las entities
-- añadir rate limiters
-- añadir footer con data del alumno
+- añadir rate limiters a las rutas

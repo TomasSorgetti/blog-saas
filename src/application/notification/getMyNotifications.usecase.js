@@ -6,6 +6,7 @@ export default class getMyNotificationsUseCase {
   }
 
   async execute({ userId }) {
+    // todo => add redis
     return await this.#notificationRepository.findByUser(userId);
   }
 }

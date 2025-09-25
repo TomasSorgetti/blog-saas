@@ -19,7 +19,7 @@ export default class NotificationRouter {
 
   #setupRoutes() {
     /**
-     * @GET /api/notifications/
+     * @GET /api/notifications/me
      */
     this.#router.get(
       "/me",
