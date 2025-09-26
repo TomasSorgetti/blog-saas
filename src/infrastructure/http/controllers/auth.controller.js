@@ -41,15 +41,17 @@ export default class AuthController {
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: "false",
+        secure: false,
         sameSite: "Lax",
+        path: "/",
         maxAge: 28 * 24 * 60 * 60 * 1000,
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: "false",
+        secure: false,
         sameSite: "Lax",
+        path: "/",
         maxAge: 28 * 24 * 60 * 60 * 1000,
       });
 
@@ -114,15 +116,17 @@ export default class AuthController {
 
       res.cookie("accessToken", newAccesToken, {
         httpOnly: true,
-        secure: "false",
+        secure: false,
         sameSite: "Lax",
+        path: "/",
         maxAge: 28 * 24 * 60 * 60 * 1000,
       });
 
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        secure: "false",
+        secure: false,
         sameSite: "Lax",
+        path: "/",
         maxAge: 28 * 24 * 60 * 60 * 1000,
       });
 
@@ -141,6 +145,7 @@ export default class AuthController {
       res.clearCookie("accessToken", {
         httpOnly: true,
         sameSite: "Lax",
+        path: "/",
         secure: false,
         path: "/",
       });
@@ -148,6 +153,7 @@ export default class AuthController {
       res.clearCookie("refreshToken", {
         httpOnly: true,
         sameSite: "Lax",
+        path: "/",
         secure: false,
         path: "/",
       });
