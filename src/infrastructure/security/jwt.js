@@ -10,8 +10,9 @@ export default class JWTService {
   constructor({
     accessSecret,
     refreshSecret,
-    accessExpires = "1h",
-    refreshExpires = "7d",
+    accessExpires = 3600,
+    // accessExpires = 10,
+    refreshExpires = 60 * 60 * 24 * 7,
   }) {
     if (!accessSecret || !refreshSecret) throw new Error("JWT secrets not set");
 
@@ -24,9 +25,7 @@ export default class JWTService {
 
   signAccess(userId, sessionId, rememberMe = false) {
     const expiresIn = rememberMe
-      ? `${
-          parseInt(this.#defaultAccessExpires) * this.#rememberMultiplier.access
-        }h`
+      ? this.#defaultAccessExpires * this.#rememberMultiplier.access
       : this.#defaultAccessExpires;
 
     return jwt.sign({ userId, sessionId, rememberMe }, this.#accessSecret, {
@@ -36,10 +35,7 @@ export default class JWTService {
 
   signRefresh(userId, rememberMe = false) {
     const expiresIn = rememberMe
-      ? `${
-          parseInt(this.#defaultRefreshExpires) *
-          this.#rememberMultiplier.refresh
-        }d`
+      ? this.#defaultRefreshExpires * this.#rememberMultiplier.refresh
       : this.#defaultRefreshExpires;
 
     return jwt.sign({ userId, rememberMe }, this.#refreshSecret, { expiresIn });

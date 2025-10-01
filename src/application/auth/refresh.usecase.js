@@ -8,16 +8,15 @@ import {
 export default class RefreshUseCase {
   #sessionRepository;
   #jwtService;
+  #hashService;
 
-  constructor({ sessionRepository, jwtService }) {
-    if (!sessionRepository) {
-      throw new Error("sessionRepository is required");
-    }
+  constructor({ sessionRepository, jwtService, hashService }) {
     this.#sessionRepository = sessionRepository;
     this.#jwtService = jwtService;
+    this.#hashService = hashService;
   }
 
-  async execute({ refreshToken }) {
+  async execute(refreshToken) {
     if (!refreshToken) {
       throw new InvalidCredentialsError("No Token provided");
     }
@@ -36,9 +35,15 @@ export default class RefreshUseCase {
       }
     }
 
-    const session = await this.#sessionRepository.findByRefreshToken(
-      refreshToken
+    const sessions = await this.#sessionRepository.findByUserId(
+      payload.userId.toString()
     );
+
+    const session = sessions.find(
+      async (s) => await this.#hashService.verify(refreshToken, s.refreshToken)
+    );
+
+    if (!session) throw new NotFoundError("Session not found");
 
     const newAccesToken = this.#jwtService.signAccess(
       payload.userId,
@@ -50,6 +55,12 @@ export default class RefreshUseCase {
       payload.userId,
       payload.rememberMe
     );
+
+    const newHashedRefreshToken = await this.#hashService.hash(newRefreshToken);
+
+    await this.#sessionRepository.update(session._id, {
+      refreshToken: newHashedRefreshToken,
+    });
 
     return {
       newAccesToken,

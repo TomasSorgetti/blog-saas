@@ -137,6 +137,7 @@ export default class Container {
     this.#usecases.refreshUseCase = new RefreshUseCase({
       sessionRepository: this.#repositories.sessionRepository,
       jwtService: this.#services.jwtService,
+      hashService: this.#services.hashService,
     });
     //user
     this.#usecases.getProfileUseCase = new GetProfileUseCase({

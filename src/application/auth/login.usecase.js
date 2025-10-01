@@ -24,8 +24,7 @@ export default class LoginUseCase {
 
   async execute({ email, password, rememberme, userAgent, ip }) {
     // todo => Soporte de 2FA (Two-Factor Authentication)
-    // todo => Hash refresh tokens
-    // todo => limit a la cantidad de logins (5 por ejemplo)
+    // todo => limit a la cantidad de logins (5)
     const userFound = await this.#userRepository.findByEmail(email);
 
     if (!userFound) throw new NotFoundError("User not found");
@@ -63,9 +62,11 @@ export default class LoginUseCase {
     const { exp } = this.#jwtService.verifyRefresh(refreshToken);
     const expiresAt = new Date(exp * 1000);
 
+    const hashedRefreshToken = await this.#hashService.hash(refreshToken);
+
     const sessionEntity = new SessionEntity({
       userId: user.id,
-      refreshToken,
+      refreshToken: hashedRefreshToken,
       userAgent,
       ip,
       expiresAt,

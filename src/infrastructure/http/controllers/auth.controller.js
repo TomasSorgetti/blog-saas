@@ -110,9 +110,7 @@ export default class AuthController {
       const refreshToken = req.cookies?.refreshToken;
 
       const { newAccesToken, newRefreshToken } =
-        await this.#refreshUseCase.execute({
-          refreshToken,
-        });
+        await this.#refreshUseCase.execute(refreshToken);
 
       res.cookie("accessToken", newAccesToken, {
         httpOnly: true,
