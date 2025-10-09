@@ -46,6 +46,8 @@ import DeleteCategoryUseCase from "../application/category/delete.usecase.js";
 import GetMySubscriptionUseCase from "../application/subscription/getMySubscription.usecase.js";
 //notification usecases
 import GetMyNotificationsUseCase from "../application/notification/getMyNotifications.usecase.js";
+import DeleteOneNotificationUseCase from "../application/notification/deleteOneNotification.usecase.js";
+import MarkAllAsReadUseCase from "../application/notification/markAllAsRead.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -214,6 +216,15 @@ export default class Container {
       notificationRepository: this.#repositories.notificationRepository,
       redisService: this.#services.redisService,
     });
+    this.#usecases.deleteOneNotificationUseCase =
+      new DeleteOneNotificationUseCase({
+        notificationRepository: this.#repositories.notificationRepository,
+        redisService: this.#services.redisService,
+      });
+    this.#usecases.markAllAsReadUseCase = new MarkAllAsReadUseCase({
+      notificationRepository: this.#repositories.notificationRepository,
+      redisService: this.#services.redisService,
+    });
   }
 
   #initializeControllers() {
@@ -257,6 +268,8 @@ export default class Container {
 
     this.#controllers.notificationController = new NotificationController({
       getMyNotificationsUseCase: this.#usecases.getMyNotificationsUseCase,
+      deleteOneNotificationUseCase: this.#usecases.deleteOneNotificationUseCase,
+      markAllAsReadUseCase: this.#usecases.markAllAsReadUseCase,
     });
   }
 

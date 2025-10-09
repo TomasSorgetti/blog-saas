@@ -26,6 +26,22 @@ export default class NotificationRouter {
       this.#authMiddleware,
       this.#controller.getAll.bind(this.#controller)
     );
+    /**
+     * @DELETE /api/notifications/me/:id
+     */
+    this.#router.delete(
+      "/me/:id",
+      this.#authMiddleware,
+      this.#controller.deleteOne.bind(this.#controller)
+    );
+    /**
+     * @PATCH /api/notifications/me
+     */
+    this.#router.patch(
+      "/me",
+      this.#authMiddleware,
+      this.#controller.markAllAsRead.bind(this.#controller)
+    );
   }
 
   getRouter() {
