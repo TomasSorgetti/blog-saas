@@ -30,6 +30,17 @@ export default class WorkbenchRepository {
     }
   }
 
+  async findByUserId(userId) {
+    return this.#model
+      .find({
+        $or: [{ owner: userId }, { "members.userId": userId }],
+        isArchived: false,
+      })
+      .select("name owner members")
+      .lean()
+      .exec();
+  }
+
   async create(workbenchData) {
     try {
       const workbench = new this.#model(workbenchData);

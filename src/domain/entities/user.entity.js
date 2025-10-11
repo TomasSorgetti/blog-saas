@@ -23,6 +23,7 @@ export default class UserEntity {
     preferences = {},
     subscription = null,
     sessions = [],
+    workbenches = [],
   }) {
     if (!email) throw new InvalidInputError("Email is required");
     if (!username) throw new InvalidInputError("Username is required");
@@ -59,6 +60,7 @@ export default class UserEntity {
     };
     this.subscription = subscription;
     this.sessions = sessions;
+    this.workbenches = workbenches;
   }
 
   addLoginMethod(provider, providerId) {
@@ -89,6 +91,15 @@ export default class UserEntity {
       createdAt: this.createdAt,
       preferences: this.preferences,
       subscription: this.subscription,
+      workbenches: this.workbenches.map((w) => ({
+        id: w._id?.toString(),
+        name: w.name,
+        role:
+          w.owner?.toString() === this.id
+            ? "owner"
+            : w.members?.find((m) => m.userId?.toString() === this.id)?.role ||
+              "viewer",
+      })),
     };
   }
 

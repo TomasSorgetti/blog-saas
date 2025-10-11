@@ -58,6 +58,11 @@ const articleSchema = new mongoose.Schema(
       required: true,
     },
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+    workbench: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workbench",
+      required: true,
+    },
   },
   { timestamps: true }
 );

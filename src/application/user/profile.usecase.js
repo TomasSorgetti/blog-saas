@@ -2,10 +2,12 @@ import UserEntity from "../../domain/entities/user.entity.js";
 
 export default class GetProfileUseCase {
   #userRepository;
+  #workbenchRepository;
   #redisService;
 
-  constructor({ userRepository, redisService }) {
+  constructor({ userRepository, workbenchRepository, redisService }) {
     this.#userRepository = userRepository;
+    this.#workbenchRepository = workbenchRepository;
     this.#redisService = redisService;
   }
 
@@ -16,7 +18,10 @@ export default class GetProfileUseCase {
     if (cached) return cached;
 
     const user = await this.#userRepository.findById(userId);
-    const userEntity = new UserEntity(user);
+
+    const workbenches = await this.#workbenchRepository.findByUserId(userId);
+
+    const userEntity = new UserEntity({ ...user, workbenches });
     const sanitized = userEntity.sanitized();
 
     await this.#redisService.set(cacheKey, sanitized, 3600);

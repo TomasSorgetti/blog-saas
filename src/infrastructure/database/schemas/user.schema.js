@@ -105,6 +105,12 @@ const userSchema = new mongoose.Schema(
         ref: "Session",
       },
     ],
+    workbenches: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Workbench",
+      },
+    ],
   },
   { timestamps: true }
 );

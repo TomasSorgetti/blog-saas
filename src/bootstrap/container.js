@@ -144,6 +144,7 @@ export default class Container {
     //user
     this.#usecases.getProfileUseCase = new GetProfileUseCase({
       userRepository: this.#repositories.userRepository,
+      workbenchRepository: this.#repositories.workbenchRepository,
       redisService: this.#services.redisService,
     });
     //session
