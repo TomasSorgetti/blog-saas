@@ -27,6 +27,22 @@ export default class SubscriptionRouter {
       this.#controller.getMySubscription.bind(this.#controller)
     );
     /**
+     * @POST /api/subscriptions/verify-session
+     */
+    this.#router.post(
+      "/verify-session",
+      this.#authMiddleware,
+      this.#controller.verifySession.bind(this.#controller)
+    );
+    /**
+     * @POST /api/subscriptions/checkout
+     */
+    this.#router.post(
+      "/checkout",
+      this.#authMiddleware,
+      this.#controller.stripeCheckout.bind(this.#controller)
+    );
+    /**
      * @POST /api/subscriptions/change
      */
     this.#router.post(

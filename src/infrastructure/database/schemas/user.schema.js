@@ -95,6 +95,10 @@ const userSchema = new mongoose.Schema(
         push: { type: Boolean, default: false },
       },
     },
+    stripeCustomerId: {
+      type: String,
+      default: null,
+    },
     subscription: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",

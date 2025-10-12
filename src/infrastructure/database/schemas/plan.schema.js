@@ -15,6 +15,7 @@ const planSchema = new mongoose.Schema(
       storageLimitMB: { type: Number, default: 500 },
     },
     isActive: { type: Boolean, default: true },
+    stripePriceId: { type: String },
   },
   { timestamps: true }
 );

@@ -34,9 +34,10 @@ export default class WorkbenchRepository {
     return this.#model
       .find({
         $or: [{ owner: userId }, { "members.userId": userId }],
-        isArchived: false,
+        // isArchived: false,
       })
-      .select("name owner members")
+      .populate("owner", "username email avatar")
+      .populate("members.userId", "username email avatar")
       .lean()
       .exec();
   }

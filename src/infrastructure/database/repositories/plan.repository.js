@@ -77,4 +77,12 @@ export default class PlanRepository {
       throw new RepositoryError(err.message);
     }
   }
+
+  async getStripePriceId(planId) {
+    const plan = await this.#model.findById(planId).lean().exec();
+    if (!plan) throw new Error("Plan not found");
+    if (!plan.stripePriceId)
+      throw new Error("Stripe price not configured for this plan");
+    return plan.stripePriceId;
+  }
 }

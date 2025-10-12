@@ -92,13 +92,13 @@ export default class UserEntity {
       preferences: this.preferences,
       subscription: this.subscription,
       workbenches: this.workbenches.map((w) => ({
-        id: w._id?.toString(),
-        name: w.name,
+        ...w.sanitized(),
         role:
-          w.owner?.toString() === this.id
+          w.owner?.id === this.id
             ? "owner"
-            : w.members?.find((m) => m.userId?.toString() === this.id)?.role ||
-              "viewer",
+            : w.members.find(
+                (m) => m.user?.id === this.id || m.userId === this.id
+              )?.role || "viewer",
       })),
     };
   }

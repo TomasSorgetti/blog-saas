@@ -20,6 +20,7 @@ const workbenchSchema = new mongoose.Schema(
     ],
     settings: {
       theme: { type: String, default: "light" },
+      color: { type: String, default: null },
       integrations: [{ type: String }], // ej: "github", "slack"
     },
     isArchived: { type: Boolean, default: false },

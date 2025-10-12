@@ -5,6 +5,7 @@ import JWTService from "../infrastructure/security/jwt.js";
 import EmailService from "../infrastructure/adapters/email/service.js";
 import emailProcessor from "../infrastructure/adapters/queue/processors/email.processor.js";
 import SocketService from "../infrastructure/adapters/socket/service.js";
+import StripeService from "../infrastructure/adapters/stripe/service.js";
 
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
@@ -44,6 +45,9 @@ import UpdateCategoryUseCase from "../application/category/update.usecase.js";
 import DeleteCategoryUseCase from "../application/category/delete.usecase.js";
 //subscription usecases
 import GetMySubscriptionUseCase from "../application/subscription/getMySubscription.usecase.js";
+import CreateSubscriptionUseCase from "../application/subscription/createSubscription.usecase.js";
+import StripeCheckoutUseCase from "../application/subscription/stripeCheckout.usecase.js";
+import StripeVerifySessionUseCase from "../application/subscription/verifyStripeSession.usecase.js";
 //notification usecases
 import GetMyNotificationsUseCase from "../application/notification/getMyNotifications.usecase.js";
 import DeleteOneNotificationUseCase from "../application/notification/deleteOneNotification.usecase.js";
@@ -88,6 +92,8 @@ export default class Container {
       emailProcessor(this.#services.emailService)
     );
     this.#services.socketService = new SocketService();
+
+    this.#services.stripeService = new StripeService(this.#config.stripe);
   }
 
   #initializeRepositories() {
@@ -212,6 +218,21 @@ export default class Container {
       subscriptionRepository: this.#repositories.subscriptionRepository,
       redisService: this.#services.redisService,
     });
+    this.#usecases.createSubscriptionUseCase = new CreateSubscriptionUseCase({
+      subscriptionRepository: this.#repositories.subscriptionRepository,
+      userRepository: this.#repositories.userRepository,
+      stripeService: this.#services.stripeService,
+    });
+    this.#usecases.stripeCheckoutUseCase = new StripeCheckoutUseCase({
+      planRepository: this.#repositories.planRepository,
+      userRepository: this.#repositories.userRepository,
+      stripeService: this.#services.stripeService,
+      env: this.#config.env,
+    });
+    this.#usecases.stripeVerifySessionUseCase = new StripeVerifySessionUseCase({
+      subscriptionRepository: this.#repositories.subscriptionRepository,
+      stripeService: this.#services.stripeService,
+    });
     // notification
     this.#usecases.getMyNotificationsUseCase = new GetMyNotificationsUseCase({
       notificationRepository: this.#repositories.notificationRepository,
@@ -265,6 +286,9 @@ export default class Container {
 
     this.#controllers.subscriptionController = new SubscriptionController({
       getMySubscriptionUseCase: this.#usecases.getMySubscriptionUseCase,
+      createSubscriptionUseCase: this.#usecases.createSubscriptionUseCase,
+      stripeCheckoutUseCase: this.#usecases.stripeCheckoutUseCase,
+      stripeVerifySessionUseCase: this.#usecases.stripeVerifySessionUseCase,
     });
 
     this.#controllers.notificationController = new NotificationController({
