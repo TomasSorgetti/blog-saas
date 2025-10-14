@@ -52,6 +52,8 @@ import StripeVerifySessionUseCase from "../application/subscription/verifyStripe
 import GetMyNotificationsUseCase from "../application/notification/getMyNotifications.usecase.js";
 import DeleteOneNotificationUseCase from "../application/notification/deleteOneNotification.usecase.js";
 import MarkAllAsReadUseCase from "../application/notification/markAllAsRead.usecase.js";
+// plan usecases
+import GetAllPlansUseCase from "../application/plan/getAll.usecase.js";
 
 // Controllers imports
 import AuthController from "../infrastructure/http/controllers/auth.controller.js";
@@ -61,6 +63,7 @@ import ArticleController from "../infrastructure/http/controllers/article.contro
 import CategoryController from "../infrastructure/http/controllers/category.controller.js";
 import SubscriptionController from "../infrastructure/http/controllers/subscription.controller.js";
 import NotificationController from "../infrastructure/http/controllers/notification.controller.js";
+import PlanController from "../infrastructure/http/controllers/plan.controller.js";
 
 export default class Container {
   #config;
@@ -247,6 +250,11 @@ export default class Container {
       notificationRepository: this.#repositories.notificationRepository,
       redisService: this.#services.redisService,
     });
+    // plan
+    this.#usecases.getAllPlansUseCase = new GetAllPlansUseCase({
+      planRepository: this.#repositories.planRepository,
+      redisService: this.#services.redisService,
+    });
   }
 
   #initializeControllers() {
@@ -295,6 +303,10 @@ export default class Container {
       getMyNotificationsUseCase: this.#usecases.getMyNotificationsUseCase,
       deleteOneNotificationUseCase: this.#usecases.deleteOneNotificationUseCase,
       markAllAsReadUseCase: this.#usecases.markAllAsReadUseCase,
+    });
+
+    this.#controllers.planController = new PlanController({
+      getAllPlansUseCase: this.#usecases.getAllPlansUseCase,
     });
   }
 
