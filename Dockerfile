@@ -1,15 +1,17 @@
 FROM node:20-alpine
 
+RUN npm install -g pnpm
+
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN npm install
+RUN pnpm install
 
 COPY . .
 
-RUN npm run build
+# RUN pnpm run build
 
 EXPOSE 8080
 
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "start"]
