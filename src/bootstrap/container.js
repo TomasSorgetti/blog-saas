@@ -74,6 +74,7 @@ export default class Container {
   #repositories = {};
   #usecases = {};
   #controllers = {};
+  #middlewares = {};
 
   constructor(config = {}) {
     if (!config || typeof config !== "object") {
@@ -100,8 +101,10 @@ export default class Container {
     this.#services.socketService = new SocketService();
 
     this.#services.stripeService = new StripeService(this.#config.stripe);
+  }
 
-    this.#services.authMiddleware = new AuthMiddleware({
+  #initializeMiddlewares() {
+    this.#middlewares.authMiddleware = new AuthMiddleware({
       jwtService: this.#services.jwtService,
     });
   }
@@ -323,6 +326,7 @@ export default class Container {
       this.#initializeRepositories();
       this.#initializeUseCases();
       this.#initializeControllers();
+      this.#initializeMiddlewares();
     } catch (error) {
       throw new Error(`Failed to initialize dependencies: ${error.message}`);
     }
@@ -334,6 +338,7 @@ export default class Container {
       repositories: this.#repositories,
       usecases: this.#usecases,
       controllers: this.#controllers,
+      middlewares: this.#middlewares,
     };
   }
 }

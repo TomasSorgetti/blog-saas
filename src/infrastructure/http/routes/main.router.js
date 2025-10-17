@@ -20,35 +20,35 @@ class MainRouter {
   #setupRoutes(dependencies) {
     const authRouter = new AuthRouter({
       authController: dependencies.controllers.authController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const userRouter = new UserRouter({
       userController: dependencies.controllers.userController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const sessionRouter = new SessionRouter({
       sessionController: dependencies.controllers.sessionController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const subscriptionRouter = new SubscriptionRouter({
       subscriptionController: dependencies.controllers.subscriptionController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const articleRouter = new ArticleRouter({
       articleController: dependencies.controllers.articleController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const categoryRouter = new CategoryRouter({
       categoryController: dependencies.controllers.categoryController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const notificationRouter = new NotificationRouter({
       notificationController: dependencies.controllers.notificationController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
     const planRouter = new PlanRouter({
       planController: dependencies.controllers.planController,
-      authMiddleware: dependencies.services.authMiddleware,
+      authMiddleware: dependencies.middlewares.authMiddleware,
     });
 
     this.#router.use("/auth", authRouter.getRouter());
