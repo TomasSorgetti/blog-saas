@@ -4,18 +4,13 @@ import authMiddleware from "../middlewares/auth.middleware.js";
 export default class CategoryRouter {
   #router;
   #controller;
-  #jwtService;
   #authMiddleware;
 
-  constructor({ categoryController, jwtService }) {
-    if (!categoryController) {
-      throw new Error("categoryController is required");
-    }
+  constructor({ categoryController, authMiddleware }) {
     this.#router = express.Router();
+    
     this.#controller = categoryController;
-    this.#jwtService = jwtService;
-
-    this.#authMiddleware = authMiddleware(this.#jwtService);
+    this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
     this.#setupRoutes();
   }

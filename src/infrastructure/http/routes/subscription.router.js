@@ -4,15 +4,13 @@ import authMiddleware from "../middlewares/auth.middleware.js";
 export default class SubscriptionRouter {
   #router;
   #controller;
-  #jwtService;
   #authMiddleware;
 
-  constructor({ subscriptionController, jwtService }) {
+  constructor({ subscriptionController, authMiddleware }) {
     this.#router = express.Router();
+    
     this.#controller = subscriptionController;
-    this.#jwtService = jwtService;
-
-    this.#authMiddleware = authMiddleware(this.#jwtService);
+    this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
     this.#setupRoutes();
   }

@@ -5,18 +5,13 @@ import authMiddleware from "../middlewares/auth.middleware.js";
 export default class ArticleRouter {
   #router;
   #controller;
-  #jwtService;
   #authMiddleware;
 
-  constructor({ articleController, jwtService }) {
-    if (!articleController) {
-      throw new Error("articleController is required");
-    }
+  constructor({ articleController, authMiddleware }) {
     this.#router = express.Router();
     this.#controller = articleController;
-    this.#jwtService = jwtService;
+    this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
-    this.#authMiddleware = authMiddleware(this.#jwtService);
     this.#setupRoutes();
   }
 

@@ -7,6 +7,9 @@ import emailProcessor from "../infrastructure/adapters/queue/processors/email.pr
 import SocketService from "../infrastructure/adapters/socket/service.js";
 import StripeService from "../infrastructure/adapters/stripe/service.js";
 
+// middlewares
+import AuthMiddleware from "../infrastructure/http/middlewares/auth.middleware.js";
+
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
 import SessionRepository from "../infrastructure/database/repositories/session.repository.js";
@@ -97,6 +100,10 @@ export default class Container {
     this.#services.socketService = new SocketService();
 
     this.#services.stripeService = new StripeService(this.#config.stripe);
+
+    this.#services.authMiddleware = new AuthMiddleware({
+      jwtService: this.#services.jwtService,
+    });
   }
 
   #initializeRepositories() {

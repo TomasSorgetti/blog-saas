@@ -4,31 +4,19 @@ import {
   BadRequestError,
 } from "../../../domain/errors/index.js";
 
-export default function authMiddleware(jwtService) {
-  return (req, res, next) => {
+// todo => refactor to class
+export default class AuthMiddleware {
+  constructor({ jwtService }) {
+    this.jwtService = jwtService;
+  }
+
+  handle(req, res, next) {
     try {
       const token = req.cookies?.accessToken;
+      if (!token) throw new BadRequestError("Access token required");
 
-      if (!token) {
-        throw new BadRequestError("Access token required");
-      }
-
-      let payload;
-      try {
-        payload = jwtService.verifyAccess(token);
-      } catch (err) {
-        if (err instanceof jwt.TokenExpiredError) {
-          throw new UnauthorizedError("Access token expired");
-        } else if (err instanceof jwt.JsonWebTokenError) {
-          throw new UnauthorizedError("Invalid access token");
-        } else {
-          throw err;
-        }
-      }
-
-      if (!payload.userId) {
-        throw new UnauthorizedError("Invalid token payload");
-      }
+      const payload = this.jwtService.verifyAccess(token);
+      if (!payload.userId) throw new UnauthorizedError("Invalid token payload");
 
       req.user = {
         id: payload.userId.toString(),
@@ -44,5 +32,5 @@ export default function authMiddleware(jwtService) {
         next(new UnauthorizedError("Invalid or expired access token"));
       }
     }
-  };
+  }
 }

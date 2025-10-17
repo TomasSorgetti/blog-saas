@@ -22,14 +22,20 @@ export default class ArticleController {
   }
 
   async getAll(req, res, next) {
-    const { status, tags, isFeatured } = req.query;
+    const { status, tags, isFeatured, workbenchId, page, limit } = req.query;
+
     //todo => add page and limit
     try {
-      const articles = await this.#getArticlesUseCase.execute({
-        status,
-        tags,
-        isFeatured,
-      });
+      const articles = await this.#getArticlesUseCase.execute(
+        {
+          status,
+          tags,
+          isFeatured,
+        },
+        workbenchId,
+        { page, limit }
+      );
+
       return successResponse(
         res,
         articles,

@@ -7,7 +7,7 @@ export default class GetArticlesUseCase {
     this.#redisService = redisService;
   }
 
-  async execute(filters = {}, { page = 1, limit = 10 } = {}) {
+  async execute(filters = {}, workbenchId, { page = 1, limit = 10 } = {}) {
     const skip = (page - 1) * limit;
 
     const cacheKey = `articles:${JSON.stringify(
@@ -21,10 +21,14 @@ export default class GetArticlesUseCase {
       }
     }
 
-    const { items, total } = await this.#articleRepository.findAll(filters, {
-      skip,
-      limit,
-    });
+    const { items, total } = await this.#articleRepository.findAllByWorkbench(
+      filters,
+      workbenchId,
+      {
+        skip,
+        limit,
+      }
+    );
 
     const result = {
       items,

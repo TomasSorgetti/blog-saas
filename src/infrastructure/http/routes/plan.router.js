@@ -4,15 +4,13 @@ import authMiddleware from "../middlewares/auth.middleware.js";
 export default class PlanRouter {
   #router;
   #controller;
-  #jwtService;
   #authMiddleware;
 
-  constructor({ planController, jwtService }) {
+  constructor({ planController, authMiddleware }) {
     this.#router = express.Router();
+    
     this.#controller = planController;
-    this.#jwtService = jwtService;
-
-    this.#authMiddleware = authMiddleware(this.#jwtService);
+    this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
     this.#setupRoutes();
   }

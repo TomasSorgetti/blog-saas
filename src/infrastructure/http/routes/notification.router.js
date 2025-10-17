@@ -4,15 +4,13 @@ import authMiddleware from "../middlewares/auth.middleware.js";
 export default class NotificationRouter {
   #router;
   #controller;
-  #jwtService;
   #authMiddleware;
 
-  constructor({ notificationController, jwtService }) {
+  constructor({ notificationController, authMiddleware }) {
     this.#router = express.Router();
+    
     this.#controller = notificationController;
-    this.#jwtService = jwtService;
-
-    this.#authMiddleware = authMiddleware(this.#jwtService);
+    this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
     this.#setupRoutes();
   }

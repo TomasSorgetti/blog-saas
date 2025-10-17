@@ -20,35 +20,35 @@ class MainRouter {
   #setupRoutes(dependencies) {
     const authRouter = new AuthRouter({
       authController: dependencies.controllers.authController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const userRouter = new UserRouter({
       userController: dependencies.controllers.userController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const sessionRouter = new SessionRouter({
       sessionController: dependencies.controllers.sessionController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const subscriptionRouter = new SubscriptionRouter({
       subscriptionController: dependencies.controllers.subscriptionController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const articleRouter = new ArticleRouter({
       articleController: dependencies.controllers.articleController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const categoryRouter = new CategoryRouter({
       categoryController: dependencies.controllers.categoryController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const notificationRouter = new NotificationRouter({
       notificationController: dependencies.controllers.notificationController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
     const planRouter = new PlanRouter({
       planController: dependencies.controllers.planController,
-      jwtService: dependencies.services.jwtService,
+      authMiddleware: dependencies.services.authMiddleware,
     });
 
     this.#router.use("/auth", authRouter.getRouter());

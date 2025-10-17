@@ -57,6 +57,38 @@ class ArticleRepository {
     }
   }
 
+  // todo => filter by workbench
+  async findAllByWorkbench(
+    filters = {},
+    workbenchId,
+    { skip = 0, limit = 10 } = {}
+  ) {
+    try {
+      const query = {};
+
+      if (filters.status) query.status = filters.status;
+      if (filters.tags) query.tags = { $regex: filters.tags, $options: "i" };
+      if (typeof filters.isFeatured === "boolean")
+        query.isFeatured = filters.isFeatured;
+
+      const [items, total] = await Promise.all([
+        this.#model
+          .find(query)
+          .populate("categories")
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit)
+          .lean()
+          .exec(),
+        this.#model.countDocuments(query),
+      ]);
+
+      return { items, total };
+    } catch (err) {
+      throw new RepositoryError(err.message);
+    }
+  }
+
   async findAll(filters = {}, { skip = 0, limit = 10 } = {}) {
     try {
       const query = {};
