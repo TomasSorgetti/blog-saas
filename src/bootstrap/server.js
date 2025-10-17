@@ -42,7 +42,7 @@ class Server {
     this.#app.use(express.static(path.join(__dirname, "../../public")));
     this.#app.use(
       "/uploads",
-      express.static(path.join(__dirname, "../../uploads"))
+      express.static(path.resolve(__dirname, "../../uploads"))
     );
 
     this.#app.get("/", (req, res) => {

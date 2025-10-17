@@ -8,7 +8,7 @@ export class LocalStorageAdapter extends StoragePort {
 
   constructor(config) {
     super();
-    this.#uploadDir = config.env.UPLOAD_DIR || "./uploads";
+    this.#uploadDir = "./uploads";
     this.#apiUrl = config.env.API_URL;
   }
 

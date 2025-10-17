@@ -7,7 +7,6 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/astro-project/node_modules
-      - ./uploads:/usr/src/app/uploads
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
