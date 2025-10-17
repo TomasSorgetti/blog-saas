@@ -3,6 +3,7 @@
 Blog SaaS es una plataforma para **crear, gestionar y consumir artículos** como servicio. El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de suscripción, API pública y herramientas de inteligencia artificial para potenciar la creación de contenido.
 
 ---
+
 <img width="1901" height="858" alt="image" src="https://github.com/user-attachments/assets/602d95f7-e7df-4763-b578-173b3e0ef662" />
 
 ![1](https://github.com/user-attachments/assets/667f9e87-c8bb-4600-b168-c67359c5ed7f)
@@ -104,16 +105,13 @@ systemctl status docker #linux
 #for windows open docker desktop
 
 # build and start application with docker
+# if you make changes in docker or .env add --no-cache to the build command
 # development
-docker compose -f docker-compose.yml -f docker-compose.override.yml up --build
-
-# if you make changes to docker-compose.override.yml or .env
-docker compose build --no-cache
-docker compose up
-
+docker-compose -f docker-compose.dev.yml build
+docker-compose -f docker-compose.dev.yml up
 
 # production
-docker compose -f docker-compose.yml up --build
+docker-compose -f docker-compose.yml up -d --build
 
 ```
 

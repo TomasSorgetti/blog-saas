@@ -2,9 +2,12 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./public:/usr/src/app/public
+      - /usr/src/app/node_modules
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
       - API_URL=${API_URL}
       - FRONT_URL=${FRONT_URL}
@@ -14,6 +17,9 @@ services:
       - RESEND_API_KEY=${RESEND_API_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
     networks:
       - blog-network
 
@@ -23,12 +29,31 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./public:/usr/share/nginx/html:ro
     depends_on:
       - app
     restart: unless-stopped
     networks:
       - blog-network
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--loglevel", "warning"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - blog-network
+
+volumes:
+  redis-data:
+  es-data:
 
 networks:
   blog-network:
