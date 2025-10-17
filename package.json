@@ -7,10 +7,16 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "prepare": "husky install",
     "build:frontend": "cd astro-project && npm install && npm run build",
     "build": "npm run build:frontend",
     "start": "node index.js",
     "dev": "nodemon index.js"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "npx jest --bail --findRelatedTests"
+    ]
   },
   "keywords": [],
   "author": "Tomas Sorgetti",
@@ -34,7 +40,9 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
+    "husky": "^8.0.0",
     "jest": "^30.2.0",
+    "lint-staged": "^16.2.4",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.10"
   }
