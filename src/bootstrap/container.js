@@ -33,6 +33,7 @@ import LogoutUseCase from "../application/auth/logout.usecase.js";
 import RefreshUseCase from "../application/auth/refresh.usecase.js";
 //user usecases
 import GetProfileUseCase from "../application/user/profile.usecase.js";
+import UpdateProfileUseCase from "../application/user/update.usecase.js";
 //session usecases
 import GetAllSessionsUseCase from "../application/session/getAll.usecase.js";
 import DeleteAllSessionsUseCase from "../application/session/deleteAll.usecase.js";
@@ -171,6 +172,11 @@ export default class Container {
       workbenchRepository: this.#repositories.workbenchRepository,
       redisService: this.#services.redisService,
     });
+    this.#usecases.updateProfileUseCase = new UpdateProfileUseCase({
+      userRepository: this.#repositories.userRepository,
+      redisService: this.#services.redisService,
+      storageService: this.#services.storageService,
+    });
     //session
     this.#usecases.getAllSessionsUseCase = new GetAllSessionsUseCase({
       sessionRepository: this.#repositories.sessionRepository,
@@ -283,6 +289,7 @@ export default class Container {
 
     this.#controllers.userController = new UserController({
       getProfileUseCase: this.#usecases.getProfileUseCase,
+      updateProfileUseCase: this.#usecases.updateProfileUseCase,
     });
 
     this.#controllers.sessionController = new SessionController({

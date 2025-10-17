@@ -63,6 +63,31 @@ export default class UserEntity {
     this.workbenches = workbenches;
   }
 
+  static validateUpdate(data) {
+    const allowedFields = ["username"];
+    const validatedData = {};
+
+    // Filtrar solo los campos permitidos
+    for (const key of Object.keys(data)) {
+      if (allowedFields.includes(key)) {
+        validatedData[key] = data[key];
+      }
+    }
+
+    if (validatedData.username !== undefined) {
+      if (
+        typeof validatedData.username !== "string" ||
+        validatedData.username.length < 3
+      ) {
+        throw new InvalidInputError(
+          "Username must be a string with at least 3 characters"
+        );
+      }
+    }
+
+    return validatedData;
+  }
+
   addLoginMethod(provider, providerId) {
     if (!provider) throw new InvalidInputError("Provider is required");
     this.loginMethods.push({

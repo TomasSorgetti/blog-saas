@@ -2,9 +2,11 @@ import successResponse from "../utils/success-response.js";
 
 export default class UserController {
   #getProfileUseCase;
+  #updateProfileUseCase;
 
-  constructor({ getProfileUseCase }) {
+  constructor({ getProfileUseCase, updateProfileUseCase }) {
     this.#getProfileUseCase = getProfileUseCase;
+    this.#updateProfileUseCase = updateProfileUseCase;
   }
 
   async profile(req, res, next) {
@@ -12,7 +14,7 @@ export default class UserController {
       const user = req.user;
 
       const data = await this.#getProfileUseCase.execute(user.id);
-      
+
       return successResponse(res, data, "User retrieved successfully", 200);
     } catch (error) {
       next(error);
@@ -21,8 +23,17 @@ export default class UserController {
 
   async updateProfile(req, res, next) {
     try {
-      const data = {};
-      return successResponse(res, data, "Users retrieved successfully", 200);
+      const userId = req.user.id;
+      const userData = req.body;
+      const file = req.file;
+
+      const data = await this.#updateProfileUseCase.execute(
+        userId,
+        userData,
+        file
+      );
+
+      return successResponse(res, data, "User updated successfully", 200);
     } catch (error) {
       next(error);
     }

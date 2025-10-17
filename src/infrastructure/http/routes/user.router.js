@@ -1,14 +1,16 @@
 import express from "express";
-import authMiddleware from "../middlewares/auth.middleware.js";
+import multer from "multer";
 
 export default class UserRouter {
   #router;
+  #upload;
   #controller;
   #authMiddleware;
 
   constructor({ userController, authMiddleware }) {
     this.#router = express.Router();
-    
+    this.#upload = multer({ storage: multer.memoryStorage() });
+
     this.#controller = userController;
     this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
@@ -29,6 +31,8 @@ export default class UserRouter {
      */
     this.#router.patch(
       "/me",
+      this.#authMiddleware,
+      this.#upload.single("image"),
       this.#controller.updateProfile.bind(this.#controller)
     );
     /**
