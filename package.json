@@ -7,13 +7,13 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:staged": "NODE_OPTIONS=--experimental-vm-modules jest --bail --findRelatedTests",
     "prepare": "husky install",
-    "build:frontend": "cd astro-project && npm install && npm run build",
-    "build": "npm run build:frontend",
+    "build:frontend": "cd astro-project && pnpm install && pnpm run build",
+    "build": "pnpm run build:frontend",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "lint-staged": {
-    "src/**/*.{js,ts}": "npm run test:staged"
+    "src/**/*.{js,ts}": "pnpm run test:staged"
   },
   "keywords": [],
   "author": "Tomas Sorgetti",
