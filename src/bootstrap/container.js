@@ -1,11 +1,11 @@
 // Services imports
-import RedisService from "../infrastructure/adapters/cache/service.js";
+import RedisService from "../infrastructure/services/cache/service.js";
 import HashService from "../infrastructure/security/hash.js";
 import JWTService from "../infrastructure/security/jwt.js";
-import EmailService from "../infrastructure/adapters/email/service.js";
-import emailProcessor from "../infrastructure/adapters/queue/processors/email.processor.js";
-import SocketService from "../infrastructure/adapters/socket/service.js";
-import StripeService from "../infrastructure/adapters/stripe/service.js";
+import EmailService from "../infrastructure/services/email/service.js";
+import emailProcessor from "../infrastructure/services/queue/processors/email.processor.js";
+import SocketService from "../infrastructure/services/socket/service.js";
+import StripeService from "../infrastructure/services/stripe/service.js";
 
 // middlewares
 import AuthMiddleware from "../infrastructure/http/middlewares/auth.middleware.js";

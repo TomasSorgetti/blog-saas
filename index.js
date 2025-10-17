@@ -1,7 +1,7 @@
 import http from "http";
 import { initializeConfig } from "./src/infrastructure/config/index.js";
 import Server from "./src/bootstrap/server.js";
-import { connectSocket } from "./src/infrastructure/adapters/socket/client.js";
+import { connectSocket } from "./src/infrastructure/services/socket/client.js";
 
 initializeConfig()
   .then((config) => {

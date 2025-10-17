@@ -1,9 +1,9 @@
 import envConfig from "./env.config.js";
 import { connectDB } from "../database/database.js";
-import { connectRedis } from "../adapters/cache/client.js";
-import { connectEmail } from "../adapters/email/client.js";
-import { connectQueues } from "../adapters/queue/client.js";
-import connectStripe from "../adapters/stripe/client.js";
+import { connectRedis } from "../services/cache/client.js";
+import { connectEmail } from "../services/email/client.js";
+import { connectQueues } from "../services/queue/client.js";
+import connectStripe from "../services/stripe/client.js";
 
 export const initializeConfig = async () => {
   const db = await connectDB(envConfig.MONGO_URL);
