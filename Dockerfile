@@ -10,7 +10,9 @@ RUN pnpm install
 
 COPY . .
 
-# RUN pnpm run build
+ENV CI=true
+
+RUN pnpm run build
 
 EXPOSE 8080
 
