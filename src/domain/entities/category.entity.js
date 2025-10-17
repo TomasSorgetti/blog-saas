@@ -3,6 +3,7 @@ export default class CategoryEntity {
   #createdBy;
   #slug;
   #isGlobal;
+
   constructor({ createdBy, isGlobal, name, slug }) {
     this.#createdBy = createdBy;
     this.#isGlobal = isGlobal;
