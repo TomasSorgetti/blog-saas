@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
-      - ./public:/usr/src/app/public
+      - .:/usr/src/app
       - /usr/src/app/node_modules
+      - /usr/src/app/astro-project/node_modules
+      - ./uploads:/usr/src/app/uploads
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
@@ -16,6 +18,10 @@ services:
       - HASH_SALT_ROUNDS=${HASH_SALT_ROUNDS}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
     restart: unless-stopped
     depends_on:
       redis:

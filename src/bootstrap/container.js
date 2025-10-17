@@ -10,6 +10,9 @@ import StripeService from "../infrastructure/services/stripe/service.js";
 // middlewares
 import AuthMiddleware from "../infrastructure/http/middlewares/auth.middleware.js";
 
+// images
+import { storageFactory } from "../infrastructure/storage/index.js";
+
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
 import SessionRepository from "../infrastructure/database/repositories/session.repository.js";
@@ -99,8 +102,10 @@ export default class Container {
       emailProcessor(this.#services.emailService)
     );
     this.#services.socketService = new SocketService();
-
     this.#services.stripeService = new StripeService(this.#config.stripe);
+
+    // storage service
+    this.#services.storageService = storageFactory(this.#config);
   }
 
   #initializeMiddlewares() {

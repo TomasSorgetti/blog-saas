@@ -13,6 +13,10 @@ services:
       - HASH_SALT_ROUNDS=${HASH_SALT_ROUNDS}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
     restart: unless-stopped
     networks:
       - blog-network

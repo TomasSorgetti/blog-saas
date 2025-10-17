@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:staged": "NODE_OPTIONS=--experimental-vm-modules jest --bail --findRelatedTests",
+    "test:staged": "NODE_OPTIONS=--experimental-vm-modules jest --bail --findRelatedTests --passWithNoTests",
     "prepare": "husky install",
     "build:frontend": "cd astro-project && pnpm install && pnpm run build",
     "build": "pnpm run build:frontend",
@@ -20,6 +20,7 @@
   "license": "ISC",
   "description": "Article Hub is a platform for creating, managing, and consuming articles as a service. The goal is to provide users with an easy-to-use system, with subscription plans, a public API, and artificial intelligence tools to power content creation.",
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "bcryptjs": "^3.0.2",
     "bull": "^4.16.5",
     "cookie-parser": "^1.4.7",
@@ -30,6 +31,7 @@
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0",
+    "multer": "^2.0.2",
     "redis": "^5.8.2",
     "resend": "^6.0.3",
     "socket.io": "^4.8.1",
@@ -37,6 +39,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
+    "@types/multer": "^2.0.0",
     "husky": "^8.0.0",
     "jest": "^30.2.0",
     "lint-staged": "^16.2.4",

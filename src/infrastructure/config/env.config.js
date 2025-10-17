@@ -5,6 +5,7 @@ dotenvConfig();
 
 const env = cleanEnv(process.env, {
   PORT: port({ default: 8080 }),
+  NODE_ENV: str({ default: "development" }),
   API_URL: str({ default: "http://localhost" }),
   FRONT_URL: str({ default: "http://localhost:4321" }),
   MONGO_URL: str({ default: "mongodb://localhost:27017/blog_saas" }),
@@ -14,6 +15,11 @@ const env = cleanEnv(process.env, {
   HASH_SALT_ROUNDS: port({ default: 10 }),
   RESEND_API_KEY: str({ default: "your_resend_api_key" }),
   STRIPE_SECRET_KEY: str({ default: "sk_test_1234567890abcdef" }),
+  AWS_ACCESS_KEY_ID: str({ default: "" }), // aws storage - prod
+  AWS_SECRET_ACCESS_KEY: str({ default: "" }), // aws storage - prod
+  AWS_REGION: str({ default: "" }), // aws storage - prod
+  AWS_S3_BUCKET: str({ default: "" }), // aws storage - prod
+  UPLOAD_DIR: str({ default: "./uploads" }), // local storage - dev
 });
 
 export default env;

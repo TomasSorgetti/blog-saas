@@ -138,39 +138,43 @@ Test endpoints at
 │ └── favicon.svg
 │
 ├── src
-│ ├── application
-│ │ └── usecases
+│ ├── application/
+│ │ └── article/
+│ │     └── create.usecase.js
 │ │
-│ ├── infrastructure
-│ │ ├── database
-│ │ │ ├── repositories/
-│ │ │ ├── schemas/
-│ │ │ └── database.js
-│ │ ├── config
-│ │ │ ├── env.config.js
-│ │ │ └── index.js
-│ │ ├── secure
-│ │ │ ├── jwt.js
-│ │ │ └── hash.js
-│ │ ├── http
-│ │ │   ├── controllers
-│ │ │   ├── middlewares
-│ │ │   ├── routes
-│ │ │   └── utils
-│ │ └── adapters/
-│ │     ├── elasticsearch/
-│ │     ├── redis/
-│ │     ├── rabbitmq/
-│ │     └── email/
-│ │
-│ ├── bootstrap
+│ ├── bootstrap/
 │ │ ├── server.js
 │ │ └── container.js
 │ │
-│ └── domain
-│   ├── entities
-│   └── error
-│
+│ ├── domain/
+│ │ ├── entities/
+│ │ │  └── notification.entity.js
+│ │ └── errors/
+│ │
+│ └── infrastructure/
+│   ├── database/
+│   │ ├── repositories/
+│   │ ├── schemas/
+│   │ ├── seeds/
+│   │ └── database.js
+│   ├── config/
+│   │ ├── env.config.js
+│   │ └── index.js
+│   ├── security/
+│   │ ├── jwt.js
+│   │ └── hash.js
+│   ├── http/
+│   │   ├── controllers/
+│   │   ├── middlewares/
+│   │   ├── routes/
+│   │   └── utils/
+│   └── services/
+│       ├── elasticsearch/
+│       ├── cache/
+│       ├── email/
+│       ├── socket/
+│       ├── stripe/
+│       └── queue/
 │
 ├── index.js
 ├── package.json
