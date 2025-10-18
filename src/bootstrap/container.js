@@ -21,7 +21,6 @@ import PlanRepository from "../infrastructure/database/repositories/plan.reposit
 import WorkbenchRepository from "../infrastructure/database/repositories/workbench.repository.js";
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
 import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
-import CommentRepository from "../infrastructure/database/repositories/comment.repository.js";
 import NotificationRepository from "../infrastructure/database/repositories/notification.repository.js";
 
 // UseCases imports
@@ -116,22 +115,29 @@ export default class Container {
   }
 
   #initializeRepositories() {
-    this.#repositories.userRepository = new UserRepository(this.#config);
-    this.#repositories.sessionRepository = new SessionRepository(this.#config);
+    this.#repositories.userRepository = new UserRepository(
+      this.#config.db.models.User
+    );
+    this.#repositories.sessionRepository = new SessionRepository(
+      this.#config.db.models.Session
+    );
     this.#repositories.subscriptionRepository = new SubscriptionRepository(
-      this.#config
+      this.#config.db.models.Subscription
     );
-    this.#repositories.planRepository = new PlanRepository(this.#config);
+    this.#repositories.planRepository = new PlanRepository(
+      this.#config.db.models.Plan
+    );
     this.#repositories.workbenchRepository = new WorkbenchRepository(
-      this.#config
+      this.#config.db.models.Workbench
     );
-    this.#repositories.articleRepository = new ArticleRepository(this.#config);
+    this.#repositories.articleRepository = new ArticleRepository(
+      this.#config.db.models.Article
+    );
     this.#repositories.categoryRepository = new CategoryRepository(
-      this.#config
+      this.#config.db.models.Category
     );
-    this.#repositories.commentRepository = new CommentRepository(this.#config);
     this.#repositories.notificationRepository = new NotificationRepository(
-      this.#config
+      this.#config.db.models.Notification
     );
   }
 

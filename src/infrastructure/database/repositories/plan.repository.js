@@ -7,9 +7,8 @@ import {
 export default class PlanRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db?.models.Plan;
-    if (!this.#model) throw new RepositoryError("Plan model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {

@@ -7,9 +7,8 @@ import {
 class UserRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db?.models.User;
-    if (!this.#model) throw new RepositoryError("User model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {

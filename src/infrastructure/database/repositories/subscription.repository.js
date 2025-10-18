@@ -7,10 +7,8 @@ import {
 class SubscriptionRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db?.models.Subscription;
-    if (!this.#model)
-      throw new RepositoryError("Subscription model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {

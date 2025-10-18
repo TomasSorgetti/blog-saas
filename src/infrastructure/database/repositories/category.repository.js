@@ -3,8 +3,8 @@ import { RepositoryError } from "../../../domain/errors/index.js";
 class CategoryRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db?.models.Category;
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {

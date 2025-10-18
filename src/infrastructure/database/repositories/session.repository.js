@@ -7,9 +7,8 @@ import {
 class SessionRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db?.models.Session;
-    if (!this.#model) throw new RepositoryError("Session model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async create(data) {

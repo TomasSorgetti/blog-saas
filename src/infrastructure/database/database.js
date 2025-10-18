@@ -43,10 +43,10 @@ export const connectDB = async (dbUrl) => {
         Subscription,
         Plan,
         Workbench,
-        Notification,
-        ApiKey,
         Article,
         Category,
+        Notification,
+        ApiKey,
       },
     };
   } catch (err) {

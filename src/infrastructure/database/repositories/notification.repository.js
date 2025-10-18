@@ -9,10 +9,8 @@ import {
 export default class NotificationRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db.models.Notification;
-    if (!this.#model)
-      throw new RepositoryError("Notification model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {

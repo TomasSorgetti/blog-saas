@@ -9,9 +9,8 @@ import {
 class ArticleRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db.models.Article;
-    if (!this.#model) throw new RepositoryError("Article model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {

@@ -7,9 +7,8 @@ import {
 export default class WorkbenchRepository {
   #model;
 
-  constructor(config = {}) {
-    this.#model = config.db?.models.Workbench;
-    if (!this.#model) throw new RepositoryError("Plan model not provided");
+  constructor(model) {
+    this.#model = model;
   }
 
   async findById(id) {
