@@ -22,6 +22,7 @@ import WorkbenchRepository from "../infrastructure/database/repositories/workben
 import ArticleRepository from "../infrastructure/database/repositories/article.repository.js";
 import CategoryRepository from "../infrastructure/database/repositories/category.repository.js";
 import NotificationRepository from "../infrastructure/database/repositories/notification.repository.js";
+import ApiKeyRepository from "../infrastructure/database/repositories/apikey.repository.js";
 
 // UseCases imports
 //auth usecases
@@ -71,6 +72,34 @@ import SubscriptionController from "../infrastructure/http/controllers/subscript
 import NotificationController from "../infrastructure/http/controllers/notification.controller.js";
 import PlanController from "../infrastructure/http/controllers/plan.controller.js";
 
+/**
+ * todo => refactor
+ *
+ * Dependency Container (Service Locator + Factory Modules)
+ *
+ * This file initializes and composes all application dependencies.
+ * Each module (services, repositories, use cases, etc.) registers itself here.
+ *
+ * 1. Create the main container (IoC instance).
+ * 2. Register global modules (services, repositories, etc.).
+ * 3. Register domain/application modules (use cases, controllers, etc.).
+ * 4. Instance Entities too. (Factory or Builder pattern)
+ *
+ * Architecture:
+ *
+ * ├── container/
+ *   ├── container.js     // or index?
+ *   ├── modules/
+ *   │   ├── services.js
+ *   │   ├── repositories.js
+ *   │   ├── middlewares.js
+ *   │   ├── controllers.js
+ *   │   ├── usecases/
+ *   │   │   ├── auth.js
+ *   │   │   ├── category.js
+ *   │   │   └── ...
+ *
+ */
 export default class Container {
   #config;
   #services = {};
@@ -80,9 +109,6 @@ export default class Container {
   #middlewares = {};
 
   constructor(config = {}) {
-    if (!config || typeof config !== "object") {
-      throw new Error("Invalid configuration provided");
-    }
     this.#config = config;
     this.#initializeDependencies();
   }
@@ -99,7 +125,7 @@ export default class Container {
     this.#services.emailService = new EmailService(this.#config.email);
     this.#services.emailQueueService = this.#config.queues.emailQueueService;
     this.#services.emailQueueService.process(
-      emailProcessor(this.#services.emailService)
+      emailProcessor(this.#services.emailService),
     );
     this.#services.socketService = new SocketService();
     this.#services.stripeService = new StripeService(this.#config.stripe);
@@ -116,28 +142,31 @@ export default class Container {
 
   #initializeRepositories() {
     this.#repositories.userRepository = new UserRepository(
-      this.#config.db.models.User
+      this.#config.db.models.User,
     );
     this.#repositories.sessionRepository = new SessionRepository(
-      this.#config.db.models.Session
+      this.#config.db.models.Session,
     );
     this.#repositories.subscriptionRepository = new SubscriptionRepository(
-      this.#config.db.models.Subscription
+      this.#config.db.models.Subscription,
     );
     this.#repositories.planRepository = new PlanRepository(
-      this.#config.db.models.Plan
+      this.#config.db.models.Plan,
     );
     this.#repositories.workbenchRepository = new WorkbenchRepository(
-      this.#config.db.models.Workbench
+      this.#config.db.models.Workbench,
     );
     this.#repositories.articleRepository = new ArticleRepository(
-      this.#config.db.models.Article
+      this.#config.db.models.Article,
     );
     this.#repositories.categoryRepository = new CategoryRepository(
-      this.#config.db.models.Category
+      this.#config.db.models.Category,
     );
     this.#repositories.notificationRepository = new NotificationRepository(
-      this.#config.db.models.Notification
+      this.#config.db.models.Notification,
+    );
+    this.#repositories.apiKeyRepository = new ApiKeyRepository(
+      this.#config.db.models.ApiKey,
     );
   }
 
