@@ -79,30 +79,6 @@ import PlanController from "../infrastructure/http/controllers/plan.controller.j
 /**
  * todo => refactor
  *
- * Dependency Container (Service Locator + Factory Modules)
- *
- * This file initializes and composes all application dependencies.
- * Each module (services, repositories, use cases, etc.) registers itself here.
- *
- * 1. Create the main container (IoC instance).
- * 2. Register global modules (services, repositories, etc.).
- * 3. Register domain/application modules (use cases, controllers, etc.).
- * 4. Instance Entities too. (Factory or Builder pattern)
- *
- * Architecture:
- *
- * ├── container/
- *   ├── container.js     // or index?
- *   ├── modules/
- *   │   ├── services.js
- *   │   ├── repositories.js
- *   │   ├── middlewares.js
- *   │   ├── controllers.js
- *   │   ├── usecases/
- *   │   │   ├── auth.js
- *   │   │   ├── category.js
- *   │   │   └── ...
- *
  */
 export default class Container {
   #config;
