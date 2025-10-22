@@ -69,6 +69,14 @@ export default class AuthRouter {
       this.#authMiddleware,
       this.#controller.logout.bind(this.#controller)
     );
+
+    /**
+     * @POST /api/auth/google
+     */
+    this.#router.post(
+      "/google",
+      this.#controller.loginWithGoogle.bind(this.#controller)
+    );
   }
 
   getRouter() {

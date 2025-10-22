@@ -7,6 +7,9 @@ import emailProcessor from "../infrastructure/services/queue/processors/email.pr
 import SocketService from "../infrastructure/services/socket/service.js";
 import StripeService from "../infrastructure/services/stripe/service.js";
 
+// Strategies
+import GoogleAuthStrategy from "../infrastructure/strategies/google.strategy.js";
+
 // middlewares
 import AuthMiddleware from "../infrastructure/http/middlewares/auth.middleware.js";
 
@@ -31,6 +34,7 @@ import RegisterUseCase from "../application/auth/register.usecase.js";
 import VerifyUseCase from "../application/auth/verify.usecase.js";
 import LogoutUseCase from "../application/auth/logout.usecase.js";
 import RefreshUseCase from "../application/auth/refresh.usecase.js";
+import LoginWithGoogleUseCase from "../application/auth/loginWithGoogle.usecase.js";
 //user usecases
 import GetProfileUseCase from "../application/user/profile.usecase.js";
 import UpdateProfileUseCase from "../application/user/update.usecase.js";
@@ -125,13 +129,18 @@ export default class Container {
     this.#services.emailService = new EmailService(this.#config.email);
     this.#services.emailQueueService = this.#config.queues.emailQueueService;
     this.#services.emailQueueService.process(
-      emailProcessor(this.#services.emailService),
+      emailProcessor(this.#services.emailService)
     );
     this.#services.socketService = new SocketService();
     this.#services.stripeService = new StripeService(this.#config.stripe);
 
     // storage service
     this.#services.storageService = storageFactory(this.#config);
+
+    // Strategies
+    this.#services.googleAuthStrategy = new GoogleAuthStrategy({
+      clientId: this.#config.env.GOOGLE_CLIENT_ID,
+    });
   }
 
   #initializeMiddlewares() {
@@ -142,31 +151,31 @@ export default class Container {
 
   #initializeRepositories() {
     this.#repositories.userRepository = new UserRepository(
-      this.#config.db.models.User,
+      this.#config.db.models.User
     );
     this.#repositories.sessionRepository = new SessionRepository(
-      this.#config.db.models.Session,
+      this.#config.db.models.Session
     );
     this.#repositories.subscriptionRepository = new SubscriptionRepository(
-      this.#config.db.models.Subscription,
+      this.#config.db.models.Subscription
     );
     this.#repositories.planRepository = new PlanRepository(
-      this.#config.db.models.Plan,
+      this.#config.db.models.Plan
     );
     this.#repositories.workbenchRepository = new WorkbenchRepository(
-      this.#config.db.models.Workbench,
+      this.#config.db.models.Workbench
     );
     this.#repositories.articleRepository = new ArticleRepository(
-      this.#config.db.models.Article,
+      this.#config.db.models.Article
     );
     this.#repositories.categoryRepository = new CategoryRepository(
-      this.#config.db.models.Category,
+      this.#config.db.models.Category
     );
     this.#repositories.notificationRepository = new NotificationRepository(
-      this.#config.db.models.Notification,
+      this.#config.db.models.Notification
     );
     this.#repositories.apiKeyRepository = new ApiKeyRepository(
-      this.#config.db.models.ApiKey,
+      this.#config.db.models.ApiKey
     );
   }
 
@@ -201,6 +210,14 @@ export default class Container {
       jwtService: this.#services.jwtService,
       hashService: this.#services.hashService,
     });
+    this.#usecases.loginWithGoogleUseCase = new LoginWithGoogleUseCase({
+      userRepository: this.#repositories.userRepository,
+      sessionRepository: this.#repositories.sessionRepository,
+      jwtService: this.#services.jwtService,
+      hashService: this.#services.hashService,
+      googleStrategy: this.#services.googleAuthStrategy,
+    });
+
     //user
     this.#usecases.getProfileUseCase = new GetProfileUseCase({
       userRepository: this.#repositories.userRepository,
@@ -320,6 +337,7 @@ export default class Container {
       verifyUseCase: this.#usecases.verifyUseCase,
       logoutUseCase: this.#usecases.logoutUseCase,
       refreshUseCase: this.#usecases.refreshUseCase,
+      loginWithGoogleUseCase: this.#usecases.loginWithGoogleUseCase,
     });
 
     this.#controllers.userController = new UserController({

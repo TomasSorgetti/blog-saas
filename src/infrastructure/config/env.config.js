@@ -20,6 +20,11 @@ const env = cleanEnv(process.env, {
   AWS_REGION: str({ default: "" }), // aws storage - prod
   AWS_S3_BUCKET: str({ default: "" }), // aws storage - prod
   UPLOAD_DIR: str({ default: "./uploads" }), // local storage - dev
+  GOOGLE_CLIENT_ID: str({ default: "" }),
+  GOOGLE_CLIENT_SECRET: str({ default: "" }),
+  GOOGLE_CALLBACK_URL: str({
+    default: "http://localhost/auth/google/callback",
+  }),
 });
 
 export default env;

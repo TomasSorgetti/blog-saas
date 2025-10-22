@@ -6,6 +6,7 @@ export default class AuthController {
   #verifyUseCase;
   #logoutUseCase;
   #refreshUseCase;
+  #loginWithGoogleUseCase;
 
   constructor({
     loginUseCase,
@@ -13,12 +14,14 @@ export default class AuthController {
     verifyUseCase,
     logoutUseCase,
     refreshUseCase,
+    loginWithGoogleUseCase,
   }) {
     this.#loginUseCase = loginUseCase;
     this.#registerUseCase = registerUseCase;
     this.#verifyUseCase = verifyUseCase;
     this.#logoutUseCase = logoutUseCase;
     this.#refreshUseCase = refreshUseCase;
+    this.#loginWithGoogleUseCase = loginWithGoogleUseCase;
   }
 
   async login(req, res, next) {
@@ -157,6 +160,49 @@ export default class AuthController {
       });
 
       return successResponse(res, null, "User logged out successfully", 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async loginWithGoogle(req, res, next) {
+    try {
+      const { idToken, rememberme } = req.body;
+      const userAgent = req.get("user-agent") || "unknown";
+      const ip =
+        req.headers["x-forwarded-for"]?.split(",")[0] ||
+        req.socket.remoteAddress;
+
+      const { accessToken, refreshToken, user, sessionId } =
+        await this.#loginWithGoogleUseCase.execute({
+          idToken,
+          rememberme,
+          userAgent,
+          ip,
+        });
+
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Lax",
+        path: "/",
+        maxAge: 28 * 24 * 60 * 60 * 1000,
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Lax",
+        path: "/",
+        maxAge: 28 * 24 * 60 * 60 * 1000,
+      });
+
+      return successResponse(
+        res,
+        { user, sessionId },
+        "Auth retrieved successfully",
+        200
+      );
     } catch (error) {
       next(error);
     }
