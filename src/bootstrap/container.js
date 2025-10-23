@@ -16,6 +16,9 @@ import AuthMiddleware from "../infrastructure/http/middlewares/auth.middleware.j
 // images
 import { storageFactory } from "../infrastructure/storage/index.js";
 
+// images
+import NotificationFactory from "../domain/factories/notification.factory.js";
+
 // Repositories imports
 import UserRepository from "../infrastructure/database/repositories/user.repository.js";
 import SessionRepository from "../infrastructure/database/repositories/session.repository.js";
@@ -87,6 +90,7 @@ export default class Container {
   #usecases = {};
   #controllers = {};
   #middlewares = {};
+  #factories = {};
 
   constructor(config = {}) {
     this.#config = config;
@@ -117,6 +121,11 @@ export default class Container {
     this.#services.googleAuthStrategy = new GoogleAuthStrategy({
       clientId: this.#config.env.GOOGLE_CLIENT_ID,
     });
+  }
+
+  // Todo => Apply Factories instead of Entities
+  #initializeFactories() {
+    this.#factories.notificationFactory = new NotificationFactory();
   }
 
   #initializeMiddlewares() {
@@ -364,6 +373,7 @@ export default class Container {
   #initializeDependencies() {
     try {
       this.#initializeServices();
+      this.#initializeFactories();
       this.#initializeRepositories();
       this.#initializeUseCases();
       this.#initializeControllers();
@@ -380,6 +390,7 @@ export default class Container {
       usecases: this.#usecases,
       controllers: this.#controllers,
       middlewares: this.#middlewares,
+      factories: this.#factories,
     };
   }
 }
