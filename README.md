@@ -1,6 +1,6 @@
-# Blog SaaS [demo-link](https://parcial-express.tomassorgetti.com.ar)
+# Article Hub [demo-link](https://parcial-express.tomassorgetti.com.ar)
 
-Blog SaaS es una plataforma para **crear, gestionar y consumir artículos** como servicio. El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de suscripción, API pública y herramientas de inteligencia artificial para potenciar la creación de contenido.
+Article Hub es una plataforma para **crear, gestionar y consumir artículos** como servicio. El objetivo es brindar a los usuarios un sistema fácil de usar, con planes de suscripción, API pública y herramientas de inteligencia artificial para potenciar la creación de contenido.
 
 ---
 

@@ -201,6 +201,8 @@ export default class Container {
       jwtService: this.#services.jwtService,
       hashService: this.#services.hashService,
       googleStrategy: this.#services.googleAuthStrategy,
+      notificationRepository: this.#repositories.notificationRepository,
+      socketService: this.#services.socketService,
     });
 
     //user

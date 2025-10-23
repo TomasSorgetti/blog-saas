@@ -1,5 +1,6 @@
 import UserEntity from "../../domain/entities/user.entity.js";
 import SessionEntity from "../../domain/entities/session.entity.js";
+import NotificationEntity from "../../domain/entities/notification.entity.js";
 import { NotFoundError, UnauthorizedError } from "../../domain/errors/index.js";
 
 export default class LoginWithGoogleUseCase {
@@ -8,6 +9,8 @@ export default class LoginWithGoogleUseCase {
   #jwtService;
   #hashService;
   #googleStrategy;
+  #notificationRepository;
+  #socketService;
 
   constructor({
     userRepository,
@@ -15,12 +18,16 @@ export default class LoginWithGoogleUseCase {
     jwtService,
     hashService,
     googleStrategy,
+    notificationRepository,
+    socketService,
   }) {
     this.#userRepository = userRepository;
     this.#sessionRepository = sessionRepository;
     this.#jwtService = jwtService;
     this.#hashService = hashService;
     this.#googleStrategy = googleStrategy;
+    this.#notificationRepository = notificationRepository;
+    this.#socketService = socketService;
   }
 
   async execute({ idToken, rememberme, userAgent, ip }) {
@@ -60,6 +67,29 @@ export default class LoginWithGoogleUseCase {
         await this.#userRepository.update(userFound._id, {
           loginMethods: userFound.loginMethods,
         });
+
+        if (!userFound.avatar) {
+          userFound.avatar = profile.avatar;
+          await this.#userRepository.update(userFound._id, {
+            avatar: userFound.avatar,
+          });
+        }
+
+        const notificationEntity = new NotificationEntity({
+          userId: userFound._id,
+          type: "activity",
+          message: `You have added Google as a login method.`,
+          link: null,
+        });
+
+        try {
+          const notification = await this.#notificationRepository.create(
+            notificationEntity.toObject()
+          );
+          this.#socketService.sendNotification(userFound._id, notification);
+        } catch (err) {
+          console.error("Failed to send notification:", err);
+        }
       }
     }
 
@@ -92,7 +122,7 @@ export default class LoginWithGoogleUseCase {
     await this.#userRepository.update(userFound._id, { lastLogin: new Date() });
 
     const user = new UserEntity(userFound);
-    
+
     return {
       accessToken,
       refreshToken,

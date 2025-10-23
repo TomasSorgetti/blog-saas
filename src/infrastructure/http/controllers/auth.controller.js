@@ -172,7 +172,7 @@ export default class AuthController {
       const ip =
         req.headers["x-forwarded-for"]?.split(",")[0] ||
         req.socket.remoteAddress;
-
+      
       const { accessToken, refreshToken, user, sessionId } =
         await this.#loginWithGoogleUseCase.execute({
           idToken,
