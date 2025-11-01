@@ -5,7 +5,8 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import path from "path";
 import errorMiddleware from "../infrastructure/http/middlewares/error.middleware.js";
-import Container from "./container.js";
+// import Container from "./container.js";
+import { createContainer } from "./container/index.js";
 import MainRouter from "../infrastructure/http/routes/main.router.js";
 
 class Server {
@@ -17,7 +18,8 @@ class Server {
   constructor(config) {
     this.#config = config;
     this.#app = express();
-    this.#container = new Container(config);
+    // this.#container = new Container(config);
+    this.#container = createContainer(config);
     this.#initialize();
   }
 
@@ -49,8 +51,9 @@ class Server {
       res.sendFile(path.join(__dirname, "../../public", "index.html"));
     });
 
-    const dependencies = this.#container.getDependencies();
-    this.#routes = new MainRouter(dependencies);
+    // const dependencies = this.#container.getDependencies();
+    // this.#routes = new MainRouter(dependencies);
+    this.#routes = new MainRouter(this.#container.getDependencies());
     this.#app.use("/api", this.#routes.getRouter());
 
     this.#app.use("/ping", (req, res) => {
