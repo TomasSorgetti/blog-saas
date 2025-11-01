@@ -1,5 +1,4 @@
 import express from "express";
-import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class CategoryRouter {
   #router;
@@ -8,7 +7,7 @@ export default class CategoryRouter {
 
   constructor({ categoryController, authMiddleware }) {
     this.#router = express.Router();
-    
+
     this.#controller = categoryController;
     this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 

@@ -1,5 +1,4 @@
 import express from "express";
-import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class PlanRouter {
   #router;
@@ -8,7 +7,7 @@ export default class PlanRouter {
 
   constructor({ planController, authMiddleware }) {
     this.#router = express.Router();
-    
+
     this.#controller = planController;
     this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 

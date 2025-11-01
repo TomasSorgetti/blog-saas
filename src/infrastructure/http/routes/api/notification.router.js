@@ -1,5 +1,4 @@
 import express from "express";
-import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class NotificationRouter {
   #router;
@@ -8,7 +7,7 @@ export default class NotificationRouter {
 
   constructor({ notificationController, authMiddleware }) {
     this.#router = express.Router();
-    
+
     this.#controller = notificationController;
     this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 

@@ -1,13 +1,13 @@
 import express from "express";
 
-import AuthRouter from "./auth.router.js";
-import UserRouter from "./user.router.js";
-import SessionRouter from "./session.router.js";
-import ArticleRouter from "./article.router.js";
-import CategoryRouter from "./category.router.js";
-import SubscriptionRouter from "./subscription.router.js";
-import NotificationRouter from "./notification.router.js";
-import PlanRouter from "./plan.router.js";
+import AuthRouter from "../api/auth.router.js";
+import UserRouter from "../api/user.router.js";
+import SessionRouter from "../api/session.router.js";
+import ArticleRouter from "../api/article.router.js";
+import CategoryRouter from "../api/category.router.js";
+import SubscriptionRouter from "../api/subscription.router.js";
+import NotificationRouter from "../api/notification.router.js";
+import PlanRouter from "../api/plan.router.js";
 
 class MainRouter {
   #router;

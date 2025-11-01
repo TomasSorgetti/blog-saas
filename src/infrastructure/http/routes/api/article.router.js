@@ -1,6 +1,5 @@
 import express from "express";
-import ArticleValidation from "../middlewares/validators/article.validators.js";
-import authMiddleware from "../middlewares/auth.middleware.js";
+import ArticleValidation from "../../middlewares/validators/article.validators.js";
 
 export default class ArticleRouter {
   #router;

@@ -1,6 +1,5 @@
 import express from "express";
-import AuthValidation from "../middlewares/validators/auth.validators.js";
-import authMiddleware from "../middlewares/auth.middleware.js";
+import AuthValidation from "../../middlewares/validators/auth.validators.js";
 
 export default class AuthRouter {
   #router;

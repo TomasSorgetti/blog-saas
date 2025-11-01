@@ -1,5 +1,4 @@
 import express from "express";
-import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class SessionRouter {
   #router;
@@ -8,7 +7,7 @@ export default class SessionRouter {
 
   constructor({ sessionController, authMiddleware }) {
     this.#router = express.Router();
-    
+
     this.#controller = sessionController;
     this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 

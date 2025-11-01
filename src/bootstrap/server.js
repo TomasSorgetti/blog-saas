@@ -7,13 +7,16 @@ import path from "path";
 import errorMiddleware from "../infrastructure/http/middlewares/error.middleware.js";
 // import Container from "./container.js";
 import { createContainer } from "./container/index.js";
-import MainRouter from "../infrastructure/http/routes/main.router.js";
+import {
+  MainRouter,
+  FetchRouter,
+} from "../infrastructure/http/routes/index.js";
 
 class Server {
   #app;
   #config;
   #container;
-  #routes;
+  #routes = {};
 
   constructor(config) {
     this.#config = config;
@@ -26,20 +29,9 @@ class Server {
   #initialize() {
     this.#app.use(express.json());
     this.#app.use(morgan("dev"));
-    this.#app.use(
-      cors({
-        origin: "http://localhost:5173",
-        credentials: true,
-      })
-    );
     this.#app.use(cookieParser());
 
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-    this.#app.use((req, res, next) => {
-      console.log(`Request: ${req.method} ${req.url}`);
-      next();
-    });
 
     this.#app.use(express.static(path.join(__dirname, "../../public")));
     this.#app.use(
@@ -51,14 +43,22 @@ class Server {
       res.sendFile(path.join(__dirname, "../../public", "index.html"));
     });
 
-    // const dependencies = this.#container.getDependencies();
-    // this.#routes = new MainRouter(dependencies);
-    this.#routes = new MainRouter(this.#container.getDependencies());
-    this.#app.use("/api", this.#routes.getRouter());
+    const dependencies = this.#container.getDependencies();
+    this.#routes = {
+      main: new MainRouter(dependencies),
+      fetch: new FetchRouter(dependencies),
+    };
 
-    this.#app.use("/ping", (req, res) => {
-      res.status(200).json({ message: "pong" });
-    });
+    this.#app.use(
+      "/api",
+      cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+      }),
+      this.#routes.main.getRouter()
+    );
+
+    this.#app.use("/fetch", this.#routes.fetch.getRouter());
 
     this.#app.use(errorMiddleware);
   }

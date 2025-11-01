@@ -1,5 +1,4 @@
 import express from "express";
-import authMiddleware from "../middlewares/auth.middleware.js";
 
 export default class SubscriptionRouter {
   #router;
@@ -8,7 +7,7 @@ export default class SubscriptionRouter {
 
   constructor({ subscriptionController, authMiddleware }) {
     this.#router = express.Router();
-    
+
     this.#controller = subscriptionController;
     this.#authMiddleware = authMiddleware.handle.bind(authMiddleware);
 
