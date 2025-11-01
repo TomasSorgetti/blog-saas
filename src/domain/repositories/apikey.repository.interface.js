@@ -1,15 +1,4 @@
 export class ApiKeyRepositoryInterface {
-  /**
-   * Crea una nueva API key
-   * @param {Object} data
-   * @param {string} data.key
-   * @param {string} data.userId
-   * @param {string} data.workbenchId
-   * @param {string} data.name
-   * @param {Array<string>} data.scopes
-   * @param {Date} data.expiresAt
-   * @returns {Promise<Object>} La API key creada
-   */
   async create(data) {
     throw new Error("Method 'create' not implemented");
   }
