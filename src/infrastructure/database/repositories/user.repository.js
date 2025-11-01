@@ -3,11 +3,13 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
+import { UserRepositoryInterface } from "../../../domain/repositories/user.repository.interface.js";
 
-class UserRepository {
+class UserRepository extends UserRepositoryInterface {
   #model;
 
   constructor(model) {
+    super();
     this.#model = model;
   }
 

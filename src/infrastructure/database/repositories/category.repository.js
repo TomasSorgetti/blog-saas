@@ -1,9 +1,11 @@
 import { RepositoryError } from "../../../domain/errors/index.js";
+import { CategoryRepositoryInterface } from "../../../domain/repositories/category.repository.interface.js";
 
-class CategoryRepository {
+class CategoryRepository extends CategoryRepositoryInterface {
   #model;
 
   constructor(model) {
+    super();
     this.#model = model;
   }
 

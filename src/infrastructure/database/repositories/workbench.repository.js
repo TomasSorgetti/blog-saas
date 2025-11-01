@@ -3,11 +3,13 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
+import { WorkbenchRepositoryInterface } from "../../../domain/repositories/workbench.repository.interface.js";
 
-export default class WorkbenchRepository {
+export default class WorkbenchRepository extends WorkbenchRepositoryInterface {
   #model;
 
   constructor(model) {
+    super();
     this.#model = model;
   }
 

@@ -3,11 +3,13 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
+import { SessionRepositoryInterface } from "../../../domain/repositories/session.repository.interface.js";
 
-class SessionRepository {
+class SessionRepository extends SessionRepositoryInterface {
   #model;
 
   constructor(model) {
+    super();
     this.#model = model;
   }
 

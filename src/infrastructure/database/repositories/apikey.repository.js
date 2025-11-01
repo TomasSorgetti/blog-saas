@@ -3,11 +3,13 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
+import { ApiKeyRepositoryInterface } from "../../../domain/repositories/apikey.repository.interface.js";
 
-export default class ApiKeyRepository {
+export default class ApiKeyRepository extends ApiKeyRepositoryInterface {
   #model;
 
   constructor(model) {
+    super();
     this.#model = model;
   }
 
@@ -81,7 +83,7 @@ export default class ApiKeyRepository {
       const apiKey = await this.#model.findOneAndUpdate(
         { key },
         { isActive: false },
-        { new: true },
+        { new: true }
       );
       if (!apiKey) throw new NotFoundError("API key not found");
       return apiKey.toObject();
@@ -95,7 +97,7 @@ export default class ApiKeyRepository {
       const apiKey = await this.#model.findOneAndUpdate(
         { key },
         { isActive: true },
-        { new: true },
+        { new: true }
       );
       if (!apiKey) throw new NotFoundError("API key not found");
       return apiKey.toObject();
@@ -128,7 +130,7 @@ export default class ApiKeyRepository {
       const apiKey = await this.#model.findOneAndUpdate(
         { key: oldKey },
         { key: newKey },
-        { new: true },
+        { new: true }
       );
       if (!apiKey) throw new NotFoundError("API key not found");
       return apiKey.toObject();

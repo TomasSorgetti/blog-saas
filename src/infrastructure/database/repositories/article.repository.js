@@ -5,11 +5,13 @@ import {
   AlreadyExistsError,
   InvalidInputError,
 } from "../../../domain/errors/index.js";
+import { ArticleRepositoryInterface } from "../../../domain/repositories/article.repository.interface.js";
 
-class ArticleRepository {
+class ArticleRepository extends ArticleRepositoryInterface {
   #model;
 
   constructor(model) {
+    super();
     this.#model = model;
   }
 
