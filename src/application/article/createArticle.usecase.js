@@ -31,6 +31,13 @@ export default class CreateArticleUseCase {
     isFeatured,
     categories,
   }) {
+    /**
+     * TODO
+     * 
+     * si el usuario tiene un limite en la creacion de 
+     * articulos (segun su plan, ej: plan free tiene 3 articulos) debería arrojar un error
+     * 
+     */
     const newArticle = new ArticleEntity({
       title,
       slug,

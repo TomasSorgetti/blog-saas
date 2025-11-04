@@ -22,16 +22,16 @@ export default class GetProfileUseCase {
 
     const rawWorkbenches = await this.#workbenchRepository.findByUserId(userId);
     const workbenches = rawWorkbenches.map(
-      (w) =>
+      (workbench) =>
         new WorkbenchEntity({
-          id: w._id,
-          name: w.name,
-          owner: w.owner,
-          members: w.members,
-          settings: w.settings,
-          isArchived: w.isArchived,
-          createdAt: w.createdAt,
-          updatedAt: w.updatedAt,
+          id: workbench._id,
+          name: workbench.name,
+          owner: workbench.owner,
+          members: workbench.members,
+          settings: workbench.settings,
+          isArchived: workbench.isArchived,
+          createdAt: workbench.createdAt,
+          updatedAt: workbench.updatedAt,
         })
     );
 

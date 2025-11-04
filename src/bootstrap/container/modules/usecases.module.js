@@ -45,6 +45,7 @@ export const registerUseCases = (container, config) => {
     new LoginUseCase({
       userRepository: resolveDependency("userRepository"),
       sessionRepository: resolveDependency("sessionRepository"),
+      workbenchRepository: resolveDependency("workbenchRepository"),
       jwtService: resolveDependency("jwtService"),
       hashService: resolveDependency("hashService"),
     })
@@ -94,6 +95,7 @@ export const registerUseCases = (container, config) => {
     new LoginWithGoogleUseCase({
       userRepository: resolveDependency("userRepository"),
       sessionRepository: resolveDependency("sessionRepository"),
+      workbenchRepository: resolveDependency("workbenchRepository"),
       jwtService: resolveDependency("jwtService"),
       hashService: resolveDependency("hashService"),
       googleStrategy: resolveDependency("googleAuthStrategy"),

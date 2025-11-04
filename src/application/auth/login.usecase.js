@@ -5,19 +5,28 @@ import {
 } from "../../domain/errors/index.js";
 import UserEntity from "../../domain/entities/user.entity.js";
 import SessionEntity from "../../domain/entities/session.entity.js";
+import WorkbenchEntity from "../../domain/entities/workbench.entity.js";
 
 export default class LoginUseCase {
   #userRepository;
   #sessionRepository;
+  #workbenchRepository;
   #jwtService;
   #hashService;
 
-  constructor({ userRepository, sessionRepository, jwtService, hashService }) {
+  constructor({
+    userRepository,
+    sessionRepository,
+    workbenchRepository,
+    jwtService,
+    hashService,
+  }) {
     if (!userRepository) {
       throw new Error("userRepository is required");
     }
     this.#userRepository = userRepository;
     this.#sessionRepository = sessionRepository;
+    this.#workbenchRepository = workbenchRepository;
     this.#jwtService = jwtService;
     this.#hashService = hashService;
   }
@@ -29,7 +38,24 @@ export default class LoginUseCase {
 
     if (!userFound) throw new NotFoundError("User not found");
 
-    const user = new UserEntity(userFound);
+    const rawWorkbenches = await this.#workbenchRepository.findByUserId(
+      userFound._id
+    );
+    const workbenches = rawWorkbenches.map(
+      (workbench) =>
+        new WorkbenchEntity({
+          id: workbench._id,
+          name: workbench.name,
+          owner: workbench.owner,
+          members: workbench.members,
+          settings: workbench.settings,
+          isArchived: workbench.isArchived,
+          createdAt: workbench.createdAt,
+          updatedAt: workbench.updatedAt,
+        })
+    );
+
+    const user = new UserEntity({ ...userFound, workbenches });
 
     if (!user.isVerified) {
       throw new UnauthorizedError("User not verified");

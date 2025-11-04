@@ -2,10 +2,12 @@ import UserEntity from "../../domain/entities/user.entity.js";
 import SessionEntity from "../../domain/entities/session.entity.js";
 import NotificationEntity from "../../domain/entities/notification.entity.js";
 import { NotFoundError, UnauthorizedError } from "../../domain/errors/index.js";
+import WorkbenchEntity from "../../domain/entities/workbench.entity.js";
 
 export default class LoginWithGoogleUseCase {
   #userRepository;
   #sessionRepository;
+  #workbenchRepository;
   #jwtService;
   #hashService;
   #googleStrategy;
@@ -15,6 +17,7 @@ export default class LoginWithGoogleUseCase {
   constructor({
     userRepository,
     sessionRepository,
+    workbenchRepository,
     jwtService,
     hashService,
     googleStrategy,
@@ -23,6 +26,7 @@ export default class LoginWithGoogleUseCase {
   }) {
     this.#userRepository = userRepository;
     this.#sessionRepository = sessionRepository;
+    this.#workbenchRepository = workbenchRepository;
     this.#jwtService = jwtService;
     this.#hashService = hashService;
     this.#googleStrategy = googleStrategy;
@@ -93,18 +97,33 @@ export default class LoginWithGoogleUseCase {
       }
     }
 
-    const refreshToken = this.#jwtService.signRefresh(
-      userFound._id,
-      rememberme
+    const rawWorkbenches = await this.#workbenchRepository.findByUserId(
+      userFound._id
+    );
+    const workbenches = rawWorkbenches.map(
+      (w) =>
+        new WorkbenchEntity({
+          id: w._id,
+          name: w.name,
+          owner: w.owner,
+          members: w.members,
+          settings: w.settings,
+          isArchived: w.isArchived,
+          createdAt: w.createdAt,
+          updatedAt: w.updatedAt,
+        })
     );
 
+    const user = new UserEntity({ ...userFound, workbenches });
+
+    const refreshToken = this.#jwtService.signRefresh(user.id, rememberme);
     const { exp } = this.#jwtService.verifyRefresh(refreshToken);
     const expiresAt = new Date(exp * 1000);
 
     const hashedRefreshToken = await this.#hashService.hash(refreshToken);
 
     const sessionEntity = new SessionEntity({
-      userId: userFound._id,
+      userId: user.id,
       refreshToken: hashedRefreshToken,
       userAgent,
       ip,
@@ -114,14 +133,12 @@ export default class LoginWithGoogleUseCase {
     const newSession = await this.#sessionRepository.create(sessionEntity);
 
     const accessToken = this.#jwtService.signAccess(
-      userFound._id,
+      user.id,
       newSession._id.toString(),
       rememberme
     );
 
-    await this.#userRepository.update(userFound._id, { lastLogin: new Date() });
-
-    const user = new UserEntity(userFound);
+    await this.#userRepository.update(user.id, { lastLogin: new Date() });
 
     return {
       accessToken,
