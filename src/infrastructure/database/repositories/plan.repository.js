@@ -3,7 +3,7 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
-import { PlanRepositoryInterface } from "../../../domain/repositories/plan.repository.interface.js";
+import { PlanRepositoryInterface } from "../../../domain/interfaces/repositories/plan.repository.interface.js";
 
 export default class PlanRepository extends PlanRepositoryInterface {
   #model;

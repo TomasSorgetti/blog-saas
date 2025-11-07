@@ -3,7 +3,7 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
-import { SubscriptionRepositoryInterface } from "../../../domain/repositories/subscription.repository.interface.js";
+import { SubscriptionRepositoryInterface } from "../../../domain/interfaces/repositories/subscription.repository.interface.js";
 
 class SubscriptionRepository extends SubscriptionRepositoryInterface {
   #model;

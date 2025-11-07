@@ -3,7 +3,7 @@ import {
   AlreadyExistsError,
   NotFoundError,
 } from "../../../domain/errors/index.js";
-import { ApiKeyRepositoryInterface } from "../../../domain/repositories/apikey.repository.interface.js";
+import { ApiKeyRepositoryInterface } from "../../../domain/interfaces/repositories/apikey.repository.interface.js";
 
 export default class ApiKeyRepository extends ApiKeyRepositoryInterface {
   #model;

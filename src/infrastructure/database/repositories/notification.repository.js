@@ -5,7 +5,7 @@ import {
   AlreadyExistsError,
   InvalidInputError,
 } from "../../../domain/errors/index.js";
-import { NotificationRepositoryInterface } from "../../../domain/repositories/notification.repository.interface.js";
+import { NotificationRepositoryInterface } from "../../../domain/interfaces/repositories/notification.repository.interface.js";
 
 export default class NotificationRepository extends NotificationRepositoryInterface {
   #model;
