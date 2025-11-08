@@ -12,6 +12,10 @@ import UpdateProfileUseCase from "../../../application/user/update.usecase.js";
 import GetAllSessionsUseCase from "../../../application/session/getAll.usecase.js";
 import DeleteAllSessionsUseCase from "../../../application/session/deleteAll.usecase.js";
 import DeleteSessionUseCase from "../../../application/session/delete.usecase.js";
+// workbench
+import getAllWorkbenchesUseCase from "../../../application/workbench/getAll.usecase.js";
+import createWorkbenchUseCase from "../../../application/workbench/create.usecase.js";
+import DeleteWorkbenchUseCase from "../../../application/workbench/delete.usecase.js";
 // article
 import GetArticlesUseCase from "../../../application/article/getArticles.usecase.js";
 import GetArticleUseCase from "../../../application/article/getArticle.usecase.js";
@@ -140,6 +144,29 @@ export const registerUseCases = (container, config) => {
     "deleteSessionUseCase",
     new DeleteSessionUseCase({
       sessionRepository: resolveDependency("sessionRepository"),
+    })
+  );
+
+  // workbench
+  container.register(
+    "getAllWorkbenchesUseCase",
+    new getAllWorkbenchesUseCase({
+      workbenchRepository: resolveDependency("workbenchRepository"),
+      redisService: resolveDependency("redisService"),
+    })
+  );
+  container.register(
+    "createWorkbenchUseCase",
+    new createWorkbenchUseCase({
+      workbenchRepository: resolveDependency("workbenchRepository"),
+      redisService: resolveDependency("redisService"),
+    })
+  );
+  container.register(
+    "deleteWorkbenchUseCase",
+    new DeleteWorkbenchUseCase({
+      workbenchRepository: resolveDependency("workbenchRepository"),
+      redisService: resolveDependency("redisService"),
     })
   );
 

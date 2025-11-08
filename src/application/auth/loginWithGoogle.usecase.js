@@ -105,6 +105,7 @@ export default class LoginWithGoogleUseCase {
         new WorkbenchEntity({
           id: w._id,
           name: w.name,
+          description: w.description,
           owner: w.owner,
           members: w.members,
           settings: w.settings,

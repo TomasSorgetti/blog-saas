@@ -38,6 +38,9 @@ export default class LoginUseCase {
 
     if (!userFound) throw new NotFoundError("User not found");
 
+    /**
+     * todo => remove workbenches
+     */
     const rawWorkbenches = await this.#workbenchRepository.findByUserId(
       userFound._id
     );
@@ -46,6 +49,7 @@ export default class LoginUseCase {
         new WorkbenchEntity({
           id: workbench._id,
           name: workbench.name,
+          description: workbench.description,
           owner: workbench.owner,
           members: workbench.members,
           settings: workbench.settings,

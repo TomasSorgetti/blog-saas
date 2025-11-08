@@ -43,10 +43,19 @@ export default class WorkbenchRepository extends WorkbenchRepositoryInterface {
       .exec();
   }
 
+  /**
+   * Todo => realmente tengo que hacer un find by id para devolver con populate?
+   */
   async create(workbenchData) {
     try {
       const workbench = new this.#model(workbenchData);
-      return await workbench.save();
+      await workbench.save();
+      return await this.#model
+        .findById(workbench._id)
+        .populate("owner", "username email avatar")
+        .populate("members.userId", "username email avatar")
+        .lean()
+        .exec();
     } catch (err) {
       throw new RepositoryError(err.message);
     }

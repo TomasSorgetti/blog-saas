@@ -3,6 +3,7 @@ import { InvalidInputError } from "../errors/index.js";
 export default class WorkbenchEntity {
   #id;
   #name;
+  #description;
   #owner;
   #members;
   #settings;
@@ -11,8 +12,9 @@ export default class WorkbenchEntity {
   #updatedAt;
 
   constructor({
-    id = null,
+    _id = null,
     name,
+    description,
     owner,
     members = [],
     settings = { theme: "light", color: null, integrations: [] },
@@ -21,10 +23,13 @@ export default class WorkbenchEntity {
     updatedAt = new Date(),
   }) {
     if (!name) throw new InvalidInputError("Workbench name is required");
+    if (!description)
+      throw new InvalidInputError("Workbench description is required");
     if (!owner) throw new InvalidInputError("Owner is required");
 
-    this.#id = id;
+    this.#id = _id;
     this.#name = name;
+    this.#description = description;
     this.#owner = owner;
     this.#members = members.length
       ? members
@@ -40,6 +45,9 @@ export default class WorkbenchEntity {
   }
   get name() {
     return this.#name;
+  }
+  get description() {
+    return this.#description;
   }
   get owner() {
     return this.#owner;
@@ -78,6 +86,7 @@ export default class WorkbenchEntity {
   toObject() {
     return {
       name: this.#name,
+      description: this.#description,
       owner: this.#owner,
       members: this.#members,
       settings: this.#settings,
@@ -91,6 +100,7 @@ export default class WorkbenchEntity {
     return {
       id: this.#id?.toString(),
       name: this.#name,
+      description: this.#description,
       owner: this.#owner?._id
         ? {
             id: this.#owner._id.toString(),

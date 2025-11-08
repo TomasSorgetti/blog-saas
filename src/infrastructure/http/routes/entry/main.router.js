@@ -3,6 +3,7 @@ import express from "express";
 import AuthRouter from "../api/auth.router.js";
 import UserRouter from "../api/user.router.js";
 import SessionRouter from "../api/session.router.js";
+import WorkbenchRouter from "../api/workbench.router.js";
 import ArticleRouter from "../api/article.router.js";
 import CategoryRouter from "../api/category.router.js";
 import SubscriptionRouter from "../api/subscription.router.js";
@@ -30,6 +31,10 @@ class MainRouter {
       sessionController: dependencies.sessionController,
       authMiddleware: dependencies.authMiddleware,
     });
+    const workbenchRouter = new WorkbenchRouter({
+      workbenchController: dependencies.workbenchController,
+      authMiddleware: dependencies.authMiddleware,
+    });
     const subscriptionRouter = new SubscriptionRouter({
       subscriptionController: dependencies.subscriptionController,
       authMiddleware: dependencies.authMiddleware,
@@ -54,6 +59,7 @@ class MainRouter {
     this.#router.use("/auth", authRouter.getRouter());
     this.#router.use("/users", userRouter.getRouter());
     this.#router.use("/sessions", sessionRouter.getRouter());
+    this.#router.use("/workbenches", workbenchRouter.getRouter());
     this.#router.use("/subscriptions", subscriptionRouter.getRouter());
     this.#router.use("/articles", articleRouter.getRouter());
     this.#router.use("/categories", categoryRouter.getRouter());

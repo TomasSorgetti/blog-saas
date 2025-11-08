@@ -6,6 +6,7 @@ import CategoryController from "../../../infrastructure/http/controllers/categor
 import SubscriptionController from "../../../infrastructure/http/controllers/subscription.controller.js";
 import NotificationController from "../../../infrastructure/http/controllers/notification.controller.js";
 import PlanController from "../../../infrastructure/http/controllers/plan.controller.js";
+import WorkbenchController from "../../../infrastructure/http/controllers/workbench.controller.js";
 
 export const registerControllers = (container) => {
   const resolveDependency = (name) => container.resolve(name);
@@ -36,6 +37,15 @@ export const registerControllers = (container) => {
       getAllSessionsUseCase: resolveDependency("getAllSessionsUseCase"),
       deleteAllSessionsUseCase: resolveDependency("deleteAllSessionsUseCase"),
       deleteSessionUseCase: resolveDependency("deleteSessionUseCase"),
+    })
+  );
+
+  container.register(
+    "workbenchController",
+    new WorkbenchController({
+      getAllWorkbenchesUseCase: resolveDependency("getAllWorkbenchesUseCase"),
+      createWorkbenchUseCase: resolveDependency("createWorkbenchUseCase"),
+      deleteWorkbenchUseCase: resolveDependency("deleteWorkbenchUseCase"),
     })
   );
 

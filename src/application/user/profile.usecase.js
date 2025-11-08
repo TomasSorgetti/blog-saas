@@ -26,6 +26,7 @@ export default class GetProfileUseCase {
         new WorkbenchEntity({
           id: workbench._id,
           name: workbench.name,
+          description: workbench.description,
           owner: workbench.owner,
           members: workbench.members,
           settings: workbench.settings,

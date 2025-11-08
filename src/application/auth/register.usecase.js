@@ -73,6 +73,8 @@ export default class RegisterUseCase {
 
     const workbenchEntity = new WorkbenchEntity({
       name: "My Workspace",
+      description:
+        "This is the workbench by default, you can edit by settings.",
       owner: newUser._id,
       members: [{ userId: newUser._id, role: "owner" }],
     });
