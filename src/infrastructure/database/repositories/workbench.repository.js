@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import {
   RepositoryError,
   AlreadyExistsError,
@@ -41,6 +42,18 @@ export default class WorkbenchRepository extends WorkbenchRepositoryInterface {
       .populate("members.userId", "username email avatar")
       .lean()
       .exec();
+  }
+
+  async userBelongsToWorkbench(workbenchId, userId) {
+    const id = new mongoose.Types.ObjectId(workbenchId);
+    const uid = new mongoose.Types.ObjectId(userId);
+
+    const workbench = await this.#model.findOne({
+      _id: id,
+      $or: [{ owner: uid }, { "members.userId": uid }],
+    });
+
+    return !!workbench;
   }
 
   /**

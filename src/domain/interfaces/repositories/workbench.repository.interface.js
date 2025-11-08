@@ -11,6 +11,10 @@ export class WorkbenchRepositoryInterface {
     throw new Error("Method 'findByUserId' not implemented");
   }
 
+  async userBelongsToWorkbench(data) {
+    throw new Error("Method 'userBelongsToWorkbench' not implemented");
+  }
+
   async create(data) {
     throw new Error("Method 'create' not implemented");
   }

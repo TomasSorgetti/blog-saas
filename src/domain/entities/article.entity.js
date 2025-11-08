@@ -12,6 +12,7 @@ export default class ArticleEntity {
   #image;
   #isFeatured;
   #categories;
+  #workbench;
 
   constructor({
     title,
@@ -24,6 +25,7 @@ export default class ArticleEntity {
     image,
     isFeatured,
     categories,
+    workbench,
   }) {
     if (!title || typeof title !== "string") {
       throw new InvalidInputError("Title is required and must be a string", {
@@ -107,11 +109,20 @@ export default class ArticleEntity {
       });
     }
 
-    if (categories && !Array.isArray(categories)) {
+    // if (categories && !Array.isArray(categories)) {
+    //   throw new InvalidInputError(
+    //     "Categories must be an array of strings (ids)",
+    //     {
+    //       field: "categories",
+    //       code: ERROR_CODES.VALIDATION.INVALID_INPUT,
+    //     }
+    //   );
+    // }
+    if (!workbench || typeof workbench !== "string") {
       throw new InvalidInputError(
-        "Categories must be an array of strings (ids)",
+        "workbench is required and must be a string",
         {
-          field: "categories",
+          field: "workbench",
           code: ERROR_CODES.VALIDATION.INVALID_INPUT,
         }
       );
@@ -127,6 +138,7 @@ export default class ArticleEntity {
     this.#image = image ? image.trim() : undefined;
     this.#isFeatured = isFeatured ?? false;
     this.#categories = categories ?? [];
+    this.#workbench = workbench.trim();
   }
 
   get title() {
@@ -181,6 +193,7 @@ export default class ArticleEntity {
       image: this.#image,
       isFeatured: this.#isFeatured,
       categories: this.#categories,
+      workbench: this.#workbench,
     };
   }
 }

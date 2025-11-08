@@ -81,6 +81,7 @@ export default class ArticleController {
         image,
         isFeatured,
         categories,
+        workbench,
       } = req.body;
 
       await this.#createArticleUseCase.execute({
@@ -94,6 +95,7 @@ export default class ArticleController {
         image,
         isFeatured,
         categories,
+        workbench,
       });
 
       return successResponse(res, null, "Article created successfully", 201);

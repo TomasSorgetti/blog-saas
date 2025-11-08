@@ -1,20 +1,24 @@
 import ArticleEntity from "../../domain/entities/article.entity.js";
 import NotificationEntity from "../../domain/entities/notification.entity.js";
+import { UnauthorizedError } from "../../domain/errors/index.js";
 
 export default class CreateArticleUseCase {
   #articleRepository;
+  #workbenchRepository;
   #redisService;
   #notificationRepository;
   #socketService;
 
   constructor({
     articleRepository,
+    workbenchRepository,
     notificationRepository,
     redisService,
     socketService,
   }) {
     this.#articleRepository = articleRepository;
     this.#notificationRepository = notificationRepository;
+    this.#workbenchRepository = workbenchRepository;
     this.#redisService = redisService;
     this.#socketService = socketService;
   }
@@ -30,14 +34,27 @@ export default class CreateArticleUseCase {
     image,
     isFeatured,
     categories,
+    workbench,
   }) {
     /**
      * TODO
-     * 
-     * si el usuario tiene un limite en la creacion de 
+     *
+     * si el usuario tiene un limite en la creacion de
      * articulos (segun su plan, ej: plan free tiene 3 articulos) debería arrojar un error
-     * 
+     *
      */
+
+    const isMember = await this.#workbenchRepository.userBelongsToWorkbench(
+      workbench,
+      author
+    );
+
+    if (!isMember) {
+      throw new UnauthorizedError(
+        "User is not authorized to create articles in this workbench"
+      );
+    }
+
     const newArticle = new ArticleEntity({
       title,
       slug,
@@ -49,6 +66,7 @@ export default class CreateArticleUseCase {
       image,
       isFeatured,
       categories,
+      workbench,
     });
 
     await this.#articleRepository.create(newArticle.toObject());

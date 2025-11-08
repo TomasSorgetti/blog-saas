@@ -44,7 +44,7 @@ export default class ArticleRouter {
      */
     this.#router.post(
       "/",
-      ArticleValidation.create().handle,
+      // ArticleValidation.create().handle,
       this.#authMiddleware,
       this.#controller.createPost.bind(this.#controller)
     );

@@ -187,6 +187,7 @@ export const registerUseCases = (container, config) => {
     "createArticleUseCase",
     new CreateArticleUseCase({
       articleRepository: resolveDependency("articleRepository"),
+      workbenchRepository: resolveDependency("workbenchRepository"),
       notificationRepository: resolveDependency("notificationRepository"),
       redisService: resolveDependency("redisService"),
       socketService: resolveDependency("socketService"),
