@@ -7,7 +7,6 @@ import WorkbenchEntity from "../../domain/entities/workbench.entity.js";
 export default class LoginWithGoogleUseCase {
   #userRepository;
   #sessionRepository;
-  #workbenchRepository;
   #jwtService;
   #hashService;
   #googleStrategy;
@@ -17,7 +16,6 @@ export default class LoginWithGoogleUseCase {
   constructor({
     userRepository,
     sessionRepository,
-    workbenchRepository,
     jwtService,
     hashService,
     googleStrategy,
@@ -26,7 +24,6 @@ export default class LoginWithGoogleUseCase {
   }) {
     this.#userRepository = userRepository;
     this.#sessionRepository = sessionRepository;
-    this.#workbenchRepository = workbenchRepository;
     this.#jwtService = jwtService;
     this.#hashService = hashService;
     this.#googleStrategy = googleStrategy;
@@ -97,25 +94,7 @@ export default class LoginWithGoogleUseCase {
       }
     }
 
-    const rawWorkbenches = await this.#workbenchRepository.findByUserId(
-      userFound._id
-    );
-    const workbenches = rawWorkbenches.map(
-      (w) =>
-        new WorkbenchEntity({
-          id: w._id,
-          name: w.name,
-          description: w.description,
-          owner: w.owner,
-          members: w.members,
-          settings: w.settings,
-          isArchived: w.isArchived,
-          createdAt: w.createdAt,
-          updatedAt: w.updatedAt,
-        })
-    );
-
-    const user = new UserEntity({ ...userFound, workbenches });
+    const user = new UserEntity(userFound);
 
     const refreshToken = this.#jwtService.signRefresh(user.id, rememberme);
     const { exp } = this.#jwtService.verifyRefresh(refreshToken);

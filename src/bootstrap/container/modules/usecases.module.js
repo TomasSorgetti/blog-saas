@@ -49,7 +49,6 @@ export const registerUseCases = (container, config) => {
     new LoginUseCase({
       userRepository: resolveDependency("userRepository"),
       sessionRepository: resolveDependency("sessionRepository"),
-      workbenchRepository: resolveDependency("workbenchRepository"),
       jwtService: resolveDependency("jwtService"),
       hashService: resolveDependency("hashService"),
     })
@@ -99,7 +98,6 @@ export const registerUseCases = (container, config) => {
     new LoginWithGoogleUseCase({
       userRepository: resolveDependency("userRepository"),
       sessionRepository: resolveDependency("sessionRepository"),
-      workbenchRepository: resolveDependency("workbenchRepository"),
       jwtService: resolveDependency("jwtService"),
       hashService: resolveDependency("hashService"),
       googleStrategy: resolveDependency("googleAuthStrategy"),
@@ -113,7 +111,6 @@ export const registerUseCases = (container, config) => {
     "getProfileUseCase",
     new GetProfileUseCase({
       userRepository: resolveDependency("userRepository"),
-      workbenchRepository: resolveDependency("workbenchRepository"),
       redisService: resolveDependency("redisService"),
     })
   );
