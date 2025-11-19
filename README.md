@@ -113,6 +113,7 @@ docker-compose -f docker-compose.dev.yml up
 # production
 docker-compose -f docker-compose.yml up -d --build
 
+ssh -i ~/.ssh/parcial2mern.pem ubuntu@3.129.13.69
 ```
 
 Test endpoints at
