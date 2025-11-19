@@ -13,13 +13,13 @@ export default class CreateArticleUseCase {
     articleRepository,
     workbenchRepository,
     notificationRepository,
-    redisService,
+    // redisService,
     socketService,
   }) {
     this.#articleRepository = articleRepository;
     this.#notificationRepository = notificationRepository;
     this.#workbenchRepository = workbenchRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
     this.#socketService = socketService;
   }
 
@@ -71,12 +71,12 @@ export default class CreateArticleUseCase {
 
     await this.#articleRepository.create(newArticle.toObject());
 
-    if (this.#redisService) {
-      const keys = await this.#redisService.keys("articles:*");
-      for (const key of keys) {
-        await this.#redisService.del(key);
-      }
-    }
+    // if (this.#redisService) {
+    //   const keys = await this.#redisService.keys("articles:*");
+    //   for (const key of keys) {
+    //     await this.#redisService.del(key);
+    //   }
+    // }
 
     const notificationEntity = new NotificationEntity({
       userId: author,

@@ -5,7 +5,6 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import path from "path";
 import errorMiddleware from "../infrastructure/http/middlewares/error.middleware.js";
-// import Container from "./container.js";
 import { createContainer } from "./container/index.js";
 import {
   MainRouter,
@@ -21,7 +20,6 @@ class Server {
   constructor(config) {
     this.#config = config;
     this.#app = express();
-    // this.#container = new Container(config);
     this.#container = createContainer(config);
     this.#initialize();
   }

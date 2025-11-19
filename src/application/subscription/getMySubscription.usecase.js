@@ -6,11 +6,14 @@ import {
 
 export default class GetMySubscriptionUseCase {
   #subscriptionRepository;
-  #redisService;
+  // #redisService;
 
-  constructor({ subscriptionRepository, redisService }) {
+  constructor({
+    subscriptionRepository,
+    // redisService
+  }) {
     this.#subscriptionRepository = subscriptionRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
   }
 
   async execute(userId) {

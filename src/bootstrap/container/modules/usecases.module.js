@@ -111,7 +111,7 @@ export const registerUseCases = (container, config) => {
     "getProfileUseCase",
     new GetProfileUseCase({
       userRepository: resolveDependency("userRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
 
@@ -119,7 +119,7 @@ export const registerUseCases = (container, config) => {
     "updateProfileUseCase",
     new UpdateProfileUseCase({
       userRepository: resolveDependency("userRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
       storageService: resolveDependency("storageService"),
     })
   );
@@ -149,21 +149,21 @@ export const registerUseCases = (container, config) => {
     "getAllWorkbenchesUseCase",
     new getAllWorkbenchesUseCase({
       workbenchRepository: resolveDependency("workbenchRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "createWorkbenchUseCase",
     new createWorkbenchUseCase({
       workbenchRepository: resolveDependency("workbenchRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "deleteWorkbenchUseCase",
     new DeleteWorkbenchUseCase({
       workbenchRepository: resolveDependency("workbenchRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
 
@@ -172,14 +172,14 @@ export const registerUseCases = (container, config) => {
     "getArticlesUseCase",
     new GetArticlesUseCase({
       articleRepository: resolveDependency("articleRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "getArticleUseCase",
     new GetArticleUseCase({
       articleRepository: resolveDependency("articleRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
       socketService: resolveDependency("socketService"),
     })
   );
@@ -189,7 +189,7 @@ export const registerUseCases = (container, config) => {
       articleRepository: resolveDependency("articleRepository"),
       workbenchRepository: resolveDependency("workbenchRepository"),
       notificationRepository: resolveDependency("notificationRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
       socketService: resolveDependency("socketService"),
     })
   );
@@ -198,7 +198,7 @@ export const registerUseCases = (container, config) => {
     new UpdateArticleUseCase({
       articleRepository: resolveDependency("articleRepository"),
       notificationRepository: resolveDependency("notificationRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
       socketService: resolveDependency("socketService"),
     })
   );
@@ -207,7 +207,7 @@ export const registerUseCases = (container, config) => {
     new DeleteArticleUseCase({
       articleRepository: resolveDependency("articleRepository"),
       notificationRepository: resolveDependency("notificationRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
       socketService: resolveDependency("socketService"),
     })
   );
@@ -217,35 +217,35 @@ export const registerUseCases = (container, config) => {
     "getAllCategoriesUseCase",
     new GetAllCategoriesUseCase({
       categoryRepository: resolveDependency("categoryRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "getCategoryUseCase",
     new GetCategoryUseCase({
       categoryRepository: resolveDependency("categoryRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "createCategoryUseCase",
     new CreateCategoryUseCase({
       categoryRepository: resolveDependency("categoryRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "updateCategoryUseCase",
     new UpdateCategoryUseCase({
       categoryRepository: resolveDependency("categoryRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "deleteCategoryUseCase",
     new DeleteCategoryUseCase({
       categoryRepository: resolveDependency("categoryRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
 
@@ -254,7 +254,7 @@ export const registerUseCases = (container, config) => {
     "getMySubscriptionUseCase",
     new GetMySubscriptionUseCase({
       subscriptionRepository: resolveDependency("subscriptionRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
@@ -287,21 +287,21 @@ export const registerUseCases = (container, config) => {
     "getMyNotificationsUseCase",
     new GetMyNotificationsUseCase({
       notificationRepository: resolveDependency("notificationRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "deleteOneNotificationUseCase",
     new DeleteOneNotificationUseCase({
       notificationRepository: resolveDependency("notificationRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
   container.register(
     "markAllAsReadUseCase",
     new MarkAllAsReadUseCase({
       notificationRepository: resolveDependency("notificationRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
 
@@ -310,7 +310,7 @@ export const registerUseCases = (container, config) => {
     "getAllPlansUseCase",
     new GetAllPlansUseCase({
       planRepository: resolveDependency("planRepository"),
-      redisService: resolveDependency("redisService"),
+      // redisService: resolveDependency("redisService"),
     })
   );
 };

@@ -4,18 +4,18 @@ import NotificationEntity from "../../domain/entities/notification.entity.js";
 export default class UpdateArticleUseCase {
   #articleRepository;
   #notificationRepository;
-  #redisService;
+  // #redisService;
   #socketService;
 
   constructor({
     articleRepository,
     notificationRepository,
-    redisService,
+    // redisService,
     socketService,
   }) {
     this.#articleRepository = articleRepository;
     this.#notificationRepository = notificationRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
     this.#socketService = socketService;
   }
 
@@ -27,13 +27,13 @@ export default class UpdateArticleUseCase {
       article
     );
 
-    if (this.#redisService) {
-      const keys = await this.#redisService.keys("articles:*");
-      for (const key of keys) {
-        await this.#redisService.del(key);
-      }
-      await this.#redisService.del(`article:${article.slug}`);
-    }
+    // if (this.#redisService) {
+    //   const keys = await this.#redisService.keys("articles:*");
+    //   for (const key of keys) {
+    //     await this.#redisService.del(key);
+    //   }
+    //   await this.#redisService.del(`article:${article.slug}`);
+    // }
 
     const notificationEntity = new NotificationEntity({
       userId: author,

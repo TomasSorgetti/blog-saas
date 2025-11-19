@@ -2,11 +2,14 @@ import WorkbenchEntity from "../../domain/entities/workbench.entity.js";
 
 export default class createWorkbenchUseCase {
   #workbenchRepository;
-  #redisService;
+  // #redisService;
 
-  constructor({ workbenchRepository, redisService }) {
+  constructor({
+    workbenchRepository,
+    // redisService
+  }) {
     this.#workbenchRepository = workbenchRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
   }
 
   async execute({ userId, name, description }) {

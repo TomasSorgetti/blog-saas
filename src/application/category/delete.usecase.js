@@ -2,11 +2,14 @@ import { NotFoundError } from "../../domain/errors/index.js";
 
 export default class DeleteCategoryUseCase {
   #categoryRepository;
-  #redisService;
+  // #redisService;
 
-  constructor({ categoryRepository, redisService }) {
+  constructor({
+    categoryRepository,
+    // redisService
+  }) {
     this.#categoryRepository = categoryRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
   }
 
   async execute({ userId, id }) {
@@ -16,10 +19,10 @@ export default class DeleteCategoryUseCase {
       throw new NotFoundError("Category not found or does not belong to user");
     }
 
-    if (this.#redisService) {
-      const cacheKey = `categories:${userId}`;
-      await this.#redisService.del(cacheKey);
-    }
+    // if (this.#redisService) {
+    //   const cacheKey = `categories:${userId}`;
+    //   await this.#redisService.del(cacheKey);
+    // }
 
     return deletedCategory;
   }

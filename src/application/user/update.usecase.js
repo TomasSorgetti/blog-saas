@@ -4,12 +4,16 @@ import path from "path";
 
 export default class UpdateProfileUseCase {
   #userRepository;
-  #redisService;
+  // #redisService;
   #storageService;
 
-  constructor({ userRepository, redisService, storageService }) {
+  constructor({
+    userRepository,
+    // redisService,
+    storageService,
+  }) {
     this.#userRepository = userRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
     this.#storageService = storageService;
   }
 
@@ -48,7 +52,7 @@ export default class UpdateProfileUseCase {
         });
       }
 
-      await this.#redisService.del(`user:${userId}`);
+      // await this.#redisService.del(`user:${userId}`);
 
       return new UserEntity(updatedUser).sanitized();
     } catch (error) {

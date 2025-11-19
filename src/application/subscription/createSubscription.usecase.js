@@ -2,7 +2,7 @@ export default class CreateSubscriptionUseCase {
   #subscriptionRepository;
   #userRepository;
   #stripeService;
-  #redisService;
+  // #redisService;
 
   constructor({ subscriptionRepository, userRepository, stripeService }) {
     this.#subscriptionRepository = subscriptionRepository;

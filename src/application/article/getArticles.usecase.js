@@ -1,10 +1,13 @@
 export default class GetArticlesUseCase {
   #articleRepository;
-  #redisService;
+  // #redisService;
 
-  constructor({ articleRepository, redisService }) {
+  constructor({
+    articleRepository,
+    // redisService
+  }) {
     this.#articleRepository = articleRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
   }
 
   async execute(filters = {}, workbenchId, { page = 1, limit = 10 } = {}) {
@@ -14,12 +17,12 @@ export default class GetArticlesUseCase {
       filters
     )}:page:${page}:limit:${limit}`;
 
-    if (this.#redisService) {
-      const cachedResult = await this.#redisService.get(cacheKey);
-      if (cachedResult) {
-        return cachedResult;
-      }
-    }
+    // if (this.#redisService) {
+    //   const cachedResult = await this.#redisService.get(cacheKey);
+    //   if (cachedResult) {
+    //     return cachedResult;
+    //   }
+    // }
 
     const { items, total } = await this.#articleRepository.findAllByWorkbench(
       filters,
@@ -37,9 +40,9 @@ export default class GetArticlesUseCase {
       pages: Math.ceil(total / limit),
     };
 
-    if (this.#redisService) {
-      await this.#redisService.set(cacheKey, result, 3600);
-    }
+    // if (this.#redisService) {
+    //   await this.#redisService.set(cacheKey, result, 3600);
+    // }
 
     return result;
   }

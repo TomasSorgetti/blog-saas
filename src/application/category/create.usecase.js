@@ -2,11 +2,14 @@ import CategoryEntity from "../../domain/entities/category.entity.js";
 
 export default class createCategoryUseCase {
   #categoryRepository;
-  #redisService;
+  // #redisService;
 
-  constructor({ categoryRepository, redisService }) {
+  constructor({
+    categoryRepository,
+    // redisService
+  }) {
     this.#categoryRepository = categoryRepository;
-    this.#redisService = redisService;
+    // this.#redisService = redisService;
   }
 
   async execute({ name, userId, isGlobal = false }) {
@@ -21,10 +24,10 @@ export default class createCategoryUseCase {
       categoryEntity.toObject()
     );
 
-    if (this.#redisService) {
-      const cacheKey = `categories:${userId}`;
-      await this.#redisService.del(cacheKey);
-    }
+    // if (this.#redisService) {
+    //   const cacheKey = `categories:${userId}`;
+    //   await this.#redisService.del(cacheKey);
+    // }
 
     return category;
   }
