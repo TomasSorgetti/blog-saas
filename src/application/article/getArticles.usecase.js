@@ -13,9 +13,9 @@ export default class GetArticlesUseCase {
   async execute(filters = {}, workbenchId, { page = 1, limit = 10 } = {}) {
     const skip = (page - 1) * limit;
 
-    const cacheKey = `articles:${JSON.stringify(
-      filters
-    )}:page:${page}:limit:${limit}`;
+    // const cacheKey = `articles:${JSON.stringify(
+    //   filters
+    // )}:page:${page}:limit:${limit}`;
 
     // if (this.#redisService) {
     //   const cachedResult = await this.#redisService.get(cacheKey);

@@ -84,7 +84,7 @@ export default class ArticleController {
         workbench,
       } = req.body;
 
-      await this.#createArticleUseCase.execute({
+      const data = await this.#createArticleUseCase.execute({
         title,
         slug,
         content,
@@ -98,7 +98,7 @@ export default class ArticleController {
         workbench,
       });
 
-      return successResponse(res, null, "Article created successfully", 201);
+      return successResponse(res, data, "Article created successfully", 200);
     } catch (error) {
       next(error);
     }

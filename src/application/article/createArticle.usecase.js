@@ -55,7 +55,7 @@ export default class CreateArticleUseCase {
       );
     }
 
-    const newArticle = new ArticleEntity({
+    const article = new ArticleEntity({
       title,
       slug,
       content,
@@ -69,7 +69,7 @@ export default class CreateArticleUseCase {
       workbench,
     });
 
-    await this.#articleRepository.create(newArticle.toObject());
+    const newArticle = await this.#articleRepository.create(article.toObject());
 
     // if (this.#redisService) {
     //   const keys = await this.#redisService.keys("articles:*");
@@ -90,6 +90,8 @@ export default class CreateArticleUseCase {
         notificationEntity.toObject()
       );
       this.#socketService.sendNotification(author, notification);
+
+      return newArticle;
     } catch (err) {
       console.error("Failed to send notification:", err);
     }

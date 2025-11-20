@@ -58,7 +58,6 @@ class ArticleRepository extends ArticleRepositoryInterface {
     }
   }
 
-  // todo => filter by workbench
   async findAllByWorkbench(
     filters = {},
     workbenchId,
@@ -66,6 +65,10 @@ class ArticleRepository extends ArticleRepositoryInterface {
   ) {
     try {
       const query = {};
+
+      if (workbenchId) {
+        query.workbench = new mongoose.Types.ObjectId(workbenchId);
+      }
 
       if (filters.status) query.status = filters.status;
       if (filters.tags) query.tags = { $regex: filters.tags, $options: "i" };
@@ -81,6 +84,7 @@ class ArticleRepository extends ArticleRepositoryInterface {
           .limit(limit)
           .lean()
           .exec(),
+
         this.#model.countDocuments(query),
       ]);
 
@@ -120,8 +124,15 @@ class ArticleRepository extends ArticleRepositoryInterface {
   async create(data) {
     try {
       const article = new this.#model(data);
-      const savedArticle = await article.save();
-      return savedArticle.toObject();
+      const saved = await article.save();
+
+      return await this.#model
+        .findById(saved._id)
+        .populate("categories")
+        .populate("author", "username email avatar")
+        .populate("workbench")
+        .lean()
+        .exec();
     } catch (err) {
       if (err.code === 11000) {
         const key = Object.keys(err.keyValue)[0];

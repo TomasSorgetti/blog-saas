@@ -207,3 +207,4 @@ Test endpoints at
 
 - añadir trim() y toLowerCase() a los datos de entrada en las entities
 - añadir rate limiters a las rutas
+- admin middleware
