@@ -19,17 +19,10 @@ export default class createWorkbenchUseCase {
       description,
     });
 
-    const rawWorkbench = await this.#workbenchRepository.create(
+    const newWorkbench = await this.#workbenchRepository.create(
       workbenchEntity.toObject()
     );
 
-    // todo => es optimi crear 2
-    const populated = await this.#workbenchRepository.findById(
-      rawWorkbench._id
-    );
-
-    const sanitized = new WorkbenchEntity(populated).sanitized();
-
-    return sanitized;
+    return new WorkbenchEntity(newWorkbench).sanitized();
   }
 }
