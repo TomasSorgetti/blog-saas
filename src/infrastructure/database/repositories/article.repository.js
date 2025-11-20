@@ -174,22 +174,17 @@ class ArticleRepository extends ArticleRepositoryInterface {
     }
   }
 
-  async delete(slug) {
+  async delete(articleId) {
     try {
-      if (!slug || typeof slug !== "string") {
-        throw new InvalidInputError("Invalid or missing slug", {
-          field: "slug",
-        });
-      }
-
       const article = await this.#model
-        .findOneAndDelete({ slug })
+        .findOneAndDelete({ _id: articleId })
         .lean()
         .exec();
-      if (!article)
-        throw new NotFoundError(`Article with slug ${slug} not found`);
+      if (!article) {
+        throw new NotFoundError(`Article with id ${articleId} not found`);
+      }
 
-      return { slug: article.slug, author: article.author };
+      return { _id: article._id, author: article.author };
     } catch (err) {
       if (err.name === "NotFoundError" || err.name === "InvalidInputError")
         throw err;

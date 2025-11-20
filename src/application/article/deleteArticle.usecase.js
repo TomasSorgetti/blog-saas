@@ -18,8 +18,8 @@ export default class DeleteArticleUseCase {
     this.#socketService = socketService;
   }
 
-  async execute(slug) {
-    const result = await this.#articleRepository.delete(slug);
+  async execute({ articleId, userId }) {
+    const result = await this.#articleRepository.delete(articleId);
 
     // if (this.#redisService) {
     //   const keys = await this.#redisService.keys("articles:*");
@@ -30,9 +30,9 @@ export default class DeleteArticleUseCase {
     // }
 
     const notificationEntity = new NotificationEntity({
-      userId: author,
+      userId,
       type: "activity",
-      message: `¡${article.title} has been deleted!`,
+      message: `¡Your article has been deleted!`,
       link: null,
     });
 
@@ -40,7 +40,7 @@ export default class DeleteArticleUseCase {
       const notification = await this.#notificationRepository.create(
         notificationEntity.toObject()
       );
-      this.#socketService.sendNotification(author, notification);
+      this.#socketService.sendNotification(userId, notification);
     } catch (err) {
       console.error("Failed to send notification:", err);
     }

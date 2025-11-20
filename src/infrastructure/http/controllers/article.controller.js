@@ -107,31 +107,29 @@ export default class ArticleController {
   async updatePost(req, res, next) {
     try {
       //todo => validate user id
-      const { slug } = req.params;
-      const {
-        title,
-        content,
-        summary,
-        author,
-        tags,
-        status,
-        image,
-        isFeatured,
-      } = req.body;
+      const userId = req.user.id;
+      const { articleSlug } = req.params;
+      const { title, slug, content, summary, tags, status, image, isFeatured } =
+        req.body;
 
-      await this.#updateArticleUseCase.execute({
+      const articleData = {
         title,
         slug,
         content,
         summary,
-        author,
         tags,
         status,
         image,
         isFeatured,
+      };
+
+      const data = await this.#updateArticleUseCase.execute({
+        articleSlug,
+        userId,
+        articleData,
       });
 
-      return successResponse(res, null, "Article updated successfully", 201);
+      return successResponse(res, data, "Article updated successfully", 200);
     } catch (error) {
       next(error);
     }
@@ -139,9 +137,13 @@ export default class ArticleController {
 
   async deletePost(req, res, next) {
     try {
-      const { slug } = req.params;
+      const { articleId } = req.params;
+      const userId = req.user.id;
 
-      const data = await this.#deleteArticleUseCase.execute(slug);
+      const data = await this.#deleteArticleUseCase.execute({
+        articleId,
+        userId,
+      });
       return successResponse(res, data, "Article retrieved successfully", 200);
     } catch (error) {
       next(error);

@@ -49,20 +49,22 @@ export default class ArticleRouter {
       this.#controller.createPost.bind(this.#controller)
     );
     /**
-     * @PATCH /api/articles/:slug
+     * @PATCH /api/articles/:articleSlug
      */
     this.#router.patch(
-      "/:slug",
+      "/:articleSlug",
       // todo => auth middleware
-      ArticleValidation.update().handle,
+      // ArticleValidation.update().handle,
+      this.#authMiddleware,
       this.#controller.updatePost.bind(this.#controller)
     );
     /**
-     * @DELETE /api/articles/:id
+     * @DELETE /api/articles/:articleId
      */
     this.#router.delete(
-      "/:slug",
-      ArticleValidation.delete().handle,
+      "/:articleId",
+      // ArticleValidation.delete().handle,
+      this.#authMiddleware,
       this.#controller.deletePost.bind(this.#controller)
     );
 
