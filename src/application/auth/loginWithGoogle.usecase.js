@@ -4,6 +4,7 @@ import NotificationEntity from "../../domain/entities/notification.entity.js";
 import { NotFoundError, UnauthorizedError } from "../../domain/errors/index.js";
 import WorkbenchEntity from "../../domain/entities/workbench.entity.js";
 
+// todo -> add plan on register
 export default class LoginWithGoogleUseCase {
   #userRepository;
   #sessionRepository;

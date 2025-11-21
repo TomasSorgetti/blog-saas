@@ -61,7 +61,6 @@ export const registerUseCases = (container, config) => {
       subscriptionRepository: resolveDependency("subscriptionRepository"),
       planRepository: resolveDependency("planRepository"),
       workbenchRepository: resolveDependency("workbenchRepository"),
-      emailService: resolveDependency("emailService"),
       emailQueueService: resolveDependency("emailQueueService"),
       hashService: resolveDependency("hashService"),
       jwtService: resolveDependency("jwtService"),

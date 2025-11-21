@@ -18,12 +18,10 @@ export const registerServices = (container, config) => {
     accessSecret: config.env.JWT_ACCESS_SECRET,
     refreshSecret: config.env.JWT_REFRESH_SECRET,
   });
+  
   const emailService = new EmailService(config.email);
-  const emailQueueService = config.queues.emailQueueService;
-  if (emailQueueService instanceof FakeEmailQueueService) {
-    emailQueueService.context = { emailService };
-  }
-  // emailQueueService.process(emailProcessor(emailService));
+  const emailQueueService = new FakeEmailQueueService(emailService);
+
   const socketService = new SocketService();
   const stripeService = new StripeService(config.stripe);
   const storageService = storageFactory(config);

@@ -93,7 +93,7 @@ export default class AuthController {
     try {
       const { token } = req.query;
       const data = await this.#verifyUseCase.execute(token);
-      return successResponse(res, data, "User verified successfully", 201);
+      return successResponse(res, data, "User verified successfully", 200);
     } catch (error) {
       next(error);
     }

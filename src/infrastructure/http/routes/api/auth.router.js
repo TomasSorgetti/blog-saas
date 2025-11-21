@@ -35,10 +35,10 @@ export default class AuthRouter {
     );
 
     /**
-     * @POST /api/auth/verify
+     * @POST /api/auth/verify-email
      */
     this.#router.post(
-      "/verify",
+      "/verify-email",
       AuthValidation.verify().handle,
       this.#controller.verifyEmail.bind(this.#controller)
     );
